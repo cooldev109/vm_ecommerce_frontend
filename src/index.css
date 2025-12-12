@@ -1,0 +1,436 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here.
+All colors MUST be HSL.
+Oriental Feminine Fragrance Aesthetic - Luxurious, Sensual, Elegant
+*/
+
+@layer base {
+  :root {
+    /* Elegant Beige & Warm Neutrals - Inspired by V&M */
+    --background: 35 30% 96%;
+    --foreground: 25 20% 15%;
+
+    --card: 35 25% 98%;
+    --card-foreground: 25 20% 15%;
+
+    --popover: 35 30% 98%;
+    --popover-foreground: 25 20% 15%;
+
+    /* Sophisticated Dark Brown & Cream */
+    --primary: 25 25% 18%;
+    --primary-foreground: 35 30% 98%;
+
+    --secondary: 35 20% 90%;
+    --secondary-foreground: 25 20% 18%;
+
+    /* Warm Muted Beige Tones */
+    --muted: 35 25% 92%;
+    --muted-foreground: 25 15% 35%;
+
+    /* Rich Gold Accent */
+    --accent: 38 75% 50%;
+    --accent-foreground: 25 25% 12%;
+
+    --destructive: 0 72% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 35 20% 85%;
+    --input: 35 20% 90%;
+    --ring: 38 75% 50%;
+
+    --radius: 0.25rem;
+
+    /* Oriental Feminine Colors */
+    --rose-gold: 15 60% 72%;
+    --blush-pink: 350 40% 88%;
+    --soft-rose: 350 35% 80%;
+    --amber-warm: 35 80% 55%;
+    --champagne: 40 45% 90%;
+    --dusty-rose: 350 25% 65%;
+    --pearl: 40 30% 95%;
+    --silk-cream: 38 35% 93%;
+
+    /* Oriental Feminine Gradients */
+    --gradient-rose-gold: linear-gradient(135deg, hsl(15 60% 72% / 0.3), hsl(38 75% 50% / 0.2));
+    --gradient-blush: linear-gradient(180deg, hsl(350 40% 88% / 0.4), hsl(35 30% 96%));
+    --gradient-silk: linear-gradient(135deg, hsl(40 30% 95%), hsl(38 35% 93%), hsl(350 40% 88% / 0.2));
+    --gradient-oriental: linear-gradient(145deg, hsl(35 30% 96%), hsl(350 35% 80% / 0.15), hsl(38 75% 50% / 0.1));
+    --gradient-shimmer: linear-gradient(110deg, transparent 25%, hsl(38 75% 50% / 0.15) 50%, transparent 75%);
+
+    /* Elegant Warm Gradients */
+    --gradient-beige: linear-gradient(135deg, hsl(35 30% 96%), hsl(35 25% 92%));
+    --gradient-warm: linear-gradient(180deg, hsl(35 30% 98%), hsl(35 25% 94%));
+    --gradient-hero: linear-gradient(135deg, hsl(35 25% 94%), hsl(350 35% 80% / 0.1), hsl(30 20% 90%));
+
+    /* Soft Elegant Shadows with Rose Tint */
+    --shadow-luxury: 0 8px 32px -8px hsl(25 20% 15% / 0.15);
+    --shadow-gold: 0 4px 16px hsl(38 75% 50% / 0.25);
+    --shadow-soft: 0 2px 8px hsl(25 20% 15% / 0.08);
+    --shadow-rose: 0 4px 20px hsl(350 35% 60% / 0.15);
+    --shadow-glow: 0 0 30px hsl(38 75% 50% / 0.2);
+
+    /* Smooth Elegant Transitions */
+    --transition-smooth: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-elegant: all 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
+    --transition-silk: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .dark {
+    --background: 25 15% 8%;
+    --foreground: 35 20% 95%;
+
+    --card: 25 12% 12%;
+    --card-foreground: 35 20% 95%;
+
+    --popover: 25 12% 10%;
+    --popover-foreground: 35 20% 95%;
+
+    --primary: 35 20% 95%;
+    --primary-foreground: 25 15% 8%;
+
+    --secondary: 25 10% 18%;
+    --secondary-foreground: 35 20% 92%;
+
+    --muted: 25 10% 16%;
+    --muted-foreground: 35 15% 70%;
+
+    --accent: 38 85% 55%;
+    --accent-foreground: 25 15% 8%;
+
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 25 10% 20%;
+    --input: 25 10% 18%;
+    --ring: 38 85% 55%;
+
+    /* Dark mode Oriental Feminine Colors */
+    --rose-gold: 15 50% 60%;
+    --blush-pink: 350 30% 25%;
+    --soft-rose: 350 25% 35%;
+    --amber-warm: 35 70% 45%;
+    --champagne: 40 35% 20%;
+    --dusty-rose: 350 20% 45%;
+    --pearl: 40 20% 18%;
+    --silk-cream: 38 25% 15%;
+
+    /* Dark mode Gradients */
+    --gradient-rose-gold: linear-gradient(135deg, hsl(15 50% 60% / 0.2), hsl(38 85% 55% / 0.15));
+    --gradient-blush: linear-gradient(180deg, hsl(350 30% 25% / 0.3), hsl(25 15% 8%));
+    --gradient-silk: linear-gradient(135deg, hsl(40 20% 18%), hsl(38 25% 15%), hsl(350 30% 25% / 0.15));
+    --gradient-oriental: linear-gradient(145deg, hsl(25 15% 8%), hsl(350 25% 35% / 0.1), hsl(38 85% 55% / 0.08));
+
+    /* Dark mode Shadows */
+    --shadow-rose: 0 4px 20px hsl(350 25% 40% / 0.2);
+    --shadow-glow: 0 0 30px hsl(38 85% 55% / 0.15);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+
+  .font-script {
+    font-family: 'Dancing Script', 'Brush Script MT', cursive;
+    font-weight: 400;
+  }
+}
+
+@layer components {
+  .btn-luxury {
+    @apply relative inline-flex items-center justify-center px-10 py-4 bg-primary text-primary-foreground rounded font-normal tracking-[0.15em] uppercase text-xs transition-all duration-500 hover:shadow-luxury hover:scale-[1.02];
+  }
+
+  .btn-gold {
+    @apply relative inline-flex items-center justify-center px-10 py-4 bg-accent text-accent-foreground rounded font-normal tracking-[0.15em] uppercase text-xs transition-all duration-500 hover:shadow-gold hover:scale-[1.02];
+  }
+
+  .btn-outline-luxury {
+    @apply relative inline-flex items-center justify-center px-10 py-4 border border-primary text-primary bg-transparent rounded font-normal tracking-[0.15em] uppercase text-xs transition-all duration-500 hover:bg-primary hover:text-primary-foreground;
+  }
+
+  .text-luxury {
+    @apply text-muted-foreground leading-relaxed font-normal;
+  }
+
+  .card-luxury {
+    @apply bg-card rounded shadow-soft transition-all duration-500 hover:shadow-luxury hover:-translate-y-1;
+  }
+
+  .section-padding {
+    @apply py-24 px-6 md:px-12 lg:px-24;
+  }
+
+  .heading-elegant {
+    @apply font-serif font-medium tracking-wider text-foreground;
+  }
+
+  .text-script {
+    @apply font-script text-foreground;
+  }
+
+  /* Oriental Feminine Gradient Backgrounds */
+  .bg-oriental {
+    background: var(--gradient-oriental);
+  }
+
+  .bg-rose-gold-gradient {
+    background: var(--gradient-rose-gold);
+  }
+
+  .bg-silk {
+    background: var(--gradient-silk);
+  }
+
+  .bg-blush {
+    background: var(--gradient-blush);
+  }
+
+  /* Luxury Card with Rose Glow */
+  .card-feminine {
+    @apply bg-card rounded-lg transition-all duration-700;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .card-feminine:hover {
+    box-shadow: var(--shadow-rose);
+    transform: translateY(-4px);
+  }
+
+  /* Shimmer Effect for Luxury Elements */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-shimmer);
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  /* Golden Border Accent */
+  .border-gold-accent {
+    border: 1px solid hsl(var(--accent) / 0.3);
+    transition: border-color 0.5s ease;
+  }
+
+  .border-gold-accent:hover {
+    border-color: hsl(var(--accent) / 0.6);
+  }
+
+  /* Rose Gold Text */
+  .text-rose-gold {
+    color: hsl(var(--rose-gold));
+  }
+
+  /* Soft Glow Effect */
+  .glow-soft {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .glow-rose {
+    box-shadow: var(--shadow-rose);
+  }
+}
+
+/* Oriental Feminine Animations */
+@keyframes shimmer {
+  0% {
+    left: -100%;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-6px) rotate(0.5deg);
+  }
+  75% {
+    transform: translateY(3px) rotate(-0.5deg);
+  }
+}
+
+@keyframes gentle-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes bloom {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px hsl(38 75% 50% / 0.2);
+  }
+  50% {
+    box-shadow: 0 0 35px hsl(38 75% 50% / 0.35);
+  }
+}
+
+@keyframes silk-wave {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes rose-breathe {
+  0%, 100% {
+    box-shadow: 0 4px 20px hsl(350 35% 60% / 0.1);
+  }
+  50% {
+    box-shadow: 0 4px 30px hsl(350 35% 60% / 0.25);
+  }
+}
+
+@layer utilities {
+  /* Animation Utilities */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-gentle-pulse {
+    animation: gentle-pulse 4s ease-in-out infinite;
+  }
+
+  .animate-bloom {
+    animation: bloom 0.8s ease-out forwards;
+  }
+
+  .animate-glow-pulse {
+    animation: glow-pulse 3s ease-in-out infinite;
+  }
+
+  .animate-silk-wave {
+    background-size: 200% 200%;
+    animation: silk-wave 8s ease infinite;
+  }
+
+  .animate-rose-breathe {
+    animation: rose-breathe 4s ease-in-out infinite;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  /* Hover Animation Triggers */
+  .hover-float:hover {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .hover-glow:hover {
+    box-shadow: var(--shadow-glow);
+    transition: box-shadow 0.5s ease;
+  }
+
+  .hover-rose-glow:hover {
+    box-shadow: var(--shadow-rose);
+    transition: box-shadow 0.5s ease;
+  }
+
+  /* Elegant Transitions */
+  .transition-silk {
+    transition: var(--transition-silk);
+  }
+
+  .transition-elegant {
+    transition: var(--transition-elegant);
+  }
+
+  /* Oriental Gradient Text */
+  .text-gradient-gold {
+    background: linear-gradient(135deg, hsl(38 75% 50%), hsl(35 80% 55%), hsl(15 60% 72%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Decorative Line with Rose Gold */
+  .line-rose-gold {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(15 60% 72% / 0.5), hsl(38 75% 50% / 0.5), hsl(15 60% 72% / 0.5), transparent);
+  }
+
+  /* Subtle Background Patterns */
+  .pattern-silk {
+    background-image:
+      radial-gradient(circle at 20% 80%, hsl(350 35% 80% / 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, hsl(38 75% 50% / 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, hsl(15 60% 72% / 0.04) 0%, transparent 30%);
+  }
+
+  /* Glass Effect with Rose Tint */
+  .glass-rose {
+    background: hsl(350 40% 88% / 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid hsl(350 35% 80% / 0.2);
+  }
+
+  /* Luxury Button Gradient */
+  .btn-gradient-gold {
+    background: linear-gradient(135deg, hsl(38 75% 50%), hsl(35 80% 55%));
+    color: hsl(25 25% 12%);
+    transition: all 0.5s ease;
+  }
+
+  .btn-gradient-gold:hover {
+    background: linear-gradient(135deg, hsl(35 80% 55%), hsl(38 75% 50%));
+    box-shadow: var(--shadow-gold);
+    transform: translateY(-2px);
+  }
+}
