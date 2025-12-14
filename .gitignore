@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Environment variables
+.env
+
 # Lock files (prevent package manager conflicts)
 bun.lockb
 package-lock.json
