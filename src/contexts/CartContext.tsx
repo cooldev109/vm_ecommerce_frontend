@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { useAuth } from './AuthContext';
 import * as cartService from '@/services/cartService';
 import { toast } from 'sonner';
@@ -28,17 +28,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Load cart from backend when user is authenticated
-  useEffect(() => {
-    if (isAuthenticated) {
-      loadCart();
-    } else {
-      // Clear cart when user logs out
-      setItems([]);
-    }
-  }, [isAuthenticated]);
-
-  const loadCart = async () => {
+  const loadCart = useCallback(async () => {
     if (!isAuthenticated) return;
 
     try {
@@ -82,9 +72,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [isAuthenticated]);
 
-  const addItem = async (item: Omit<CartItem, 'quantity'>) => {
+  const addItem = useCallback(async (item: Omit<CartItem, 'quantity'>) => {
     console.log('🛒 Adding product to cart:', {
       id: item.id,
       name: item.name,
@@ -135,9 +125,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       setItems(prev => prev.filter(i => i.id !== item.id));
       toast.error(error.message || 'Failed to add to cart');
     }
-  };
+  }, [isAuthenticated, loadCart]);
 
-  const removeItem = async (id: string) => {
+  const removeItem = useCallback(async (id: string) => {
     if (!isAuthenticated) {
       return;
     }
@@ -166,9 +156,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       setItems(previousItems);
       toast.error(error.message || 'Failed to remove item');
     }
-  };
+  }, [isAuthenticated, items]);
 
-  const updateQuantity = async (id: string, quantity: number) => {
+  const updateQuantity = useCallback(async (id: string, quantity: number) => {
     if (!isAuthenticated) {
       return;
     }
@@ -202,9 +192,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       setItems(previousItems);
       toast.error(error.message || 'Failed to update quantity');
     }
-  };
+  }, [isAuthenticated, items, removeItem]);
 
-  const clearCart = async () => {
+  const clearCart = useCallback(async () => {
     if (!isAuthenticated) {
       setItems([]);
       return;
@@ -227,7 +217,17 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       setItems(previousItems);
       toast.error(error.message || 'Failed to clear cart');
     }
-  };
+  }, [isAuthenticated, items]);
+
+  // Load cart from backend when user is authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadCart();
+    } else {
+      // Clear cart when user logs out
+      setItems([]);
+    }
+  }, [isAuthenticated, loadCart]);
 
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
