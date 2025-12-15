@@ -22,6 +22,7 @@ import productSandalwood from '@/assets/product-sandalwood-candle.jpg';
 import accessorySnuffer from '@/assets/accessory-snuffer.jpg';
 import accessoryTrimmer from '@/assets/accessory-trimmer.jpg';
 import accessoryDipper from '@/assets/accessory-dipper.jpg';
+import accessorySet from '@/assets/accessory-set.jpg';
 
 // Fallback image
 import candleProduct from '@/assets/candle-product.png';
@@ -46,6 +47,7 @@ const imageMap: Record<string, string> = {
   '/src/assets/accessory-snuffer.jpg': accessorySnuffer,
   '/src/assets/accessory-trimmer.jpg': accessoryTrimmer,
   '/src/assets/accessory-dipper.jpg': accessoryDipper,
+  '/src/assets/accessory-set.jpg': accessorySet,
 };
 
 /**
