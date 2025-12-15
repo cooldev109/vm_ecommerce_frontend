@@ -10,8 +10,8 @@ const Contact = () => {
   return (
     <>
       <SEO
-        title="Contact Us"
-        description="Get in touch with V&M Candle Experience. We're here to help with any questions about our luxury candles."
+        title={t('contactSeoTitle')}
+        description={t('contactSeoDesc')}
       />
 
       <div className="min-h-screen bg-gradient-to-b from-background to-accent/5 py-16">
@@ -19,10 +19,10 @@ const Contact = () => {
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">
-              Contact Us
+              {t('contactUs')}
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Have a question or need assistance? We're here to help you with your luxury candle experience.
+              {t('contactUsDesc')}
             </p>
           </div>
 
@@ -31,9 +31,9 @@ const Contact = () => {
             <div className="lg:col-span-1 space-y-6">
               <Card className="card-luxury">
                 <CardHeader>
-                  <CardTitle className="font-serif">Get In Touch</CardTitle>
+                  <CardTitle className="font-serif">{t('getInTouch')}</CardTitle>
                   <CardDescription>
-                    We'd love to hear from you
+                    {t('getInTouchDesc')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -42,7 +42,7 @@ const Contact = () => {
                       <Mail className="h-5 w-5 text-accent-foreground" />
                     </div>
                     <div>
-                      <h3 className="font-semibold mb-1">Email</h3>
+                      <h3 className="font-semibold mb-1">{t('email')}</h3>
                       <a
                         href="mailto:info@vmcandles.com"
                         className="text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -57,7 +57,7 @@ const Contact = () => {
                       <Phone className="h-5 w-5 text-accent-foreground" />
                     </div>
                     <div>
-                      <h3 className="font-semibold mb-1">Phone</h3>
+                      <h3 className="font-semibold mb-1">{t('phone')}</h3>
                       <a
                         href="tel:+56912345678"
                         className="text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -72,7 +72,7 @@ const Contact = () => {
                       <MessageCircle className="h-5 w-5 text-accent-foreground" />
                     </div>
                     <div>
-                      <h3 className="font-semibold mb-1">WhatsApp</h3>
+                      <h3 className="font-semibold mb-1">{t('whatsapp')}</h3>
                       <a
                         href="https://wa.me/56912345678"
                         target="_blank"
@@ -89,9 +89,9 @@ const Contact = () => {
                       <MapPin className="h-5 w-5 text-accent-foreground" />
                     </div>
                     <div>
-                      <h3 className="font-semibold mb-1">Address</h3>
+                      <h3 className="font-semibold mb-1">{t('address')}</h3>
                       <p className="text-sm text-muted-foreground">
-                        Santiago, Chile
+                        {t('addressValue')}
                       </p>
                     </div>
                   </div>
@@ -100,20 +100,20 @@ const Contact = () => {
 
               <Card className="card-luxury">
                 <CardHeader>
-                  <CardTitle className="font-serif text-lg">Business Hours</CardTitle>
+                  <CardTitle className="font-serif text-lg">{t('businessHours')}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Monday - Friday</span>
-                    <span className="font-medium">9:00 AM - 6:00 PM</span>
+                    <span className="text-muted-foreground">{t('mondayFriday')}</span>
+                    <span className="font-medium">{t('timeMonFri')}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Saturday</span>
-                    <span className="font-medium">10:00 AM - 4:00 PM</span>
+                    <span className="text-muted-foreground">{t('saturday')}</span>
+                    <span className="font-medium">{t('timeSat')}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Sunday</span>
-                    <span className="font-medium">Closed</span>
+                    <span className="text-muted-foreground">{t('sunday')}</span>
+                    <span className="font-medium">{t('closed')}</span>
                   </div>
                 </CardContent>
               </Card>
@@ -142,16 +142,15 @@ const Contact = () => {
                       V&M Candle Experience
                     </h2>
                     <p className="text-lg text-muted-foreground mb-4">
-                      Founder & Artisan
+                      {t('founderArtisan')}
                     </p>
                     <p className="text-sm text-muted-foreground max-w-2xl mb-8">
-                      Creating luxury handcrafted candles with pure essential oils and natural ingredients.
-                      Each candle is a ritual of wellness, designed to elevate your senses and restore your soul.
+                      {t('founderDesc')}
                     </p>
 
                     {/* Social Media Links */}
                     <div className="space-y-4 w-full max-w-md">
-                      <h3 className="text-lg font-semibold mb-4">Connect With Us</h3>
+                      <h3 className="text-lg font-semibold mb-4">{t('connectWithUs')}</h3>
 
                       <div className="grid grid-cols-2 gap-4">
                         {/* Facebook */}
@@ -162,7 +161,7 @@ const Contact = () => {
                           className="flex items-center gap-3 p-4 rounded-lg border border-border hover:border-accent hover:bg-accent/5 transition-all duration-300"
                         >
                           <Facebook className="h-6 w-6 text-blue-600" />
-                          <span className="font-medium">Facebook</span>
+                          <span className="font-medium">{t('facebook')}</span>
                         </a>
 
                         {/* Instagram */}
@@ -173,7 +172,7 @@ const Contact = () => {
                           className="flex items-center gap-3 p-4 rounded-lg border border-border hover:border-accent hover:bg-accent/5 transition-all duration-300"
                         >
                           <Instagram className="h-6 w-6 text-pink-600" />
-                          <span className="font-medium">Instagram</span>
+                          <span className="font-medium">{t('instagram')}</span>
                         </a>
 
                         {/* Twitter */}
@@ -184,7 +183,7 @@ const Contact = () => {
                           className="flex items-center gap-3 p-4 rounded-lg border border-border hover:border-accent hover:bg-accent/5 transition-all duration-300"
                         >
                           <Twitter className="h-6 w-6 text-blue-400" />
-                          <span className="font-medium">Twitter</span>
+                          <span className="font-medium">{t('twitter')}</span>
                         </a>
 
                         {/* WhatsApp */}
@@ -195,7 +194,7 @@ const Contact = () => {
                           className="flex items-center gap-3 p-4 rounded-lg border border-border hover:border-accent hover:bg-accent/5 transition-all duration-300"
                         >
                           <MessageCircle className="h-6 w-6 text-green-600" />
-                          <span className="font-medium">WhatsApp</span>
+                          <span className="font-medium">{t('whatsapp')}</span>
                         </a>
                       </div>
                     </div>
@@ -206,36 +205,36 @@ const Contact = () => {
               {/* Additional Info Card */}
               <Card className="card-luxury">
                 <CardHeader>
-                  <CardTitle className="font-serif">Why Choose V&M?</CardTitle>
+                  <CardTitle className="font-serif">{t('whyChooseVM')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                     <div className="flex items-start gap-3">
                       <div className="w-2 h-2 rounded-full bg-accent mt-2"></div>
                       <div>
-                        <h4 className="font-semibold mb-1">100% Natural Ingredients</h4>
-                        <p className="text-muted-foreground">Plant-based waxes and pure essential oils</p>
+                        <h4 className="font-semibold mb-1">{t('naturalIngredients')}</h4>
+                        <p className="text-muted-foreground">{t('naturalIngredientsDesc')}</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
                       <div className="w-2 h-2 rounded-full bg-accent mt-2"></div>
                       <div>
-                        <h4 className="font-semibold mb-1">Handcrafted Quality</h4>
-                        <p className="text-muted-foreground">Small batches, artisan attention to detail</p>
+                        <h4 className="font-semibold mb-1">{t('handcraftedQuality')}</h4>
+                        <p className="text-muted-foreground">{t('handcraftedQualityDesc')}</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
                       <div className="w-2 h-2 rounded-full bg-accent mt-2"></div>
                       <div>
-                        <h4 className="font-semibold mb-1">Perfume-Grade Fragrances</h4>
-                        <p className="text-muted-foreground">High aromatic concentration for luxury experience</p>
+                        <h4 className="font-semibold mb-1">{t('perfumeGradeFragrances')}</h4>
+                        <p className="text-muted-foreground">{t('perfumeGradeFragrancesDesc')}</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
                       <div className="w-2 h-2 rounded-full bg-accent mt-2"></div>
                       <div>
-                        <h4 className="font-semibold mb-1">Wellness Rituals</h4>
-                        <p className="text-muted-foreground">Designed for meditation and mindfulness</p>
+                        <h4 className="font-semibold mb-1">{t('wellnessRituals')}</h4>
+                        <p className="text-muted-foreground">{t('wellnessRitualsDesc')}</p>
                       </div>
                     </div>
                   </div>
