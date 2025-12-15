@@ -278,12 +278,11 @@ export default function Subscriptions() {
             )}
 
             <CardHeader className="text-center">
-              <CardTitle className="text-2xl">{plan.name}</CardTitle>
-              <CardDescription className="text-sm">{plan.nameEs}</CardDescription>
+              <CardTitle className="text-2xl">{lang === 'es' ? plan.nameEs : plan.name}</CardTitle>
               <div className="mt-4">
                 <div className="text-4xl font-bold">{formatPrice(plan.price)}</div>
                 <div className="text-sm text-muted-foreground">
-                  {t('perPeriod')} {plan.billingPeriod}
+                  {t('perPeriod')} {lang === 'es' ? plan.billingPeriodEs : plan.billingPeriod}
                 </div>
                 {plan.savings && (
                   <div className="mt-2 text-sm font-medium text-green-600">
@@ -295,7 +294,7 @@ export default function Subscriptions() {
 
             <CardContent>
               <ul className="space-y-3">
-                {plan.features.map((feature, index) => (
+                {(lang === 'es' ? plan.featuresEs : plan.features).map((feature, index) => (
                   <li key={index} className="flex items-start gap-2">
                     <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
                     <span className="text-sm">{feature}</span>
