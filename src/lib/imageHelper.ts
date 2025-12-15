@@ -1,6 +1,7 @@
 /**
  * Image Helper
  * Maps database image paths to actual Vite imports
+ * Ensures all product and accessory images are properly bundled in production
  */
 
 // Import all product images
