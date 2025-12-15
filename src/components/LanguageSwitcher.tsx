@@ -10,11 +10,6 @@ import {
 const languages = [
   { code: 'es', name: 'Español' },
   { code: 'en', name: 'English' },
-  { code: 'fr', name: 'Français' },
-  { code: 'de', name: 'Deutsch' },
-  { code: 'pt', name: 'Português' },
-  { code: 'hi', name: 'हिन्दी' },
-  { code: 'zh', name: '中文' },
 ];
 
 export const LanguageSwitcher = () => {
