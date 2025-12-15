@@ -139,9 +139,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     const cartItem = response.data.cart.items?.find((item: any) => item.product?.id === id);
     if (!cartItem) return;
 
-    // Optimistic update
-    const previousItems = [...items];
-    setItems(prev => prev.filter(item => item.id !== id));
+    // Optimistic update with functional state update to capture previous state
+    let previousItems: CartItem[] = [];
+    setItems(prev => {
+      previousItems = [...prev];
+      return prev.filter(item => item.id !== id);
+    });
 
     try {
       const deleteResponse = await cartService.removeFromCart(cartItem.id);
@@ -156,7 +159,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       setItems(previousItems);
       toast.error(error.message || 'Failed to remove item');
     }
-  }, [isAuthenticated, items]);
+  }, [isAuthenticated]);
 
   const updateQuantity = useCallback(async (id: string, quantity: number) => {
     if (!isAuthenticated) {
@@ -175,11 +178,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     const cartItem = response.data.cart.items?.find((item: any) => item.product?.id === id);
     if (!cartItem) return;
 
-    // Optimistic update
-    const previousItems = [...items];
-    setItems(prev =>
-      prev.map(item => (item.id === id ? { ...item, quantity } : item))
-    );
+    // Optimistic update with functional state update to capture previous state
+    let previousItems: CartItem[] = [];
+    setItems(prev => {
+      previousItems = [...prev];
+      return prev.map(item => (item.id === id ? { ...item, quantity } : item));
+    });
 
     try {
       const updateResponse = await cartService.updateCartItem(cartItem.id, { quantity });
@@ -192,7 +196,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       setItems(previousItems);
       toast.error(error.message || 'Failed to update quantity');
     }
-  }, [isAuthenticated, items, removeItem]);
+  }, [isAuthenticated, removeItem]);
 
   const clearCart = useCallback(async () => {
     if (!isAuthenticated) {
@@ -200,9 +204,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
-    // Optimistic update
-    const previousItems = [...items];
-    setItems([]);
+    // Optimistic update with functional state update to capture previous state
+    let previousItems: CartItem[] = [];
+    setItems(prev => {
+      previousItems = [...prev];
+      return [];
+    });
 
     try {
       const response = await cartService.clearCart();
@@ -217,7 +224,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       setItems(previousItems);
       toast.error(error.message || 'Failed to clear cart');
     }
-  }, [isAuthenticated, items]);
+  }, [isAuthenticated]);
 
   // Load cart from backend when user is authenticated
   useEffect(() => {
