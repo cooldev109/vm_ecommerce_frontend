@@ -235,6 +235,23 @@ const translations: Record<Language, Record<string, string>> = {
     termsOfUse: 'Condiciones de Uso',
     privacyPolicy: 'Política de Privacidad',
 
+    // Subscription Page
+    premiumAudioExperience: 'Experiencia de Audio Premium',
+    subscriptionHeaderDesc: 'Desbloquea acceso ilimitado a nuestra biblioteca de audio exclusiva con meditaciones guiadas, paisajes sonoros ambientales y experiencias de relajación.',
+    activeSubscription: 'Tienes una suscripción activa',
+    manageSubscriptionLink: 'Gestionar suscripción',
+    bestValue: 'Mejor Valor',
+    perPeriod: 'por',
+    frequentlyAskedQuestions: 'Preguntas Frecuentes',
+    faqCancelTitle: '¿Puedo cancelar en cualquier momento?',
+    faqCancelAnswer: 'Sí! Puedes cancelar tu suscripción en cualquier momento desde la configuración de tu cuenta. Continuarás teniendo acceso hasta el final de tu período de facturación actual.',
+    faqChangePlanTitle: '¿Puedo cambiar mi plan?',
+    faqChangePlanAnswer: 'Absolutamente. Puedes actualizar o bajar de categoría tu plan en cualquier momento desde la configuración de tu cuenta. Los cambios entrarán en vigor en tu próximo ciclo de facturación.',
+    faqPaymentTitle: '¿Qué métodos de pago aceptan?',
+    faqPaymentAnswer: 'Aceptamos todas las tarjetas de crédito y débito principales a través de Transbank WebPay Plus, la plataforma de pago más confiable de Chile.',
+    faqTrialTitle: '¿Hay una prueba gratuita?',
+    faqTrialAnswer: 'Actualmente, no ofrecemos una prueba gratuita, pero puedes obtener una vista previa de experiencias de audio seleccionadas en nuestras páginas de productos antes de suscribirte.',
+
     // Subscription Legal Acceptance
     beforeSubscribe: 'Antes de suscribirse, por favor lea y acepte:',
     acceptTerms: 'He leído y acepto las',
@@ -632,6 +649,23 @@ const translations: Record<Language, Record<string, string>> = {
     technicalSheet: 'Technical Sheet',
     termsOfUse: 'Terms of Use',
     privacyPolicy: 'Privacy Policy',
+
+    // Subscription Page
+    premiumAudioExperience: 'Premium Audio Experience',
+    subscriptionHeaderDesc: 'Unlock unlimited access to our exclusive audio library with guided meditations, ambient soundscapes, and relaxation experiences.',
+    activeSubscription: 'You have an active subscription',
+    manageSubscriptionLink: 'Manage subscription',
+    bestValue: 'Best Value',
+    perPeriod: 'per',
+    frequentlyAskedQuestions: 'Frequently Asked Questions',
+    faqCancelTitle: 'Can I cancel anytime?',
+    faqCancelAnswer: 'Yes! You can cancel your subscription at any time from your account settings. You\'ll continue to have access until the end of your current billing period.',
+    faqChangePlanTitle: 'Can I change my plan?',
+    faqChangePlanAnswer: 'Absolutely. You can upgrade or downgrade your plan at any time from your account settings. Changes will take effect at your next billing cycle.',
+    faqPaymentTitle: 'What payment methods do you accept?',
+    faqPaymentAnswer: 'We accept all major credit and debit cards through Transbank WebPay Plus, Chile\'s most trusted payment platform.',
+    faqTrialTitle: 'Is there a free trial?',
+    faqTrialAnswer: 'Currently, we don\'t offer a free trial, but you can preview selected audio experiences on our product pages before subscribing.',
 
     // Subscription Legal Acceptance
     beforeSubscribe: 'Before subscribing, please read and accept:',

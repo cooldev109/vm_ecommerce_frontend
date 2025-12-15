@@ -162,10 +162,9 @@ export default function Subscriptions() {
       />
       {/* Header */}
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4">Premium Audio Experience</h1>
+        <h1 className="text-4xl font-bold mb-4">{t('premiumAudioExperience')}</h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Unlock unlimited access to our exclusive audio library with guided meditations,
-          ambient soundscapes, and relaxation experiences.
+          {t('subscriptionHeaderDesc')}
         </p>
       </div>
 
@@ -175,9 +174,9 @@ export default function Subscriptions() {
           <div className="flex items-center gap-2">
             <Crown className="h-5 w-5 text-green-600" />
             <p className="text-green-800">
-              You have an active {currentSubscription.planId} subscription.{' '}
+              {t('activeSubscription')} {currentSubscription.planId}.{' '}
               <Button variant="link" className="p-0 h-auto" onClick={() => navigate('/account')}>
-                Manage subscription
+                {t('manageSubscriptionLink')}
               </Button>
             </p>
           </div>
@@ -265,7 +264,7 @@ export default function Subscriptions() {
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                 <Badge className="bg-primary text-primary-foreground">
                   <Sparkles className="h-3 w-3 mr-1" />
-                  Most Popular
+                  {t('mostPopular')}
                 </Badge>
               </div>
             )}
@@ -273,7 +272,7 @@ export default function Subscriptions() {
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                 <Badge className="bg-amber-500 text-white">
                   <Crown className="h-3 w-3 mr-1" />
-                  Best Value
+                  {t('bestValue')}
                 </Badge>
               </div>
             )}
@@ -284,11 +283,11 @@ export default function Subscriptions() {
               <div className="mt-4">
                 <div className="text-4xl font-bold">{formatPrice(plan.price)}</div>
                 <div className="text-sm text-muted-foreground">
-                  per {plan.billingPeriod}
+                  {t('perPeriod')} {plan.billingPeriod}
                 </div>
                 {plan.savings && (
                   <div className="mt-2 text-sm font-medium text-green-600">
-                    Save {formatPrice(plan.savings)}
+                    {t('save')} {formatPrice(plan.savings)}
                   </div>
                 )}
               </div>
@@ -342,34 +341,30 @@ export default function Subscriptions() {
 
       {/* FAQ Section */}
       <div className="max-w-3xl mx-auto mt-16">
-        <h2 className="text-2xl font-bold text-center mb-8">Frequently Asked Questions</h2>
+        <h2 className="text-2xl font-bold text-center mb-8">{t('frequentlyAskedQuestions')}</h2>
         <div className="space-y-6">
           <div>
-            <h3 className="font-semibold mb-2">Can I cancel anytime?</h3>
+            <h3 className="font-semibold mb-2">{t('faqCancelTitle')}</h3>
             <p className="text-muted-foreground">
-              Yes! You can cancel your subscription at any time from your account settings.
-              You'll continue to have access until the end of your current billing period.
+              {t('faqCancelAnswer')}
             </p>
           </div>
           <div>
-            <h3 className="font-semibold mb-2">Can I change my plan?</h3>
+            <h3 className="font-semibold mb-2">{t('faqChangePlanTitle')}</h3>
             <p className="text-muted-foreground">
-              Absolutely. You can upgrade or downgrade your plan at any time from your account settings.
-              Changes will take effect at your next billing cycle.
+              {t('faqChangePlanAnswer')}
             </p>
           </div>
           <div>
-            <h3 className="font-semibold mb-2">What payment methods do you accept?</h3>
+            <h3 className="font-semibold mb-2">{t('faqPaymentTitle')}</h3>
             <p className="text-muted-foreground">
-              We accept all major credit and debit cards through Transbank WebPay Plus,
-              Chile's most trusted payment platform.
+              {t('faqPaymentAnswer')}
             </p>
           </div>
           <div>
-            <h3 className="font-semibold mb-2">Is there a free trial?</h3>
+            <h3 className="font-semibold mb-2">{t('faqTrialTitle')}</h3>
             <p className="text-muted-foreground">
-              Currently, we don't offer a free trial, but you can preview selected audio experiences
-              on our product pages before subscribing.
+              {t('faqTrialAnswer')}
             </p>
           </div>
         </div>
