@@ -392,6 +392,22 @@ const translations: Record<Language, Record<string, string>> = {
     wellnessRituals: 'Rituales de Bienestar',
     wellnessRitualsDesc: 'Diseñadas para meditación y atención plena',
 
+    // Contact Form
+    reachOut: 'Contáctanos',
+    sendMessage: 'Enviar Mensaje',
+    sendMessageDesc: 'Completa el formulario y te responderemos en 24 horas',
+    yourName: 'Tu Nombre',
+    yourEmail: 'Tu Correo',
+    yourPhone: 'Tu Teléfono',
+    yourMessage: 'Tu Mensaje',
+    optional: 'Opcional',
+    namePlaceholder: 'Juan Pérez',
+    emailPlaceholder: 'tu@ejemplo.com',
+    messagePlaceholder: 'Cuéntanos cómo podemos ayudarte...',
+    sending: 'Enviando',
+    messageSent: '¡Mensaje enviado!',
+    messageSentDesc: 'Te responderemos lo antes posible.',
+
     // Executive Testimonials Page
     testimonialsTitle: 'Experiencias de Ejecutivos',
     testimonialsSeoTitle: 'Testimonios de Clientes Ejecutivos',
@@ -862,6 +878,22 @@ const translations: Record<Language, Record<string, string>> = {
     perfumeGradeFragrancesDesc: 'High aromatic concentration for luxury experience',
     wellnessRituals: 'Wellness Rituals',
     wellnessRitualsDesc: 'Designed for meditation and mindfulness',
+
+    // Contact Form
+    reachOut: 'Reach Out',
+    sendMessage: 'Send Message',
+    sendMessageDesc: 'Fill out the form below and we\'ll respond within 24 hours',
+    yourName: 'Your Name',
+    yourEmail: 'Your Email',
+    yourPhone: 'Your Phone',
+    yourMessage: 'Your Message',
+    optional: 'Optional',
+    namePlaceholder: 'John Doe',
+    emailPlaceholder: 'you@example.com',
+    messagePlaceholder: 'Tell us how we can help you...',
+    sending: 'Sending',
+    messageSent: 'Message sent!',
+    messageSentDesc: 'We\'ll get back to you as soon as possible.',
 
     // Executive Testimonials Page
     testimonialsTitle: 'Executive Experiences',

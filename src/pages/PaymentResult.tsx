@@ -101,7 +101,8 @@ const PaymentResult = () => {
       setStatus('failed');
     } else if (statusParam === 'error') {
       setStatus('error');
-    } else if (!hasRedirected.current) {
+    } else if (!statusParam && !hasRedirected.current) {
+      // No valid status parameter, redirect to home after delay
       hasRedirected.current = true;
       const timer = setTimeout(() => {
         navigate('/');
@@ -112,23 +113,28 @@ const PaymentResult = () => {
 
   // Auto-redirect countdown for success
   useEffect(() => {
-    if (status === 'success' && !hasRedirected.current) {
-      const timer = setInterval(() => {
-        setCountdown((prev) => {
-          if (prev <= 1) {
-            clearInterval(timer);
+    if (status !== 'success' || hasRedirected.current) {
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          // Use a timeout to schedule navigation after state update
+          setTimeout(() => {
             if (!hasRedirected.current) {
               hasRedirected.current = true;
               navigate('/');
             }
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
+          }, 0);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
 
-      return () => clearInterval(timer);
-    }
+    return () => clearInterval(timer);
   }, [status, navigate]);
 
   // Loading state
