@@ -2,6 +2,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Mail, Phone, MapPin, MessageCircle, Sparkles } from 'lucide-react';
 import { SEO } from '@/components/SEO';
+import logo from '@/assets/logo.png';
 
 const Contact = () => {
   const { t } = useLanguage();
@@ -138,10 +139,11 @@ const Contact = () => {
                     <div className="relative mb-6 animate-float">
                       <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-accent/30 to-accent/10 p-1">
                         <div className="w-full h-full rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
-                          {/* Placeholder - Replace with actual image */}
-                          <div className="w-full h-full bg-gradient-to-br from-amber-200 to-amber-400 flex items-center justify-center">
-                            <span className="text-4xl md:text-5xl font-serif text-white">V&M</span>
-                          </div>
+                          <img
+                            src={logo}
+                            alt="V&M Candle Experience"
+                            className="w-full h-full object-contain p-4"
+                          />
                         </div>
                       </div>
                     </div>
