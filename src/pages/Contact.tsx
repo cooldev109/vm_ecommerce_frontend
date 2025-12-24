@@ -2,7 +2,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Mail, Phone, MapPin, MessageCircle, Sparkles } from 'lucide-react';
 import { SEO } from '@/components/SEO';
-import logo from '@/assets/logo.png';
+import roundLogo from '@/assets/round_logo.png';
 
 const Contact = () => {
   const { t } = useLanguage();
@@ -139,7 +139,7 @@ const Contact = () => {
                     <div className="relative mb-6 animate-float">
                       <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-black overflow-hidden bg-white">
                         <img
-                          src={logo}
+                          src={roundLogo}
                           alt="V&M Candle Experience"
                           className="w-full h-full object-cover"
                         />
