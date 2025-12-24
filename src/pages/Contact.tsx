@@ -2,7 +2,6 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Mail, Phone, MapPin, MessageCircle } from 'lucide-react';
 import { SEO } from '@/components/SEO';
-import { Facebook, Twitter, Instagram } from 'lucide-react';
 
 const Contact = () => {
   const { t } = useLanguage();
@@ -67,22 +66,22 @@ const Contact = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-4">
+                  <a
+                    href="https://wa.me/56992257712"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-start gap-4 hover:opacity-80 transition-opacity cursor-pointer"
+                  >
                     <div className="p-3 bg-accent rounded-lg">
                       <MessageCircle className="h-5 w-5 text-accent-foreground" />
                     </div>
                     <div>
                       <h3 className="font-semibold mb-1">{t('whatsapp')}</h3>
-                      <a
-                        href="https://wa.me/56912345678"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                      >
-                        +56 9 1234 5678
-                      </a>
+                      <p className="text-sm text-muted-foreground">
+                        +56 9 9225 7712
+                      </p>
                     </div>
-                  </div>
+                  </a>
 
                   <div className="flex items-start gap-4">
                     <div className="p-3 bg-accent rounded-lg">
@@ -147,57 +146,6 @@ const Contact = () => {
                     <p className="text-sm text-muted-foreground max-w-2xl mb-8">
                       {t('founderDesc')}
                     </p>
-
-                    {/* Social Media Links */}
-                    <div className="space-y-4 w-full max-w-md">
-                      <h3 className="text-lg font-semibold mb-4">{t('connectWithUs')}</h3>
-
-                      <div className="grid grid-cols-2 gap-4">
-                        {/* Facebook */}
-                        <a
-                          href="https://facebook.com/vmcandles"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-3 p-4 rounded-lg border border-border hover:border-accent hover:bg-accent/5 transition-all duration-300"
-                        >
-                          <Facebook className="h-6 w-6 text-blue-600" />
-                          <span className="font-medium">{t('facebook')}</span>
-                        </a>
-
-                        {/* Instagram */}
-                        <a
-                          href="https://instagram.com/vmcandles"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-3 p-4 rounded-lg border border-border hover:border-accent hover:bg-accent/5 transition-all duration-300"
-                        >
-                          <Instagram className="h-6 w-6 text-pink-600" />
-                          <span className="font-medium">{t('instagram')}</span>
-                        </a>
-
-                        {/* Twitter */}
-                        <a
-                          href="https://twitter.com/vmcandles"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-3 p-4 rounded-lg border border-border hover:border-accent hover:bg-accent/5 transition-all duration-300"
-                        >
-                          <Twitter className="h-6 w-6 text-blue-400" />
-                          <span className="font-medium">{t('twitter')}</span>
-                        </a>
-
-                        {/* WhatsApp */}
-                        <a
-                          href="https://wa.me/56912345678"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-3 p-4 rounded-lg border border-border hover:border-accent hover:bg-accent/5 transition-all duration-300"
-                        >
-                          <MessageCircle className="h-6 w-6 text-green-600" />
-                          <span className="font-medium">{t('whatsapp')}</span>
-                        </a>
-                      </div>
-                    </div>
                   </div>
                 </CardContent>
               </Card>
