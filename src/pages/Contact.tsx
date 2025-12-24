@@ -43,10 +43,10 @@ const Contact = () => {
                     <div>
                       <h3 className="font-semibold mb-1">{t('email')}</h3>
                       <a
-                        href="mailto:info@vmcandles.com"
+                        href="mailto:info@vymexperience.com"
                         className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                       >
-                        info@vmcandles.com
+                        info@vymexperience.com
                       </a>
                     </div>
                   </div>
