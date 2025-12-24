@@ -25,8 +25,8 @@ export const Header = () => {
   const navigation = [
     { name: t('home'), href: '/' },
     { name: t('shop'), href: '/shop' },
-    { name: t('audio'), href: '/audio' },
-    { name: 'Premium', href: '/subscriptions' },
+    { name: 'Solo Audio', href: '/audio' },
+    { name: 'Planes', href: '/subscriptions' },
     { name: t('contact'), href: '/contact' },
   ];
 
@@ -54,8 +54,6 @@ export const Header = () => {
 
           {/* Right Section */}
           <div className="flex items-center space-x-4">
-            <LanguageSwitcher />
-
             {/* User Account Dropdown */}
             {isAuthenticated ? (
               <DropdownMenu>

@@ -24,7 +24,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Home Page
     heroTitle: 'V&M Candle Experience',
-    heroSubtitle: 'Rituales que Restauran tu Alma',
+    heroSubtitle: 'Rituales que Restauran Alma',
     heroDescription: 'Velas artesanales de alta gama, formuladas con ceras vegetales, aceites esenciales puros y fragancias de grado perfumista.',
     shopNow: 'Comprar Ahora',
     subscribe: 'Suscribirse',
