@@ -1,45 +1,10 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Mail, Phone, MapPin, MessageCircle, Send, Sparkles } from 'lucide-react';
+import { Mail, Phone, MapPin, MessageCircle, Sparkles } from 'lucide-react';
 import { SEO } from '@/components/SEO';
-import { useState } from 'react';
-import { useToast } from '@/hooks/use-toast';
 
 const Contact = () => {
   const { t } = useLanguage();
-  const { toast } = useToast();
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate form submission
-    setTimeout(() => {
-      toast({
-        title: t('messageSent') || 'Message sent!',
-        description: t('messageSentDesc') || 'We\'ll get back to you as soon as possible.',
-      });
-      setFormData({ name: '', email: '', phone: '', message: '' });
-      setIsSubmitting(false);
-    }, 1000);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-  };
 
   return (
     <>
@@ -163,96 +128,8 @@ const Contact = () => {
               </Card>
             </div>
 
-            {/* Contact Form & Info */}
+            {/* Brand Info */}
             <div className="lg:col-span-2 space-y-6">
-              {/* Contact Form */}
-              <Card className="card-luxury hover:shadow-xl transition-shadow">
-                <CardHeader>
-                  <CardTitle className="font-serif">{t('sendMessage') || 'Send us a Message'}</CardTitle>
-                  <CardDescription>
-                    {t('sendMessageDesc') || 'Fill out the form below and we\'ll respond within 24 hours'}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <label htmlFor="name" className="text-sm font-medium">
-                          {t('yourName') || 'Your Name'} *
-                        </label>
-                        <Input
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          placeholder={t('namePlaceholder') || 'John Doe'}
-                          required
-                          className="bg-background"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label htmlFor="email" className="text-sm font-medium">
-                          {t('yourEmail') || 'Your Email'} *
-                        </label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          placeholder={t('emailPlaceholder') || 'you@example.com'}
-                          required
-                          className="bg-background"
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <label htmlFor="phone" className="text-sm font-medium">
-                        {t('yourPhone') || 'Your Phone'} ({t('optional') || 'Optional'})
-                      </label>
-                      <Input
-                        id="phone"
-                        name="phone"
-                        type="tel"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        placeholder="+56 9 1234 5678"
-                        className="bg-background"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label htmlFor="message" className="text-sm font-medium">
-                        {t('yourMessage') || 'Your Message'} *
-                      </label>
-                      <Textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        placeholder={t('messagePlaceholder') || 'Tell us how we can help you...'}
-                        required
-                        rows={5}
-                        className="bg-background resize-none"
-                      />
-                    </div>
-                    <Button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full md:w-auto bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700"
-                    >
-                      {isSubmitting ? (
-                        <>{t('sending') || 'Sending'}...</>
-                      ) : (
-                        <>
-                          <Send className="h-4 w-4 mr-2" />
-                          {t('sendMessage') || 'Send Message'}
-                        </>
-                      )}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-
               {/* Owner Profile Card */}
               <Card className="card-luxury hover:shadow-xl transition-shadow">
                 <CardContent className="pt-6">
