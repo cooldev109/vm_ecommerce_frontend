@@ -54,6 +54,8 @@ export const Header = () => {
 
           {/* Right Section */}
           <div className="flex items-center space-x-4">
+            <LanguageSwitcher />
+
             {/* User Account Dropdown */}
             {isAuthenticated ? (
               <DropdownMenu>

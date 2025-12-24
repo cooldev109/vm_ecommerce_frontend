@@ -3,23 +3,28 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { CheckCircle, XCircle, Loader2, AlertCircle, Crown } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { getSubscriptionPaymentStatus } from '@/services/subscriptionService';
-
-const PLAN_NAMES: Record<string, string> = {
-  MONTHLY: 'Monthly Premium',
-  QUARTERLY: 'Quarterly Premium',
-  ANNUAL: 'Annual Premium',
-};
 
 export default function SubscriptionResult() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [loading, setLoading] = useState(true);
   const [subscriptionData, setSubscriptionData] = useState<any>(null);
 
   const status = searchParams.get('status');
   const subscriptionId = searchParams.get('subscriptionId');
   const errorMessage = searchParams.get('message');
+
+  const getPlanName = (planId: string) => {
+    const planNames: Record<string, string> = {
+      MONTHLY: t('monthlyPremium'),
+      QUARTERLY: t('quarterlyPremium'),
+      ANNUAL: t('annualPremium'),
+    };
+    return planNames[planId] || t('premiumSubscription');
+  };
 
   useEffect(() => {
     if (subscriptionId && status === 'success') {
@@ -62,7 +67,7 @@ export default function SubscriptionResult() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="h-12 w-12 animate-spin mx-auto mb-4 text-primary" />
-          <p className="text-muted-foreground">Processing your subscription...</p>
+          <p className="text-muted-foreground">{t('processingSubscription')}</p>
         </div>
       </div>
     );
@@ -77,9 +82,9 @@ export default function SubscriptionResult() {
             <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-green-100 flex items-center justify-center">
               <CheckCircle className="h-10 w-10 text-green-600" />
             </div>
-            <CardTitle className="text-2xl text-green-600">Payment Successful!</CardTitle>
+            <CardTitle className="text-2xl text-green-600">{t('paymentSuccessful')}</CardTitle>
             <CardDescription>
-              Your premium subscription has been activated
+              {t('subscriptionActivated')}
             </CardDescription>
           </CardHeader>
 
@@ -89,9 +94,9 @@ export default function SubscriptionResult() {
                 <Crown className="h-5 w-5 text-primary" />
                 <div>
                   <p className="font-medium">
-                    {subscriptionData?.planId ? PLAN_NAMES[subscriptionData.planId] : 'Premium Subscription'}
+                    {subscriptionData?.planId ? getPlanName(subscriptionData.planId) : t('premiumSubscription')}
                   </p>
-                  <p className="text-sm text-muted-foreground">Active subscription</p>
+                  <p className="text-sm text-muted-foreground">{t('activeSubscriptionLabel')}</p>
                 </div>
               </div>
 
@@ -99,15 +104,15 @@ export default function SubscriptionResult() {
                 <>
                   <div className="border-t pt-3 space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Amount paid:</span>
+                      <span className="text-muted-foreground">{t('amountPaid')}</span>
                       <span className="font-medium">{formatPrice(subscriptionData.amount || 0)}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Valid from:</span>
+                      <span className="text-muted-foreground">{t('validFrom')}</span>
                       <span>{formatDate(subscriptionData.startedAt)}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Valid until:</span>
+                      <span className="text-muted-foreground">{t('validUntil')}</span>
                       <span>{formatDate(subscriptionData.expiresAt)}</span>
                     </div>
                   </div>
@@ -116,16 +121,16 @@ export default function SubscriptionResult() {
             </div>
 
             <div className="text-center text-sm text-muted-foreground">
-              <p>You now have access to all premium audio experiences and exclusive content.</p>
+              <p>{t('premiumAccessMessage')}</p>
             </div>
           </CardContent>
 
           <CardFooter className="flex flex-col gap-3">
             <Button className="w-full" onClick={() => navigate('/audio')}>
-              Explore Audio Experiences
+              {t('exploreAudioExperiences')}
             </Button>
             <Button variant="outline" className="w-full" onClick={() => navigate('/account?tab=subscription')}>
-              Manage Subscription
+              {t('manageSubscription')}
             </Button>
           </CardFooter>
         </Card>
@@ -142,27 +147,26 @@ export default function SubscriptionResult() {
             <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-red-100 flex items-center justify-center">
               <XCircle className="h-10 w-10 text-red-600" />
             </div>
-            <CardTitle className="text-2xl text-red-600">Payment Failed</CardTitle>
+            <CardTitle className="text-2xl text-red-600">{t('paymentFailed')}</CardTitle>
             <CardDescription>
-              We couldn't process your payment
+              {t('paymentFailedDesc')}
             </CardDescription>
           </CardHeader>
 
           <CardContent className="space-y-4">
             <div className="bg-muted/50 rounded-lg p-4">
               <p className="text-sm text-muted-foreground text-center">
-                Your payment was declined or cancelled. No charges were made to your account.
-                Please try again or use a different payment method.
+                {t('paymentDeclinedMessage')}
               </p>
             </div>
           </CardContent>
 
           <CardFooter className="flex flex-col gap-3">
             <Button className="w-full" onClick={() => navigate('/subscriptions')}>
-              Try Again
+              {t('tryAgain')}
             </Button>
             <Button variant="outline" className="w-full" onClick={() => navigate('/')}>
-              Return to Home
+              {t('returnToHome')}
             </Button>
           </CardFooter>
         </Card>
@@ -178,9 +182,9 @@ export default function SubscriptionResult() {
           <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-amber-100 flex items-center justify-center">
             <AlertCircle className="h-10 w-10 text-amber-600" />
           </div>
-          <CardTitle className="text-2xl text-amber-600">Something Went Wrong</CardTitle>
+          <CardTitle className="text-2xl text-amber-600">{t('somethingWentWrong')}</CardTitle>
           <CardDescription>
-            We encountered an issue processing your subscription
+            {t('subscriptionIssue')}
           </CardDescription>
         </CardHeader>
 
@@ -188,20 +192,20 @@ export default function SubscriptionResult() {
           <div className="bg-muted/50 rounded-lg p-4">
             <p className="text-sm text-muted-foreground text-center">
               {errorMessage === 'missing_token'
-                ? 'The payment session expired or was invalid. Please try again.'
+                ? t('sessionExpired')
                 : errorMessage === 'subscription_not_found'
-                ? 'We could not find your subscription. Please contact support.'
-                : 'An unexpected error occurred. Please try again or contact support if the problem persists.'}
+                ? t('subscriptionNotFoundMsg')
+                : t('unexpectedError')}
             </p>
           </div>
         </CardContent>
 
         <CardFooter className="flex flex-col gap-3">
           <Button className="w-full" onClick={() => navigate('/subscriptions')}>
-            Try Again
+            {t('tryAgain')}
           </Button>
           <Button variant="outline" className="w-full" onClick={() => navigate('/')}>
-            Return to Home
+            {t('returnToHome')}
           </Button>
         </CardFooter>
       </Card>

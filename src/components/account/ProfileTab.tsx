@@ -5,12 +5,14 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Loader2, User as UserIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import * as authService from '@/services/authService';
 
 const ProfileTab = () => {
   const { user, profile, setProfile } = useAuth();
+  const { t } = useLanguage();
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -31,13 +33,13 @@ const ProfileTab = () => {
 
       if (response.success && response.data) {
         setProfile(response.data.profile);
-        toast.success('Profile updated successfully');
+        toast.success(t('profileUpdatedSuccess'));
         setEditing(false);
       } else {
-        throw new Error(response.error?.message || 'Failed to update profile');
+        throw new Error(response.error?.message || t('profileUpdateFailed'));
       }
     } catch (error: any) {
-      toast.error(error.message || 'Failed to update profile');
+      toast.error(error.message || t('profileUpdateFailed'));
     } finally {
       setLoading(false);
     }
@@ -64,13 +66,13 @@ const ProfileTab = () => {
                 <UserIcon className="h-8 w-8 text-accent-foreground" />
               </div>
               <div>
-                <CardTitle className="font-serif text-2xl">Profile Information</CardTitle>
+                <CardTitle className="font-serif text-2xl">{t('profileInformation')}</CardTitle>
                 <CardDescription>{user?.email}</CardDescription>
               </div>
             </div>
             {!editing && (
               <Button onClick={() => setEditing(true)} variant="outline">
-                Edit Profile
+                {t('editProfile')}
               </Button>
             )}
           </div>
@@ -80,7 +82,7 @@ const ProfileTab = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Customer Type */}
             <div>
-              <Label>Customer Type</Label>
+              <Label>{t('customerType')}</Label>
               <RadioGroup
                 value={formData.customerType}
                 onValueChange={(value) => setFormData({ ...formData, customerType: value as 'INDIVIDUAL' | 'BUSINESS' })}
@@ -89,11 +91,11 @@ const ProfileTab = () => {
               >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="INDIVIDUAL" id="individual" />
-                  <Label htmlFor="individual" className="cursor-pointer">Individual</Label>
+                  <Label htmlFor="individual" className="cursor-pointer">{t('individual')}</Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="BUSINESS" id="business" />
-                  <Label htmlFor="business" className="cursor-pointer">Business</Label>
+                  <Label htmlFor="business" className="cursor-pointer">{t('business')}</Label>
                 </div>
               </RadioGroup>
             </div>
@@ -101,7 +103,7 @@ const ProfileTab = () => {
             {/* Name Fields */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="firstName">First Name</Label>
+                <Label htmlFor="firstName">{t('firstName')}</Label>
                 <Input
                   id="firstName"
                   value={formData.firstName}
@@ -111,7 +113,7 @@ const ProfileTab = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="lastName">Last Name</Label>
+                <Label htmlFor="lastName">{t('lastName')}</Label>
                 <Input
                   id="lastName"
                   value={formData.lastName}
@@ -124,7 +126,7 @@ const ProfileTab = () => {
 
             {/* Phone */}
             <div>
-              <Label htmlFor="phone">Phone</Label>
+              <Label htmlFor="phone">{t('phone')}</Label>
               <Input
                 id="phone"
                 type="tel"
@@ -138,7 +140,7 @@ const ProfileTab = () => {
             {/* Tax ID */}
             <div>
               <Label htmlFor="taxId">
-                {formData.customerType === 'BUSINESS' ? 'Business Tax ID (RUT)' : 'Tax ID (RUT)'}
+                {formData.customerType === 'BUSINESS' ? t('businessTaxId') : t('taxId')}
               </Label>
               <Input
                 id="taxId"
@@ -160,10 +162,10 @@ const ProfileTab = () => {
                   {loading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Saving...
+                      {t('saving')}
                     </>
                   ) : (
-                    'Save Changes'
+                    t('saveChanges')
                   )}
                 </Button>
                 <Button
@@ -172,7 +174,7 @@ const ProfileTab = () => {
                   onClick={handleCancel}
                   disabled={loading}
                 >
-                  Cancel
+                  {t('cancel')}
                 </Button>
               </div>
             )}
