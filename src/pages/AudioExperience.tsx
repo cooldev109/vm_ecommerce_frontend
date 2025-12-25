@@ -154,20 +154,32 @@ const AudioExperience = () => {
     loadContent();
   }, [user]);
 
-  // Audio event listeners - using empty dependency array to set up once
+  // Update current time using interval while playing (more reliable than timeupdate event)
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+
+    if (isPlaying && audioRef.current) {
+      interval = setInterval(() => {
+        if (audioRef.current) {
+          setCurrentTime(audioRef.current.currentTime);
+          // Also update duration if available
+          if (audioRef.current.duration && !isNaN(audioRef.current.duration) && isFinite(audioRef.current.duration)) {
+            setDuration(audioRef.current.duration);
+          }
+        }
+      }, 250); // Update 4 times per second
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isPlaying]);
+
+  // Audio event listeners for play/pause/ended/error
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const onTimeUpdate = () => {
-      setCurrentTime(audio.currentTime);
-    };
-    const onDurationChange = () => {
-      // Only update if we get a valid duration from the audio element
-      if (audio.duration && !isNaN(audio.duration) && isFinite(audio.duration)) {
-        setDuration(audio.duration);
-      }
-    };
     const onEnded = () => {
       setIsPlaying(false);
       setCurrentTime(0);
@@ -186,8 +198,6 @@ const AudioExperience = () => {
       }
     };
 
-    audio.addEventListener('timeupdate', onTimeUpdate);
-    audio.addEventListener('durationchange', onDurationChange);
     audio.addEventListener('ended', onEnded);
     audio.addEventListener('play', onPlay);
     audio.addEventListener('pause', onPause);
@@ -196,8 +206,6 @@ const AudioExperience = () => {
     audio.addEventListener('loadedmetadata', onLoadedMetadata);
 
     return () => {
-      audio.removeEventListener('timeupdate', onTimeUpdate);
-      audio.removeEventListener('durationchange', onDurationChange);
       audio.removeEventListener('ended', onEnded);
       audio.removeEventListener('play', onPlay);
       audio.removeEventListener('pause', onPause);
