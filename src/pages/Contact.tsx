@@ -45,10 +45,10 @@ const Contact = () => {
                   {/* Email */}
                   <a
                     href="mailto:info@vymexperience.com"
-                    className="flex items-start gap-4 p-3 rounded-lg hover:bg-accent/5 transition-colors group"
+                    className="flex items-start gap-4 p-3 rounded-lg hover:bg-amber-50 dark:hover:bg-amber-950/10 transition-colors group"
                   >
-                    <div className="p-3 bg-accent rounded-lg group-hover:scale-110 transition-transform">
-                      <Mail className="h-5 w-5 text-accent-foreground" />
+                    <div className="p-3 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 rounded-lg group-hover:scale-110 transition-transform">
+                      <Mail className="h-5 w-5 text-amber-700 dark:text-amber-400" />
                     </div>
                     <div className="flex-1">
                       <h3 className="font-semibold mb-1">{t('email')}</h3>
@@ -61,10 +61,10 @@ const Contact = () => {
                   {/* Phone */}
                   <a
                     href="tel:+56912345678"
-                    className="flex items-start gap-4 p-3 rounded-lg hover:bg-accent/5 transition-colors group"
+                    className="flex items-start gap-4 p-3 rounded-lg hover:bg-amber-50 dark:hover:bg-amber-950/10 transition-colors group"
                   >
-                    <div className="p-3 bg-accent rounded-lg group-hover:scale-110 transition-transform">
-                      <Phone className="h-5 w-5 text-accent-foreground" />
+                    <div className="p-3 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 rounded-lg group-hover:scale-110 transition-transform">
+                      <Phone className="h-5 w-5 text-amber-700 dark:text-amber-400" />
                     </div>
                     <div className="flex-1">
                       <h3 className="font-semibold mb-1">{t('phone')}</h3>
@@ -79,10 +79,10 @@ const Contact = () => {
                     href="https://wa.me/56992257712"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-start gap-4 p-3 rounded-lg hover:bg-accent/5 transition-colors group"
+                    className="flex items-start gap-4 p-3 rounded-lg hover:bg-amber-50 dark:hover:bg-amber-950/10 transition-colors group"
                   >
-                    <div className="p-3 bg-green-100 dark:bg-green-900/20 rounded-lg group-hover:scale-110 transition-transform">
-                      <MessageCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
+                    <div className="p-3 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 rounded-lg group-hover:scale-110 transition-transform">
+                      <MessageCircle className="h-5 w-5 text-amber-700 dark:text-amber-400" />
                     </div>
                     <div className="flex-1">
                       <h3 className="font-semibold mb-1">{t('whatsapp')}</h3>
@@ -94,8 +94,8 @@ const Contact = () => {
 
                   {/* Address */}
                   <div className="flex items-start gap-4 p-3">
-                    <div className="p-3 bg-accent rounded-lg">
-                      <MapPin className="h-5 w-5 text-accent-foreground" />
+                    <div className="p-3 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 rounded-lg">
+                      <MapPin className="h-5 w-5 text-amber-700 dark:text-amber-400" />
                     </div>
                     <div className="flex-1">
                       <h3 className="font-semibold mb-1">{t('address')}</h3>
@@ -137,7 +137,7 @@ const Contact = () => {
                   <div className="flex flex-col items-center text-center">
                     {/* Owner Picture - Circular */}
                     <div className="relative mb-6 animate-float">
-                      <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-black overflow-hidden bg-white flex items-center justify-center">
+                      <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden bg-white flex items-center justify-center">
                         <img
                           src={metallicLogo}
                           alt="V&M Candle Experience"
