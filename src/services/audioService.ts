@@ -2,8 +2,6 @@ import api from '@/lib/api';
 
 // Backend base URL for static assets (audio files)
 const BACKEND_URL = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:3000';
-console.log('VITE_API_URL:', import.meta.env.VITE_API_URL);
-console.log('BACKEND_URL:', BACKEND_URL);
 
 export type AudioCategory = 'AMBIENT' | 'MEDITATION' | 'FREQUENCY' | 'EXCLUSIVE';
 
@@ -99,7 +97,6 @@ export async function getAudioStreamUrl(id: string) {
   }
 
   let streamUrl = response.data.streamUrl;
-  console.log('Original streamUrl from API:', streamUrl);
 
   // If it's already an absolute URL, use it as-is
   if (!streamUrl.startsWith('http')) {
@@ -111,7 +108,6 @@ export async function getAudioStreamUrl(id: string) {
     streamUrl = `${BACKEND_URL}${streamUrl}`;
   }
 
-  console.log('Final streamUrl:', streamUrl);
   return { ...response.data, streamUrl };
 }
 

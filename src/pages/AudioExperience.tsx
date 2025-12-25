@@ -267,21 +267,18 @@ const AudioExperience = () => {
       }
 
       const { streamUrl } = await getAudioStreamUrl(audio.id);
-      console.log('Stream URL received:', streamUrl);
       setCurrentTrack(audio);
       setCurrentStreamUrl(streamUrl);
       setShowPlayer(true);
+      // Use database duration as fallback until audio metadata loads
+      setDuration(audio.durationSeconds);
 
       if (audioRef.current) {
-        console.log('Setting audio src to:', streamUrl);
         audioRef.current.src = streamUrl;
-        // Wait for the audio to be loaded before playing
         audioRef.current.load();
         try {
           await audioRef.current.play();
-          console.log('Audio play started');
         } catch (playError) {
-          console.error('Play error:', playError);
           // Ignore AbortError as it's expected when switching tracks quickly
           if ((playError as Error).name !== 'AbortError') {
             throw playError;
