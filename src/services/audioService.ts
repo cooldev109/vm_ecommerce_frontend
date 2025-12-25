@@ -95,10 +95,19 @@ export async function getAudioStreamUrl(id: string) {
   if (!response.success || !response.data) {
     throw new Error(response.error?.message || 'Failed to get stream URL');
   }
-  // Prepend backend URL if streamUrl is a relative path
-  const streamUrl = response.data.streamUrl.startsWith('http')
-    ? response.data.streamUrl
-    : `${BACKEND_URL}${response.data.streamUrl}`;
+
+  let streamUrl = response.data.streamUrl;
+
+  // If it's already an absolute URL, use it as-is
+  if (!streamUrl.startsWith('http')) {
+    // Transform /uploads/audio/... to /audio/... to match nginx config
+    if (streamUrl.startsWith('/uploads/audio/')) {
+      streamUrl = streamUrl.replace('/uploads/audio/', '/audio/');
+    }
+    // Prepend backend URL
+    streamUrl = `${BACKEND_URL}${streamUrl}`;
+  }
+
   return { ...response.data, streamUrl };
 }
 

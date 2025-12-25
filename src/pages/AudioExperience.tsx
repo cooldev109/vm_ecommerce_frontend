@@ -168,6 +168,18 @@ const AudioExperience = () => {
     const onPlay = () => setIsPlaying(true);
     const onPause = () => setIsPlaying(false);
     const onCanPlay = () => setIsLoadingTrack(false);
+    const onError = (e: Event) => {
+      console.error('Audio error:', audio.error);
+      setIsLoadingTrack(false);
+      toast({
+        title: 'Error',
+        description: lang === 'es' ? 'Error al cargar el audio' : 'Failed to load audio',
+        variant: 'destructive',
+      });
+    };
+    const onLoadedMetadata = () => {
+      setDuration(audio.duration);
+    };
 
     audio.addEventListener('timeupdate', onTimeUpdate);
     audio.addEventListener('durationchange', onDurationChange);
@@ -175,6 +187,8 @@ const AudioExperience = () => {
     audio.addEventListener('play', onPlay);
     audio.addEventListener('pause', onPause);
     audio.addEventListener('canplay', onCanPlay);
+    audio.addEventListener('error', onError);
+    audio.addEventListener('loadedmetadata', onLoadedMetadata);
 
     return () => {
       audio.removeEventListener('timeupdate', onTimeUpdate);
@@ -183,8 +197,10 @@ const AudioExperience = () => {
       audio.removeEventListener('play', onPlay);
       audio.removeEventListener('pause', onPause);
       audio.removeEventListener('canplay', onCanPlay);
+      audio.removeEventListener('error', onError);
+      audio.removeEventListener('loadedmetadata', onLoadedMetadata);
     };
-  }, []);
+  }, [lang, toast]);
 
   const loadContent = async () => {
     try {
