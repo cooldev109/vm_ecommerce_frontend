@@ -141,7 +141,7 @@ const Contact = () => {
                         <img
                           src={metallicLogo}
                           alt="V&M Candle Experience"
-                          className="w-full h-full object-cover"
+                          className="w-[117%] h-[117%] object-cover"
                         />
                       </div>
                     </div>
