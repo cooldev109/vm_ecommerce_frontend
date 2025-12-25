@@ -154,12 +154,14 @@ const AudioExperience = () => {
     loadContent();
   }, [user]);
 
-  // Audio event listeners
+  // Audio event listeners - using empty dependency array to set up once
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const onTimeUpdate = () => setCurrentTime(audio.currentTime);
+    const onTimeUpdate = () => {
+      setCurrentTime(audio.currentTime);
+    };
     const onDurationChange = () => {
       // Only update if we get a valid duration from the audio element
       if (audio.duration && !isNaN(audio.duration) && isFinite(audio.duration)) {
@@ -176,11 +178,6 @@ const AudioExperience = () => {
     const onError = () => {
       console.error('Audio error:', audio.error);
       setIsLoadingTrack(false);
-      toast({
-        title: 'Error',
-        description: lang === 'es' ? 'Error al cargar el audio' : 'Failed to load audio',
-        variant: 'destructive',
-      });
     };
     const onLoadedMetadata = () => {
       // Update duration from actual audio metadata
@@ -208,7 +205,7 @@ const AudioExperience = () => {
       audio.removeEventListener('error', onError);
       audio.removeEventListener('loadedmetadata', onLoadedMetadata);
     };
-  }, [lang, toast]);
+  }, []);
 
   const loadContent = async () => {
     try {
@@ -357,9 +354,10 @@ const AudioExperience = () => {
 
   // Format time helper
   const formatTime = (time: number) => {
-    if (isNaN(time)) return '0:00';
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
+    if (!time || isNaN(time) || !isFinite(time) || time < 0) return '0:00';
+    const totalSeconds = Math.floor(time);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
@@ -1018,9 +1016,9 @@ const AudioExperience = () => {
                   {/* Progress Bar */}
                   <div className="mb-5 group px-1">
                     <Slider
-                      value={[currentTime]}
+                      value={[Math.max(0, Math.min(currentTime || 0, duration || 100))]}
                       min={0}
-                      max={duration || 100}
+                      max={Math.max(duration || 100, 1)}
                       step={0.1}
                       onValueChange={handleSeek}
                       className={cn(
