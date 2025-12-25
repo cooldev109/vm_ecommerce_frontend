@@ -25,8 +25,8 @@ export const Header = () => {
   const navigation = [
     { name: t('home'), href: '/' },
     { name: t('shop'), href: '/shop' },
-    { name: 'Solo Audio', href: '/audio' },
-    { name: 'Planes', href: '/subscriptions' },
+    { name: t('soloAudio'), href: '/audio' },
+    { name: t('plans'), href: '/subscriptions' },
     { name: t('contact'), href: '/contact' },
   ];
 
