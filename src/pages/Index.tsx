@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Link } from 'react-router-dom';
 import { ProductCard } from '@/components/ProductCard';
-import { Input } from '@/components/ui/input';
 import { useQuery } from '@tanstack/react-query';
 import { getFeaturedProducts } from '@/services/productService';
 import type { Product } from '@/types';
@@ -225,27 +224,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Newsletter Section */}
-      <section className="section-padding bg-card">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
-            {t('subscribeNewsletter')}
-          </h2>
-          <p className="text-lg text-luxury mb-8">
-            {t('newsletterDesc')}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-            <Input
-              type="email"
-              placeholder={t('email')}
-              className="flex-1"
-            />
-            <Button className="btn-gold">
-              {t('send')}
-            </Button>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };
