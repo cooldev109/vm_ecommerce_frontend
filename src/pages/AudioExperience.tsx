@@ -160,15 +160,20 @@ const AudioExperience = () => {
     if (!audio) return;
 
     const onTimeUpdate = () => setCurrentTime(audio.currentTime);
-    const onDurationChange = () => setDuration(audio.duration);
+    const onDurationChange = () => {
+      // Only update if we get a valid duration from the audio element
+      if (audio.duration && !isNaN(audio.duration) && isFinite(audio.duration)) {
+        setDuration(audio.duration);
+      }
+    };
     const onEnded = () => {
       setIsPlaying(false);
-      // Auto-play next track logic could go here
+      setCurrentTime(0);
     };
     const onPlay = () => setIsPlaying(true);
     const onPause = () => setIsPlaying(false);
     const onCanPlay = () => setIsLoadingTrack(false);
-    const onError = (e: Event) => {
+    const onError = () => {
       console.error('Audio error:', audio.error);
       setIsLoadingTrack(false);
       toast({
@@ -178,7 +183,10 @@ const AudioExperience = () => {
       });
     };
     const onLoadedMetadata = () => {
-      setDuration(audio.duration);
+      // Update duration from actual audio metadata
+      if (audio.duration && !isNaN(audio.duration) && isFinite(audio.duration)) {
+        setDuration(audio.duration);
+      }
     };
 
     audio.addEventListener('timeupdate', onTimeUpdate);
@@ -270,7 +278,8 @@ const AudioExperience = () => {
       setCurrentTrack(audio);
       setCurrentStreamUrl(streamUrl);
       setShowPlayer(true);
-      // Use database duration as fallback until audio metadata loads
+      // Reset current time and use database duration as fallback
+      setCurrentTime(0);
       setDuration(audio.durationSeconds);
 
       if (audioRef.current) {
