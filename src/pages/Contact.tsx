@@ -137,11 +137,11 @@ const Contact = () => {
                   <div className="flex flex-col items-center text-center">
                     {/* Owner Picture - Circular */}
                     <div className="relative mb-6 animate-float">
-                      <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-black overflow-hidden bg-white">
+                      <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-black overflow-hidden bg-white flex items-center justify-center">
                         <img
                           src={roundLogo}
                           alt="V&M Candle Experience"
-                          className="w-[120%] h-[120%] object-cover -translate-x-[8.33%] -translate-y-[8.33%]"
+                          className="w-[120%] h-[120%] object-cover"
                         />
                       </div>
                     </div>
