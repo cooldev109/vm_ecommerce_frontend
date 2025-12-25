@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { productTranslations } from '@/data/translations/products';
 import { commonTranslations } from '@/data/translations/common';
 
@@ -1384,8 +1384,36 @@ const translations: Record<Language, Record<string, string>> = {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
+// Get initial language from localStorage or browser, default to 'es'
+const getInitialLanguage = (): Language => {
+  try {
+    const stored = localStorage.getItem('language');
+    if (stored === 'es' || stored === 'en') {
+      return stored;
+    }
+
+    // Fallback to browser language
+    const browserLang = navigator.language.toLowerCase();
+    if (browserLang.startsWith('en')) {
+      return 'en';
+    }
+    return 'es';
+  } catch {
+    return 'es';
+  }
+};
+
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState<Language>('es');
+  const [language, setLanguage] = useState<Language>(getInitialLanguage);
+
+  // Persist language changes to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('language', language);
+    } catch (error) {
+      console.error('Failed to save language preference:', error);
+    }
+  }, [language]);
 
   const t = (key: string): string => {
     const allTranslations = {
