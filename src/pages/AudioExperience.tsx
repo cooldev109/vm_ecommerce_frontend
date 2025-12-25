@@ -632,21 +632,28 @@ const AudioExperience = () => {
 
       {/* Floating Player */}
       {showPlayer && currentTrack && (
-        <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-gradient-to-t from-black/80 to-transparent backdrop-blur-lg">
-          <div className="max-w-4xl mx-auto">
-            <div className="relative bg-slate-900/95 rounded-2xl shadow-2xl overflow-visible">
-              {/* Close button */}
-              <button
-                onClick={() => {
-                  setShowPlayer(false);
-                  audioRef.current?.pause();
-                }}
-                className="absolute -top-3 -right-3 p-2 rounded-full bg-red-500 hover:bg-red-600 transition-colors z-20 shadow-lg"
-                aria-label="Close player"
-              >
-                <X className="h-5 w-5 text-white" />
-              </button>
+        <div className="fixed bottom-0 left-0 right-0 z-50 p-4 pt-8 bg-gradient-to-t from-black/80 to-transparent backdrop-blur-lg">
+          <div className="max-w-4xl mx-auto relative">
+            {/* Close button */}
+            <button
+              onClick={() => {
+                setShowPlayer(false);
+                if (audioRef.current) {
+                  audioRef.current.pause();
+                  audioRef.current.currentTime = 0;
+                }
+                setCurrentTrack(null);
+                setCurrentStreamUrl('');
+                setIsPlaying(false);
+              }}
+              className="absolute -top-6 right-0 p-2 rounded-full bg-red-500 hover:bg-red-600 transition-colors z-50 shadow-lg cursor-pointer"
+              aria-label="Close player"
+              type="button"
+            >
+              <X className="h-5 w-5 text-white" />
+            </button>
 
+            <div className="bg-slate-900/95 rounded-2xl shadow-2xl">
               <AudioPlayer
                 audioUrl={currentStreamUrl}
                 audioTitle={getTitle(currentTrack.titleKey)}
