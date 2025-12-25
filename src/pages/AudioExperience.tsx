@@ -182,6 +182,13 @@ const AudioExperience = () => {
       }
 
       setIsLoadingTrack(true);
+
+      // Stop current audio before loading new one
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+
       const { streamUrl } = await getAudioStreamUrl(audio.id);
       setCurrentTrack(audio);
       setCurrentStreamUrl(streamUrl);
@@ -189,7 +196,16 @@ const AudioExperience = () => {
 
       if (audioRef.current) {
         audioRef.current.src = streamUrl;
-        audioRef.current.play();
+        // Wait for the audio to be loaded before playing
+        audioRef.current.load();
+        try {
+          await audioRef.current.play();
+        } catch (playError) {
+          // Ignore AbortError as it's expected when switching tracks quickly
+          if ((playError as Error).name !== 'AbortError') {
+            throw playError;
+          }
+        }
       }
     } catch (error: any) {
       setIsLoadingTrack(false);
