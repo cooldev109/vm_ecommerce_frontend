@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Slider } from '@/components/ui/slider';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
@@ -18,6 +19,7 @@ import {
   Loader2,
   Volume2,
   VolumeX,
+  Volume1,
   Sparkles,
   Clock,
   Waves,
@@ -25,6 +27,12 @@ import {
   Star,
   ChevronRight,
   X,
+  GripHorizontal,
+  SkipBack,
+  SkipForward,
+  Repeat,
+  Minimize2,
+  Maximize2,
 } from 'lucide-react';
 import {
   getMyAudioLibrary,
@@ -86,8 +94,61 @@ const AudioExperience = () => {
   const [accessKeyInput, setAccessKeyInput] = useState('');
   const [redeemingKey, setRedeemingKey] = useState(false);
   const [showPlayer, setShowPlayer] = useState(false);
+  const [volume, setVolume] = useState(0.7);
+  const [isLooping, setIsLooping] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
+
+  // Draggable player state
+  const [playerPosition, setPlayerPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const playerRef = useRef<HTMLDivElement>(null);
 
   const lang = language === 'es' ? 'es' : 'en';
+
+  // Drag event handlers
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!playerRef.current) return;
+    setIsDragging(true);
+    setDragStart({
+      x: e.clientX - playerPosition.x,
+      y: e.clientY - playerPosition.y,
+    });
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!isDragging || !playerRef.current) return;
+
+    const newX = e.clientX - dragStart.x;
+    const newY = e.clientY - dragStart.y;
+
+    // Get viewport bounds
+    const playerRect = playerRef.current.getBoundingClientRect();
+    const maxX = window.innerWidth - playerRect.width;
+    const maxY = window.innerHeight - playerRect.height;
+
+    // Constrain within viewport
+    setPlayerPosition({
+      x: Math.min(Math.max(newX, -maxX / 2), maxX / 2),
+      y: Math.min(Math.max(newY, -maxY), 100), // Allow moving up, limit moving down
+    });
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  // Add/remove global mouse event listeners for dragging
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+    }
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging, dragStart]);
 
   useEffect(() => {
     loadContent();
@@ -267,6 +328,62 @@ const AudioExperience = () => {
   const getCategoryLabel = (category: AudioCategory) => {
     return categoryLabels[category]?.[lang] || category;
   };
+
+  // Format time helper
+  const formatTime = (time: number) => {
+    if (isNaN(time)) return '0:00';
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  // Volume control handlers
+  const handleVolumeChange = (values: number[]) => {
+    const newVolume = values[0];
+    if (audioRef.current) {
+      audioRef.current.volume = newVolume;
+    }
+    setVolume(newVolume);
+    setIsMuted(newVolume === 0);
+  };
+
+  const toggleMute = () => {
+    if (audioRef.current) {
+      if (isMuted) {
+        audioRef.current.volume = volume || 0.5;
+        setIsMuted(false);
+      } else {
+        audioRef.current.volume = 0;
+        setIsMuted(true);
+      }
+    }
+  };
+
+  // Seek handler
+  const handleSeek = (values: number[]) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = values[0];
+      setCurrentTime(values[0]);
+    }
+  };
+
+  // Skip time
+  const skipTime = (seconds: number) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = Math.max(0, Math.min(audioRef.current.currentTime + seconds, duration));
+    }
+  };
+
+  // Toggle loop
+  const toggleLoop = () => {
+    if (audioRef.current) {
+      audioRef.current.loop = !isLooping;
+    }
+    setIsLooping(!isLooping);
+  };
+
+  // Get volume icon
+  const VolumeIcon = isMuted || volume === 0 ? VolumeX : volume < 0.5 ? Volume1 : Volume2;
 
   const content = user && library ? library.library : publicContent;
   const hasAccess = library?.hasSubscription || library?.hasAccessKey;
@@ -646,39 +763,349 @@ const AudioExperience = () => {
         </section>
       )}
 
-      {/* Floating Player */}
+      {/* Floating Player - Elegant Design */}
       {showPlayer && currentTrack && (
-        <div className="fixed bottom-0 left-0 right-0 z-50 p-4 pt-8 bg-gradient-to-t from-black/80 to-transparent backdrop-blur-lg">
-          <div className="max-w-4xl mx-auto relative">
-            {/* Close button */}
-            <button
-              onClick={() => {
-                setShowPlayer(false);
-                if (audioRef.current) {
-                  audioRef.current.pause();
-                  audioRef.current.currentTime = 0;
-                }
-                setCurrentTrack(null);
-                setCurrentStreamUrl('');
-                setIsPlaying(false);
-              }}
-              className="absolute -top-6 right-0 p-2 rounded-full bg-red-500 hover:bg-red-600 transition-colors z-50 shadow-lg cursor-pointer"
-              aria-label="Close player"
-              type="button"
+        <div
+          ref={playerRef}
+          className={cn(
+            "fixed z-50 transition-all duration-500 ease-out",
+            isMinimized
+              ? "bottom-6 right-6 w-auto"
+              : "bottom-6 left-1/2 w-full max-w-2xl px-4",
+            isDragging ? "cursor-grabbing" : "cursor-default"
+          )}
+          style={{
+            transform: isMinimized
+              ? `translate(${playerPosition.x}px, ${playerPosition.y}px)`
+              : `translate(calc(-50% + ${playerPosition.x}px), ${playerPosition.y}px)`,
+            transition: isDragging ? 'none' : 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+          }}
+        >
+          {/* Minimized Player */}
+          {isMinimized ? (
+            <div
+              className="relative group"
+              onMouseDown={handleMouseDown}
             >
-              <X className="h-5 w-5 text-white" />
-            </button>
+              {/* Glow effect */}
+              <div className={cn(
+                "absolute -inset-2 rounded-full blur-xl transition-opacity duration-300",
+                isPlaying ? "bg-amber-500/30 opacity-100" : "opacity-0"
+              )} />
 
-            <div className="bg-slate-900/95 rounded-2xl shadow-2xl">
-              <AudioPlayer
-                audioUrl={currentStreamUrl}
-                audioTitle={getTitle(currentTrack.titleKey)}
-                audioSubtitle={getCategoryLabel(currentTrack.category)}
-                showFullControls={true}
-                className="border-0 rounded-none bg-transparent"
-              />
+              <div className={cn(
+                "relative flex items-center gap-3 p-3 pr-4 rounded-full shadow-2xl border transition-all duration-300",
+                "bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900",
+                "border-slate-700/50 hover:border-amber-500/30",
+                isDragging ? "cursor-grabbing scale-105" : "cursor-grab hover:scale-[1.02]"
+              )}>
+                {/* Animated ring when playing */}
+                {isPlaying && (
+                  <div className="absolute inset-0 rounded-full animate-pulse bg-gradient-to-r from-amber-500/10 to-orange-500/10" />
+                )}
+
+                {/* Play/Pause Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (isPlaying) {
+                      audioRef.current?.pause();
+                    } else {
+                      audioRef.current?.play();
+                    }
+                  }}
+                  className={cn(
+                    "relative h-12 w-12 rounded-full flex items-center justify-center transition-all duration-300",
+                    "bg-gradient-to-br from-amber-400 to-amber-600",
+                    "hover:from-amber-500 hover:to-amber-700",
+                    "shadow-lg shadow-amber-500/25"
+                  )}
+                >
+                  {isPlaying ? (
+                    <Pause className="h-5 w-5 text-white" fill="white" />
+                  ) : (
+                    <Play className="h-5 w-5 text-white ml-0.5" fill="white" />
+                  )}
+                </button>
+
+                {/* Track Info */}
+                <div className="flex flex-col min-w-0 max-w-[150px]">
+                  <span className="text-sm font-medium text-white truncate">
+                    {getTitle(currentTrack.titleKey)}
+                  </span>
+                  <span className="text-xs text-slate-400 truncate">
+                    {formatTime(currentTime)} / {formatTime(duration)}
+                  </span>
+                </div>
+
+                {/* Expand Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsMinimized(false);
+                  }}
+                  className="p-2 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  <Maximize2 className="h-4 w-4" />
+                </button>
+
+                {/* Close Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowPlayer(false);
+                    if (audioRef.current) {
+                      audioRef.current.pause();
+                      audioRef.current.currentTime = 0;
+                    }
+                    setCurrentTrack(null);
+                    setCurrentStreamUrl('');
+                    setIsPlaying(false);
+                    setPlayerPosition({ x: 0, y: 0 });
+                  }}
+                  className="p-2 rounded-full text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
             </div>
-          </div>
+          ) : (
+            /* Expanded Player */
+            <div className="relative">
+              {/* Ambient glow */}
+              <div className={cn(
+                "absolute -inset-4 rounded-3xl blur-2xl transition-opacity duration-500",
+                isPlaying
+                  ? "bg-gradient-to-r from-amber-500/20 via-orange-500/15 to-amber-500/20 opacity-100"
+                  : "opacity-0"
+              )} />
+
+              {/* Drag handle */}
+              <div
+                onMouseDown={handleMouseDown}
+                className={cn(
+                  "absolute -top-2 left-1/2 -translate-x-1/2 px-6 py-1 rounded-full z-50 flex items-center gap-2 transition-all duration-200",
+                  "bg-slate-700/80 backdrop-blur-sm hover:bg-slate-600/80",
+                  isDragging ? "cursor-grabbing scale-110" : "cursor-grab hover:scale-105"
+                )}
+              >
+                <GripHorizontal className="h-3 w-3 text-slate-400" />
+              </div>
+
+              {/* Main Player Card */}
+              <div className={cn(
+                "relative overflow-hidden rounded-2xl shadow-2xl",
+                "bg-gradient-to-br from-slate-900/98 via-slate-800/98 to-slate-900/98",
+                "backdrop-blur-xl border border-slate-700/50"
+              )}>
+                {/* Animated background pattern */}
+                <div className="absolute inset-0 opacity-30">
+                  <div className={cn(
+                    "absolute top-0 left-1/4 w-64 h-64 rounded-full blur-3xl transition-all duration-1000",
+                    isPlaying ? "bg-amber-500/30 animate-pulse" : "bg-slate-600/20"
+                  )} />
+                  <div className={cn(
+                    "absolute bottom-0 right-1/4 w-48 h-48 rounded-full blur-3xl transition-all duration-1000 delay-500",
+                    isPlaying ? "bg-orange-500/20 animate-pulse" : "bg-slate-600/10"
+                  )} />
+                </div>
+
+                <div className="relative p-6">
+                  {/* Header with controls */}
+                  <div className="flex items-center justify-between mb-4">
+                    {/* Minimize Button */}
+                    <button
+                      onClick={() => setIsMinimized(true)}
+                      className="p-2 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-all duration-200 hover:scale-110"
+                      title={lang === 'es' ? 'Minimizar' : 'Minimize'}
+                    >
+                      <Minimize2 className="h-4 w-4" />
+                    </button>
+
+                    {/* Track Info - Centered */}
+                    <div className="flex-1 text-center px-4">
+                      <h3 className="text-lg font-semibold text-white truncate mb-0.5">
+                        {getTitle(currentTrack.titleKey)}
+                      </h3>
+                      <p className="text-sm text-amber-400/80">
+                        {getCategoryLabel(currentTrack.category)}
+                      </p>
+                    </div>
+
+                    {/* Close Button */}
+                    <button
+                      onClick={() => {
+                        setShowPlayer(false);
+                        if (audioRef.current) {
+                          audioRef.current.pause();
+                          audioRef.current.currentTime = 0;
+                        }
+                        setCurrentTrack(null);
+                        setCurrentStreamUrl('');
+                        setIsPlaying(false);
+                        setPlayerPosition({ x: 0, y: 0 });
+                        setIsMinimized(false);
+                      }}
+                      className="p-2 rounded-full text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200 hover:scale-110"
+                      title={lang === 'es' ? 'Cerrar' : 'Close'}
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+
+                  {/* Waveform Visualizer */}
+                  <div className="flex items-end justify-center gap-[3px] h-12 mb-5 px-2">
+                    {Array(50).fill(0).map((_, i) => {
+                      const baseHeight = Math.sin(i * 0.3) * 0.3 + 0.4;
+                      const animatedHeight = isPlaying
+                        ? Math.sin(Date.now() / 150 + i * 0.4) * 0.4 + 0.5
+                        : baseHeight * 0.4;
+                      return (
+                        <div
+                          key={i}
+                          className={cn(
+                            "w-1 rounded-full transition-all",
+                            isPlaying
+                              ? "bg-gradient-to-t from-amber-500 to-amber-300 duration-100"
+                              : "bg-slate-600/50 duration-300"
+                          )}
+                          style={{
+                            height: `${animatedHeight * 100}%`,
+                            opacity: isPlaying ? 0.7 + animatedHeight * 0.3 : 0.4
+                          }}
+                        />
+                      );
+                    })}
+                  </div>
+
+                  {/* Time Display */}
+                  <div className="flex items-center justify-center gap-3 mb-3 font-mono">
+                    <span className="text-2xl font-light text-white tracking-wide">
+                      {formatTime(currentTime)}
+                    </span>
+                    <span className="text-slate-500">/</span>
+                    <span className="text-sm text-slate-400">
+                      {formatTime(duration)}
+                    </span>
+                  </div>
+
+                  {/* Progress Bar */}
+                  <div className="mb-5 group px-1">
+                    <Slider
+                      value={[currentTime]}
+                      min={0}
+                      max={duration || 100}
+                      step={0.1}
+                      onValueChange={handleSeek}
+                      className={cn(
+                        "[&_[role=slider]]:h-3 [&_[role=slider]]:w-3",
+                        "[&_[role=slider]]:bg-white [&_[role=slider]]:border-2 [&_[role=slider]]:border-amber-500",
+                        "[&_[role=slider]]:shadow-lg [&_[role=slider]]:transition-transform",
+                        "[&_[role=slider]]:hover:scale-150 [&_[role=slider]]:focus:scale-150",
+                        "[&_[data-orientation=horizontal]]:h-1.5 [&_[data-orientation=horizontal]]:bg-slate-700",
+                        "[&_[data-orientation=horizontal]_[data-state=complete]]:bg-gradient-to-r",
+                        "[&_[data-orientation=horizontal]_[data-state=complete]]:from-amber-400",
+                        "[&_[data-orientation=horizontal]_[data-state=complete]]:to-amber-600"
+                      )}
+                    />
+                  </div>
+
+                  {/* Main Controls */}
+                  <div className="flex items-center justify-center gap-3 mb-4">
+                    {/* Loop Button */}
+                    <button
+                      onClick={toggleLoop}
+                      className={cn(
+                        "p-2.5 rounded-full transition-all duration-200 hover:scale-110",
+                        isLooping
+                          ? "text-amber-400 bg-amber-500/20"
+                          : "text-slate-400 hover:text-white hover:bg-white/10"
+                      )}
+                    >
+                      <Repeat className="h-4 w-4" />
+                    </button>
+
+                    {/* Skip Back */}
+                    <button
+                      onClick={() => skipTime(-10)}
+                      className="p-3 rounded-full text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200 hover:scale-110"
+                    >
+                      <SkipBack className="h-5 w-5" />
+                    </button>
+
+                    {/* Main Play/Pause Button */}
+                    <button
+                      onClick={() => {
+                        if (isPlaying) {
+                          audioRef.current?.pause();
+                        } else {
+                          audioRef.current?.play();
+                        }
+                      }}
+                      disabled={isLoadingTrack}
+                      className={cn(
+                        "h-14 w-14 rounded-full flex items-center justify-center shadow-xl transition-all duration-300",
+                        "bg-gradient-to-br from-amber-400 to-amber-600",
+                        "hover:from-amber-500 hover:to-amber-700",
+                        "hover:scale-110 hover:shadow-amber-500/30",
+                        "active:scale-95",
+                        "disabled:opacity-50"
+                      )}
+                    >
+                      {isLoadingTrack ? (
+                        <div className="h-6 w-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      ) : isPlaying ? (
+                        <Pause className="h-6 w-6 text-white" fill="white" />
+                      ) : (
+                        <Play className="h-6 w-6 text-white ml-1" fill="white" />
+                      )}
+                    </button>
+
+                    {/* Skip Forward */}
+                    <button
+                      onClick={() => skipTime(10)}
+                      className="p-3 rounded-full text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200 hover:scale-110"
+                    >
+                      <SkipForward className="h-5 w-5" />
+                    </button>
+
+                    {/* Mute Button (placeholder for symmetry) */}
+                    <button
+                      onClick={toggleMute}
+                      className={cn(
+                        "p-2.5 rounded-full transition-all duration-200 hover:scale-110",
+                        isMuted
+                          ? "text-red-400 bg-red-500/20"
+                          : "text-slate-400 hover:text-white hover:bg-white/10"
+                      )}
+                    >
+                      <VolumeIcon className="h-4 w-4" />
+                    </button>
+                  </div>
+
+                  {/* Volume Control */}
+                  <div className="flex items-center justify-center gap-3 px-8">
+                    <Volume1 className="h-3.5 w-3.5 text-slate-500" />
+                    <Slider
+                      value={[isMuted ? 0 : volume]}
+                      min={0}
+                      max={1}
+                      step={0.01}
+                      onValueChange={handleVolumeChange}
+                      className={cn(
+                        "w-32",
+                        "[&_[role=slider]]:h-2.5 [&_[role=slider]]:w-2.5",
+                        "[&_[role=slider]]:bg-white [&_[role=slider]]:shadow",
+                        "[&_[data-orientation=horizontal]]:h-1 [&_[data-orientation=horizontal]]:bg-slate-700",
+                        "[&_[data-orientation=horizontal]_[data-state=complete]]:bg-amber-500"
+                      )}
+                    />
+                    <Volume2 className="h-3.5 w-3.5 text-slate-500" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
