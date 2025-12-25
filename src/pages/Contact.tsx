@@ -1,6 +1,6 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Mail, Phone, MapPin, MessageCircle, Sparkles } from 'lucide-react';
+import { Mail, MapPin, MessageCircle, Sparkles } from 'lucide-react';
 import { SEO } from '@/components/SEO';
 import metallicLogo from '@/assets/metallic_logo.png';
 
@@ -54,22 +54,6 @@ const Contact = () => {
                       <h3 className="font-semibold mb-1">{t('email')}</h3>
                       <p className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
                         info@vymexperience.com
-                      </p>
-                    </div>
-                  </a>
-
-                  {/* Phone */}
-                  <a
-                    href="tel:+56912345678"
-                    className="flex items-start gap-4 p-3 rounded-lg hover:bg-amber-50 dark:hover:bg-amber-950/10 transition-colors group"
-                  >
-                    <div className="p-3 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 rounded-lg group-hover:scale-110 transition-transform">
-                      <Phone className="h-5 w-5 text-amber-700 dark:text-amber-400" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold mb-1">{t('phone')}</h3>
-                      <p className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-                        +56 9 1234 5678
                       </p>
                     </div>
                   </a>
