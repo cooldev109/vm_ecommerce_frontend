@@ -850,12 +850,19 @@ const AudioExperience = () => {
 
                 {/* Play/Pause Button */}
                 <button
-                  onClick={(e) => {
+                  onClick={async (e) => {
                     e.stopPropagation();
-                    if (isPlaying) {
-                      audioRef.current?.pause();
-                    } else {
-                      audioRef.current?.play();
+                    if (audioRef.current) {
+                      if (isPlaying) {
+                        audioRef.current.pause();
+                      } else {
+                        try {
+                          await audioRef.current.play();
+                          setIsPlaying(true);
+                        } catch (error) {
+                          console.error('Error playing audio:', error);
+                        }
+                      }
                     }
                   }}
                   className={cn(
@@ -1079,11 +1086,18 @@ const AudioExperience = () => {
 
                     {/* Main Play/Pause Button */}
                     <button
-                      onClick={() => {
-                        if (isPlaying) {
-                          audioRef.current?.pause();
-                        } else {
-                          audioRef.current?.play();
+                      onClick={async () => {
+                        if (audioRef.current) {
+                          if (isPlaying) {
+                            audioRef.current.pause();
+                          } else {
+                            try {
+                              await audioRef.current.play();
+                              setIsPlaying(true);
+                            } catch (error) {
+                              console.error('Error playing audio:', error);
+                            }
+                          }
                         }
                       }}
                       disabled={isLoadingTrack}
