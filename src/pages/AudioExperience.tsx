@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -154,35 +154,29 @@ const AudioExperience = () => {
     loadContent();
   }, [user]);
 
-  // Update current time using interval while playing (more reliable than timeupdate event)
-  useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
+  // Track playing state and update time using requestAnimationFrame
+  const updateTimeRef = useRef<number | null>(null);
 
-    console.log('isPlaying changed:', isPlaying, 'audioRef:', !!audioRef.current);
-
-    if (isPlaying && audioRef.current) {
-      console.log('Starting interval for time updates');
-      interval = setInterval(() => {
-        if (audioRef.current) {
-          const ct = audioRef.current.currentTime;
-          const dur = audioRef.current.duration;
-          console.log('Interval tick - currentTime:', ct, 'duration:', dur);
-          setCurrentTime(ct);
-          // Also update duration if available
-          if (dur && !isNaN(dur) && isFinite(dur)) {
-            setDuration(dur);
-          }
-        }
-      }, 250); // Update 4 times per second
+  const updateTime = useCallback(() => {
+    if (audioRef.current && isPlaying) {
+      setCurrentTime(audioRef.current.currentTime);
+      if (audioRef.current.duration && !isNaN(audioRef.current.duration) && isFinite(audioRef.current.duration)) {
+        setDuration(audioRef.current.duration);
+      }
+      updateTimeRef.current = requestAnimationFrame(updateTime);
     }
+  }, [isPlaying]);
 
+  useEffect(() => {
+    if (isPlaying) {
+      updateTimeRef.current = requestAnimationFrame(updateTime);
+    }
     return () => {
-      if (interval) {
-        console.log('Clearing interval');
-        clearInterval(interval);
+      if (updateTimeRef.current) {
+        cancelAnimationFrame(updateTimeRef.current);
       }
     };
-  }, [isPlaying]);
+  }, [isPlaying, updateTime]);
 
   // Audio event listeners for play/pause/ended/error
   useEffect(() => {
@@ -200,19 +194,12 @@ const AudioExperience = () => {
       console.error('Audio error:', audio.error);
       setIsLoadingTrack(false);
     };
-    const onLoadedMetadata = () => {
-      // Update duration from actual audio metadata
-      if (audio.duration && !isNaN(audio.duration) && isFinite(audio.duration)) {
-        setDuration(audio.duration);
-      }
-    };
 
     audio.addEventListener('ended', onEnded);
     audio.addEventListener('play', onPlay);
     audio.addEventListener('pause', onPause);
     audio.addEventListener('canplay', onCanPlay);
     audio.addEventListener('error', onError);
-    audio.addEventListener('loadedmetadata', onLoadedMetadata);
 
     return () => {
       audio.removeEventListener('ended', onEnded);
@@ -220,7 +207,6 @@ const AudioExperience = () => {
       audio.removeEventListener('pause', onPause);
       audio.removeEventListener('canplay', onCanPlay);
       audio.removeEventListener('error', onError);
-      audio.removeEventListener('loadedmetadata', onLoadedMetadata);
     };
   }, []);
 
