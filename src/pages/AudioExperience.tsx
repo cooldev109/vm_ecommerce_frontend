@@ -158,20 +158,29 @@ const AudioExperience = () => {
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
 
+    console.log('isPlaying changed:', isPlaying, 'audioRef:', !!audioRef.current);
+
     if (isPlaying && audioRef.current) {
+      console.log('Starting interval for time updates');
       interval = setInterval(() => {
         if (audioRef.current) {
-          setCurrentTime(audioRef.current.currentTime);
+          const ct = audioRef.current.currentTime;
+          const dur = audioRef.current.duration;
+          console.log('Interval tick - currentTime:', ct, 'duration:', dur);
+          setCurrentTime(ct);
           // Also update duration if available
-          if (audioRef.current.duration && !isNaN(audioRef.current.duration) && isFinite(audioRef.current.duration)) {
-            setDuration(audioRef.current.duration);
+          if (dur && !isNaN(dur) && isFinite(dur)) {
+            setDuration(dur);
           }
         }
       }, 250); // Update 4 times per second
     }
 
     return () => {
-      if (interval) clearInterval(interval);
+      if (interval) {
+        console.log('Clearing interval');
+        clearInterval(interval);
+      }
     };
   }, [isPlaying]);
 
@@ -292,6 +301,9 @@ const AudioExperience = () => {
         audioRef.current.load();
         try {
           await audioRef.current.play();
+          // Manually set isPlaying after successful play
+          setIsPlaying(true);
+          setIsLoadingTrack(false);
         } catch (playError) {
           // Ignore AbortError as it's expected when switching tracks quickly
           if ((playError as Error).name !== 'AbortError') {
