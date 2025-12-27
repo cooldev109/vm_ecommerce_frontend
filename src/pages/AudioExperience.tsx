@@ -504,24 +504,9 @@ const AudioExperience = () => {
 
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed">
               {lang === 'es'
-                ? 'Sumérgete en un viaje sensorial con nuestra colección exclusiva de meditaciones guiadas y música ambiental.'
-                : 'Immerse yourself in a sensory journey with our exclusive collection of guided meditations and ambient music.'}
+                ? 'Sumérgete en un viaje sensorial con nuestra colección exclusiva.'
+                : 'Immerse yourself in a sensory journey with our exclusive collection.'}
             </p>
-
-            <div className="flex flex-wrap justify-center gap-4">
-              {[
-                { icon: Waves, text: lang === 'es' ? 'Música Ambiental' : 'Ambient Music', color: 'text-blue-400' },
-                { icon: Brain, text: lang === 'es' ? 'Meditaciones' : 'Meditations', color: 'text-purple-400' },
-              ].map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm"
-                >
-                  <item.icon className={cn("h-4 w-4", item.color)} />
-                  <span className="text-sm text-slate-200">{item.text}</span>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
 
