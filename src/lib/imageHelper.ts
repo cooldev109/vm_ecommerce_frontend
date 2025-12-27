@@ -6,17 +6,7 @@
 
 // Import all product images
 import productCalmRitual from '@/assets/V&M Calm  Ritual.jpg';
-import productVanilla from '@/assets/product-vanilla-candle.jpg';
-import productLavender from '@/assets/product-lavender-candle.jpg';
-import productRose from '@/assets/product-rose-candle.jpg';
-import productJasmine from '@/assets/product-jasmine-candle.jpg';
-import productCitrus from '@/assets/product-citrus-candle.jpg';
-import productEucalyptus from '@/assets/product-eucalyptus-candle.jpg';
-import productAmber from '@/assets/product-amber-candle.jpg';
-import productCedarwood from '@/assets/product-cedarwood-candle.jpg';
-import productBergamot from '@/assets/product-bergamot-candle.jpg';
-import productPeony from '@/assets/product-peony-candle.jpg';
-import productSandalwood from '@/assets/product-sandalwood-candle.jpg';
+import productExecutiveBalance from '@/assets/executive_balance.png';
 
 // Import accessory images
 import accessorySnuffer from '@/assets/accessory-snuffer.jpg';
@@ -31,17 +21,8 @@ import candleProduct from '@/assets/candle-product.png';
 const imageMap: Record<string, string> = {
   // Candles
   '/src/assets/V&M Calm  Ritual.jpg': productCalmRitual,
-  '/src/assets/product-vanilla-candle.jpg': productVanilla,
-  '/src/assets/product-lavender-candle.jpg': productLavender,
-  '/src/assets/product-rose-candle.jpg': productRose,
-  '/src/assets/product-jasmine-candle.jpg': productJasmine,
-  '/src/assets/product-citrus-candle.jpg': productCitrus,
-  '/src/assets/product-eucalyptus-candle.jpg': productEucalyptus,
-  '/src/assets/product-amber-candle.jpg': productAmber,
-  '/src/assets/product-cedarwood-candle.jpg': productCedarwood,
-  '/src/assets/product-bergamot-candle.jpg': productBergamot,
-  '/src/assets/product-peony-candle.jpg': productPeony,
-  '/src/assets/product-sandalwood-candle.jpg': productSandalwood,
+  '/src/assets/executive_balance.png': productExecutiveBalance,
+  '/src/assets/candle-product.png': candleProduct,
 
   // Accessories
   '/src/assets/accessory-snuffer.jpg': accessorySnuffer,

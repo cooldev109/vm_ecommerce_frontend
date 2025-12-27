@@ -3,7 +3,7 @@ import api from '@/lib/api';
 // Backend base URL for static assets (audio files)
 const BACKEND_URL = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:3000';
 
-export type AudioCategory = 'AMBIENT' | 'MEDITATION' | 'FREQUENCY' | 'EXCLUSIVE';
+export type AudioCategory = 'AMBIENT' | 'MEDITATION';
 
 export interface AudioContent {
   id: string;
@@ -248,6 +248,4 @@ export const audioTitles: Record<string, { en: string; es: string }> = {
 export const categoryLabels: Record<AudioCategory, { en: string; es: string }> = {
   AMBIENT: { en: 'Ambient', es: 'Ambiente' },
   MEDITATION: { en: 'Meditation', es: 'Meditación' },
-  FREQUENCY: { en: 'Healing Frequencies', es: 'Frecuencias Sanadoras' },
-  EXCLUSIVE: { en: 'Exclusive Content', es: 'Contenido Exclusivo' },
 };

@@ -54,23 +54,17 @@ import { SEO } from '@/components/SEO';
 const categoryIcons: Record<AudioCategory, typeof Music> = {
   AMBIENT: Waves,
   MEDITATION: Brain,
-  FREQUENCY: Heart,
-  EXCLUSIVE: Star,
 };
 
 // Category colors
 const categoryColors: Record<AudioCategory, string> = {
   AMBIENT: 'from-blue-500 to-cyan-500',
   MEDITATION: 'from-purple-500 to-pink-500',
-  FREQUENCY: 'from-green-500 to-emerald-500',
-  EXCLUSIVE: 'from-amber-500 to-orange-500',
 };
 
 const categoryBgColors: Record<AudioCategory, string> = {
   AMBIENT: 'bg-blue-500/10 text-blue-600 border-blue-200',
   MEDITATION: 'bg-purple-500/10 text-purple-600 border-purple-200',
-  FREQUENCY: 'bg-green-500/10 text-green-600 border-green-200',
-  EXCLUSIVE: 'bg-amber-500/10 text-amber-600 border-amber-200',
 };
 
 const AudioExperience = () => {
@@ -436,7 +430,7 @@ const AudioExperience = () => {
     ? content
     : content.filter(audio => audio.category === selectedCategory);
 
-  const categories: (AudioCategory | 'ALL')[] = ['ALL', 'AMBIENT', 'MEDITATION', 'FREQUENCY', 'EXCLUSIVE'];
+  const categories: (AudioCategory | 'ALL')[] = ['ALL', 'AMBIENT', 'MEDITATION'];
 
   // Group content by category for featured section
   const featuredByCategory = categories
@@ -510,16 +504,14 @@ const AudioExperience = () => {
 
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed">
               {lang === 'es'
-                ? 'Sumérgete en un viaje sensorial con nuestra colección exclusiva de meditaciones guiadas, música ambiental y frecuencias de sanación.'
-                : 'Immerse yourself in a sensory journey with our exclusive collection of guided meditations, ambient music, and healing frequencies.'}
+                ? 'Sumérgete en un viaje sensorial con nuestra colección exclusiva de meditaciones guiadas y música ambiental.'
+                : 'Immerse yourself in a sensory journey with our exclusive collection of guided meditations and ambient music.'}
             </p>
 
             <div className="flex flex-wrap justify-center gap-4">
               {[
                 { icon: Waves, text: lang === 'es' ? 'Música Ambiental' : 'Ambient Music', color: 'text-blue-400' },
                 { icon: Brain, text: lang === 'es' ? 'Meditaciones' : 'Meditations', color: 'text-purple-400' },
-                { icon: Heart, text: lang === 'es' ? 'Frecuencias' : 'Frequencies', color: 'text-green-400' },
-                { icon: Star, text: lang === 'es' ? 'Exclusivo' : 'Exclusive', color: 'text-amber-400' },
               ].map((item, index) => (
                 <div
                   key={index}
@@ -783,21 +775,53 @@ const AudioExperience = () => {
 
       {/* Subscribe CTA */}
       {!hasAccess && (
-        <section className="py-16 px-4">
+        <section className="py-20 px-4 bg-gradient-to-b from-white to-amber-50/30">
           <div className="max-w-4xl mx-auto text-center">
-            <Crown className="h-12 w-12 text-amber-500 mx-auto mb-6" />
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-800 mb-4">
+            {/* Crown Icon with gradient background */}
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 mb-8 shadow-lg shadow-amber-500/20">
+              <Crown className="h-10 w-10 text-white" strokeWidth={1.5} />
+            </div>
+
+            <h2 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 mb-6">
               {lang === 'es' ? 'Desbloquea Todo el Contenido' : 'Unlock All Content'}
             </h2>
-            <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
-              {lang === 'es'
-                ? 'Suscríbete para acceder a toda nuestra biblioteca de meditaciones, música ambiental, frecuencias sanadoras y contenido exclusivo.'
-                : 'Subscribe to access our entire library of meditations, ambient music, healing frequencies, and exclusive content.'}
+
+            <p className="text-lg md:text-xl text-slate-700 mb-10 max-w-3xl mx-auto leading-relaxed font-light">
+              {lang === 'es' ? (
+                <>
+                  Suscríbete para acceder a toda nuestra biblioteca de{' '}
+                  <span className="relative inline-block">
+                    <span className="relative z-10">meditaciones</span>
+                    <span className="absolute inset-x-0 bottom-1 h-3 bg-purple-200/50 -rotate-1"></span>
+                  </span>
+                  {' '}y{' '}
+                  <span className="relative inline-block">
+                    <span className="relative z-10">música ambiental</span>
+                    <span className="absolute inset-x-0 bottom-1 h-3 bg-blue-200/50 rotate-1"></span>
+                  </span>
+                  {' '}y contenido exclusivo.
+                </>
+              ) : (
+                <>
+                  Subscribe to access our entire library of{' '}
+                  <span className="relative inline-block">
+                    <span className="relative z-10">meditations</span>
+                    <span className="absolute inset-x-0 bottom-1 h-3 bg-purple-200/50 -rotate-1"></span>
+                  </span>
+                  {' '}and{' '}
+                  <span className="relative inline-block">
+                    <span className="relative z-10">ambient music</span>
+                    <span className="absolute inset-x-0 bottom-1 h-3 bg-blue-200/50 rotate-1"></span>
+                  </span>
+                  , and exclusive content.
+                </>
+              )}
             </p>
+
             <Button
               size="lg"
               onClick={() => navigate('/subscriptions')}
-              className="h-14 px-8 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-full shadow-lg shadow-amber-500/30"
+              className="h-16 px-10 text-lg bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-full shadow-xl shadow-amber-500/30 hover:shadow-amber-500/40 transition-all duration-300 hover:scale-105"
             >
               <Sparkles className="mr-2 h-5 w-5" />
               {lang === 'es' ? 'Ver Planes de Suscripción' : 'View Subscription Plans'}

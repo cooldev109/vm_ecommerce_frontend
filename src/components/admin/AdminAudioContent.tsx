@@ -434,8 +434,6 @@ export const AdminAudioContent = () => {
                 <SelectContent>
                   <SelectItem value="AMBIENT">Ambient</SelectItem>
                   <SelectItem value="MEDITATION">Meditation</SelectItem>
-                  <SelectItem value="FREQUENCY">Frequency</SelectItem>
-                  <SelectItem value="EXCLUSIVE">Exclusive</SelectItem>
                 </SelectContent>
               </Select>
             </div>
