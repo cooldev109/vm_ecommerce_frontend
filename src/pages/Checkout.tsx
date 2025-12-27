@@ -300,7 +300,7 @@ const Checkout = () => {
                       Webpay Plus
                     </p>
                     <p className="text-sm text-luxury">
-                      You will be redirected to Webpay to complete your payment securely
+                      {t('webpayRedirectMessage')}
                     </p>
                   </div>
                 </div>
