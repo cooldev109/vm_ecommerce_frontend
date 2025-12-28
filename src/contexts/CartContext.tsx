@@ -113,7 +113,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
       if (response.success) {
         console.log('✅ Product successfully added to cart (backend confirmed)');
-        toast.success('Added to cart');
         // Reload cart to get accurate data from backend
         await loadCart();
       } else {

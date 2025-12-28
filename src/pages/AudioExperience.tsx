@@ -269,7 +269,14 @@ const AudioExperience = () => {
         if (isPlaying) {
           audioRef.current?.pause();
         } else {
-          audioRef.current?.play();
+          if (audioRef.current) {
+            try {
+              await audioRef.current.play();
+              setIsPlaying(true);
+            } catch (error) {
+              console.error('Error resuming audio:', error);
+            }
+          }
         }
         return;
       }
