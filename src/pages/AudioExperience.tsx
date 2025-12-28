@@ -868,12 +868,18 @@ const AudioExperience = () => {
                 <button
                   onClick={async (e) => {
                     e.stopPropagation();
-                    if (audioRef.current) {
+                    const audio = audioRef.current;
+                    if (audio) {
                       if (isPlaying) {
-                        audioRef.current.pause();
+                        audio.pause();
                       } else {
+                        // Ensure audio has a source
+                        if (!audio.src && currentStreamUrl) {
+                          audio.src = currentStreamUrl;
+                          audio.load();
+                        }
                         try {
-                          await audioRef.current.play();
+                          await audio.play();
                           setIsPlaying(true);
                         } catch (error) {
                           console.error('Error playing audio:', error);
@@ -1103,12 +1109,18 @@ const AudioExperience = () => {
                     {/* Main Play/Pause Button */}
                     <button
                       onClick={async () => {
-                        if (audioRef.current) {
+                        const audio = audioRef.current;
+                        if (audio) {
                           if (isPlaying) {
-                            audioRef.current.pause();
+                            audio.pause();
                           } else {
+                            // Ensure audio has a source
+                            if (!audio.src && currentStreamUrl) {
+                              audio.src = currentStreamUrl;
+                              audio.load();
+                            }
                             try {
-                              await audioRef.current.play();
+                              await audio.play();
                               setIsPlaying(true);
                             } catch (error) {
                               console.error('Error playing audio:', error);
