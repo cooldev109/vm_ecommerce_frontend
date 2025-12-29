@@ -7,6 +7,7 @@ import {
   updateAudioContent,
   deleteAudioContent,
   generateAccessKeys,
+  uploadAudioFile,
   formatDuration,
   audioTitles,
   categoryLabels,
@@ -54,7 +55,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { Plus, Edit, Trash2, Loader2, Music, Key, Copy, Check } from 'lucide-react';
+import { Plus, Edit, Trash2, Loader2, Music, Key, Copy, Check, Upload } from 'lucide-react';
 import { toast } from 'sonner';
 
 export const AdminAudioContent = () => {
@@ -88,6 +89,10 @@ export const AdminAudioContent = () => {
     durationMonths: 1,
     count: 5,
   });
+
+  // File upload state
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   // Fetch audio content
   const { data: contentData, isLoading: contentLoading } = useQuery({
@@ -167,6 +172,36 @@ export const AdminAudioContent = () => {
       sortOrder: 0,
     });
     setEditingContent(null);
+    setSelectedFile(null);
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+      // Auto-detect duration from audio file
+      const audio = new Audio();
+      audio.src = URL.createObjectURL(file);
+      audio.onloadedmetadata = () => {
+        setFormData(prev => ({ ...prev, durationSeconds: Math.round(audio.duration) }));
+        URL.revokeObjectURL(audio.src);
+      };
+    }
+  };
+
+  const handleUploadFile = async () => {
+    if (!selectedFile) return;
+
+    try {
+      setIsUploading(true);
+      const result = await uploadAudioFile(selectedFile);
+      setFormData(prev => ({ ...prev, fileUrl: result.filePath }));
+      toast.success('Audio file uploaded successfully');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to upload audio file');
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handleAddContent = () => {
@@ -438,15 +473,48 @@ export const AdminAudioContent = () => {
               </Select>
             </div>
             <div>
-              <Label>File URL</Label>
-              <Input
-                value={formData.fileUrl}
-                onChange={(e) => setFormData({ ...formData, fileUrl: e.target.value })}
-                placeholder="/audio/filename.mp3"
-              />
+              <Label>Audio File</Label>
+              <div className="space-y-2">
+                <div className="flex gap-2">
+                  <Input
+                    type="file"
+                    accept="audio/*"
+                    onChange={handleFileSelect}
+                    className="flex-1"
+                  />
+                  <Button
+                    type="button"
+                    onClick={handleUploadFile}
+                    disabled={!selectedFile || isUploading}
+                    size="sm"
+                  >
+                    {isUploading ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Upload className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
+                {selectedFile && !formData.fileUrl && (
+                  <p className="text-xs text-muted-foreground">
+                    Selected: {selectedFile.name} - Click upload button to upload
+                  </p>
+                )}
+                {formData.fileUrl && (
+                  <p className="text-xs text-green-600">
+                    ✓ Uploaded: {formData.fileUrl}
+                  </p>
+                )}
+                <Input
+                  value={formData.fileUrl}
+                  onChange={(e) => setFormData({ ...formData, fileUrl: e.target.value })}
+                  placeholder="Or enter URL manually: /audio/filename.mp3"
+                  className="text-xs"
+                />
+              </div>
             </div>
             <div>
-              <Label>Duration (seconds)</Label>
+              <Label>Duration (seconds) {formData.durationSeconds > 0 && `(${formatDuration(formData.durationSeconds)})`}</Label>
               <Input
                 type="number"
                 value={formData.durationSeconds}

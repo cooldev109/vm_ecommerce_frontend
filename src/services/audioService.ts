@@ -127,6 +127,31 @@ export async function redeemAccessKey(keyCode: string) {
 
 // ============ ADMIN FUNCTIONS ============
 
+// Upload audio file (Admin)
+export async function uploadAudioFile(file: File): Promise<{ filePath: string; fileName: string; originalName: string; size: number }> {
+  const formData = new FormData();
+  formData.append('audio', file);
+
+  const token = localStorage.getItem('token');
+  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+
+  const response = await fetch(`${baseUrl}/upload/audio`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  const data = await response.json();
+
+  if (!response.ok || !data.success) {
+    throw new Error(data.error?.message || 'Failed to upload audio file');
+  }
+
+  return data;
+}
+
 // Create audio content (Admin)
 export async function createAudioContent(data: {
   titleKey: string;
