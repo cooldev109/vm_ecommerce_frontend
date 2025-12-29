@@ -7,7 +7,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import logo from '@/assets/logo.png';
 import { toast } from 'sonner';
-import { Check, X, AlertCircle } from 'lucide-react';
+import { Check, X, AlertCircle, Eye, EyeOff } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 // Password validation rules
@@ -45,6 +45,8 @@ const Register = () => {
     password: '',
     confirmPassword: '',
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const lang = language === 'es' ? 'es' : 'en';
 
@@ -224,19 +226,33 @@ const Register = () => {
 
             <div>
               <Label htmlFor="password">{t('password')}</Label>
-              <Input
-                id="password"
-                type="password"
-                required
-                placeholder="••••••••"
-                value={formData.password}
-                onChange={handleChange}
-                onBlur={() => handleBlur('password')}
-                className={cn(
-                  touched.password && formData.password && !isPasswordValid && "border-red-500 focus-visible:ring-red-500",
-                  touched.password && formData.password && isPasswordValid && "border-green-500 focus-visible:ring-green-500"
-                )}
-              />
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  required
+                  placeholder="••••••••"
+                  value={formData.password}
+                  onChange={handleChange}
+                  onBlur={() => handleBlur('password')}
+                  className={cn(
+                    "pr-10",
+                    touched.password && formData.password && !isPasswordValid && "border-red-500 focus-visible:ring-red-500",
+                    touched.password && formData.password && isPasswordValid && "border-green-500 focus-visible:ring-green-500"
+                  )}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
 
               {/* Password requirements checklist */}
               {(formData.password || touched.password) && (
@@ -270,19 +286,33 @@ const Register = () => {
 
             <div>
               <Label htmlFor="confirmPassword">{t('confirmPassword')}</Label>
-              <Input
-                id="confirmPassword"
-                type="password"
-                required
-                placeholder="••••••••"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                onBlur={() => handleBlur('confirmPassword')}
-                className={cn(
-                  touched.confirmPassword && formData.confirmPassword && !passwordsMatch && "border-red-500 focus-visible:ring-red-500",
-                  touched.confirmPassword && formData.confirmPassword && passwordsMatch && formData.password && "border-green-500 focus-visible:ring-green-500"
-                )}
-              />
+              <div className="relative">
+                <Input
+                  id="confirmPassword"
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  required
+                  placeholder="••••••••"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  onBlur={() => handleBlur('confirmPassword')}
+                  className={cn(
+                    "pr-10",
+                    touched.confirmPassword && formData.confirmPassword && !passwordsMatch && "border-red-500 focus-visible:ring-red-500",
+                    touched.confirmPassword && formData.confirmPassword && passwordsMatch && formData.password && "border-green-500 focus-visible:ring-green-500"
+                  )}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {showConfirmPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
               {touched.confirmPassword && formData.confirmPassword && (
                 <div className={cn(
                   "flex items-center gap-1 mt-1 text-xs",
