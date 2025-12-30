@@ -190,3 +190,45 @@ export async function getSubscriptionAnalytics() {
   }
   return response.data;
 }
+
+// Upgrade subscription
+export interface UpgradeResult {
+  subscriptionId: string;
+  currentPlan: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+  newPlan: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+  isUpgrade: boolean;
+  upgradeAmount: number;
+  requiresPayment: boolean;
+  effectiveImmediately: boolean;
+  message: string;
+}
+
+export async function initiateUpgrade(
+  subscriptionId: string,
+  newPlanId: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL'
+): Promise<UpgradeResult> {
+  const response = await api.post<UpgradeResult>(
+    `/subscriptions/${subscriptionId}/upgrade`,
+    { newPlanId }
+  );
+  if (!response.success || !response.data) {
+    throw new Error(response.error?.message || 'Failed to initiate upgrade');
+  }
+  return response.data;
+}
+
+// Initialize payment for upgrade
+export async function initUpgradePayment(
+  subscriptionId: string,
+  newPlanId: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL',
+  amount: number
+): Promise<SubscriptionPaymentInit> {
+  const response = await api.post<SubscriptionPaymentInit>(
+    '/subscriptions/upgrade/payment/init',
+    { subscriptionId, newPlanId, amount }
+  );
+  if (!response.success || !response.data) {
+    throw new Error(response.error?.message || 'Failed to initialize upgrade payment');
+  }
+  return response.data;
+}

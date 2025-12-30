@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Crown, Calendar, CreditCard, AlertCircle, Loader2, RefreshCw, PauseCircle, PlayCircle, XCircle } from 'lucide-react';
+import { Crown, Calendar, CreditCard, AlertCircle, Loader2, RefreshCw, PauseCircle, PlayCircle, XCircle, ArrowUpCircle, Check } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -18,6 +18,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import {
   getUserSubscription,
@@ -25,7 +33,10 @@ import {
   pauseSubscription,
   resumeSubscription,
   updateSubscription,
+  initiateUpgrade,
+  initUpgradePayment,
   type Subscription,
+  type UpgradeResult,
 } from '@/services/subscriptionService';
 
 const PLAN_NAMES = {
@@ -40,12 +51,22 @@ const PLAN_PRICES = {
   ANNUAL: 89990,
 };
 
+const PLAN_ORDER: Record<string, number> = {
+  MONTHLY: 1,
+  QUARTERLY: 2,
+  ANNUAL: 3,
+};
+
 export default function SubscriptionTab() {
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
   const [showCancelDialog, setShowCancelDialog] = useState(false);
   const [showPauseDialog, setShowPauseDialog] = useState(false);
+  const [showUpgradeDialog, setShowUpgradeDialog] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | null>(null);
+  const [upgradeResult, setUpgradeResult] = useState<UpgradeResult | null>(null);
+  const [showConfirmUpgrade, setShowConfirmUpgrade] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -159,6 +180,77 @@ export default function SubscriptionTab() {
     } finally {
       setActionLoading(false);
     }
+  };
+
+  const handleSelectPlan = async (planId: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL') => {
+    if (!subscription || planId === subscription.planId) return;
+
+    try {
+      setActionLoading(true);
+      setSelectedPlan(planId);
+      const result = await initiateUpgrade(subscription.id, planId);
+      setUpgradeResult(result);
+      setShowUpgradeDialog(false);
+      setShowConfirmUpgrade(true);
+    } catch (error: any) {
+      toast({
+        title: 'Error',
+        description: error.message || 'Failed to initiate plan change',
+        variant: 'destructive',
+      });
+      setSelectedPlan(null);
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleConfirmUpgrade = async () => {
+    if (!subscription || !upgradeResult || !selectedPlan) return;
+
+    try {
+      setActionLoading(true);
+
+      if (upgradeResult.requiresPayment && upgradeResult.upgradeAmount > 0) {
+        // Initiate payment for upgrade
+        const paymentData = await initUpgradePayment(
+          subscription.id,
+          selectedPlan,
+          upgradeResult.upgradeAmount
+        );
+        // Redirect to Webpay
+        window.location.href = `${paymentData.url}?token_ws=${paymentData.token}`;
+      } else {
+        // Downgrade or no payment needed - already processed
+        toast({
+          title: 'Plan Changed',
+          description: upgradeResult.message,
+        });
+        setShowConfirmUpgrade(false);
+        setUpgradeResult(null);
+        setSelectedPlan(null);
+        // Reload subscription to get updated data
+        await loadSubscription();
+      }
+    } catch (error: any) {
+      toast({
+        title: 'Error',
+        description: error.message || 'Failed to complete plan change',
+        variant: 'destructive',
+      });
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const getAvailablePlans = () => {
+    if (!subscription) return [];
+    const plans: Array<'MONTHLY' | 'QUARTERLY' | 'ANNUAL'> = ['MONTHLY', 'QUARTERLY', 'ANNUAL'];
+    return plans.filter(plan => plan !== subscription.planId);
+  };
+
+  const isPlanUpgrade = (newPlan: string) => {
+    if (!subscription) return false;
+    return PLAN_ORDER[newPlan] > PLAN_ORDER[subscription.planId];
   };
 
   const formatPrice = (price: number) => {
@@ -364,19 +456,24 @@ export default function SubscriptionTab() {
       {subscription.status === 'ACTIVE' && (
         <Card>
           <CardHeader>
-            <CardTitle>Change Plan</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <ArrowUpCircle className="h-5 w-5" />
+              Change Plan
+            </CardTitle>
             <CardDescription>
               Upgrade or downgrade your subscription plan
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">
-              Want to switch to a different plan? Visit our subscription plans page to view all available options.
+            <p className="text-sm text-muted-foreground mb-4">
+              Switch to a different plan to better suit your needs. Upgrades are prorated and take effect immediately.
+              Downgrades will take effect at your next renewal date.
             </p>
           </CardContent>
           <CardFooter>
-            <Button variant="outline" onClick={() => navigate('/subscriptions')}>
-              View Plans
+            <Button onClick={() => setShowUpgradeDialog(true)}>
+              <ArrowUpCircle className="h-4 w-4 mr-2" />
+              Change Plan
             </Button>
           </CardFooter>
         </Card>
@@ -441,6 +538,142 @@ export default function SubscriptionTab() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Upgrade Plan Selection Dialog */}
+      <Dialog open={showUpgradeDialog} onOpenChange={setShowUpgradeDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Change Your Plan</DialogTitle>
+            <DialogDescription>
+              Select a new plan. Your current plan is {PLAN_NAMES[subscription?.planId || 'MONTHLY']}.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3 py-4">
+            {getAvailablePlans().map((planId) => {
+              const isUpgrade = isPlanUpgrade(planId);
+              return (
+                <button
+                  key={planId}
+                  onClick={() => handleSelectPlan(planId)}
+                  disabled={actionLoading}
+                  className="w-full p-4 border rounded-lg hover:border-primary hover:bg-accent/50 transition-colors text-left disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">{PLAN_NAMES[planId]}</span>
+                        <Badge variant={isUpgrade ? 'default' : 'secondary'}>
+                          {isUpgrade ? 'Upgrade' : 'Downgrade'}
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {formatPrice(PLAN_PRICES[planId])} per {planId === 'MONTHLY' ? 'month' : planId === 'QUARTERLY' ? 'quarter' : 'year'}
+                      </p>
+                    </div>
+                    {actionLoading && selectedPlan === planId ? (
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                    ) : (
+                      <ArrowUpCircle className={`h-5 w-5 ${isUpgrade ? 'text-primary' : 'text-muted-foreground rotate-180'}`} />
+                    )}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowUpgradeDialog(false)}>
+              Cancel
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Upgrade Confirmation Dialog */}
+      <Dialog open={showConfirmUpgrade} onOpenChange={(open) => {
+        if (!open) {
+          setShowConfirmUpgrade(false);
+          setUpgradeResult(null);
+          setSelectedPlan(null);
+        }
+      }}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>
+              {upgradeResult?.isUpgrade ? 'Confirm Upgrade' : 'Confirm Downgrade'}
+            </DialogTitle>
+            <DialogDescription>
+              {upgradeResult?.message}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4 space-y-4">
+            <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
+              <div>
+                <p className="text-sm text-muted-foreground">Current Plan</p>
+                <p className="font-medium">{PLAN_NAMES[subscription?.planId || 'MONTHLY']}</p>
+              </div>
+              <ArrowUpCircle className={`h-6 w-6 ${upgradeResult?.isUpgrade ? 'text-primary' : 'text-muted-foreground rotate-180'}`} />
+              <div className="text-right">
+                <p className="text-sm text-muted-foreground">New Plan</p>
+                <p className="font-medium">{selectedPlan ? PLAN_NAMES[selectedPlan] : ''}</p>
+              </div>
+            </div>
+
+            {upgradeResult?.requiresPayment && upgradeResult.upgradeAmount > 0 && (
+              <div className="p-4 border border-primary/20 bg-primary/5 rounded-lg">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Amount to pay now:</span>
+                  <span className="text-lg font-bold text-primary">
+                    {formatPrice(upgradeResult.upgradeAmount)}
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground mt-2">
+                  This is the prorated difference for the remainder of your billing period.
+                </p>
+              </div>
+            )}
+
+            {!upgradeResult?.requiresPayment && (
+              <div className="p-4 border rounded-lg">
+                <div className="flex items-center gap-2 text-sm">
+                  <Check className="h-4 w-4 text-green-600" />
+                  <span>No payment required. Change takes effect at next renewal.</span>
+                </div>
+              </div>
+            )}
+          </div>
+          <DialogFooter className="gap-2">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setShowConfirmUpgrade(false);
+                setUpgradeResult(null);
+                setSelectedPlan(null);
+              }}
+              disabled={actionLoading}
+            >
+              Cancel
+            </Button>
+            <Button onClick={handleConfirmUpgrade} disabled={actionLoading}>
+              {actionLoading ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Processing...
+                </>
+              ) : upgradeResult?.requiresPayment ? (
+                <>
+                  <CreditCard className="h-4 w-4 mr-2" />
+                  Proceed to Payment
+                </>
+              ) : (
+                <>
+                  <Check className="h-4 w-4 mr-2" />
+                  Confirm Change
+                </>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
