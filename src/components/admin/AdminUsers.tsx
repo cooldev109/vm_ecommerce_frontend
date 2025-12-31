@@ -85,7 +85,7 @@ export const AdminUsers = () => {
     } catch (error: any) {
       toast({
         title: 'Error',
-        description: error.message || 'Failed to load users',
+        description: error.message || 'Error al cargar usuarios',
         variant: 'destructive',
       });
     } finally {
@@ -111,15 +111,15 @@ export const AdminUsers = () => {
       setUpdatingRole(userId);
       await userService.updateUserRole(userId, newRole);
       toast({
-        title: 'Success',
-        description: 'User role updated successfully',
+        title: 'Éxito',
+        description: 'Rol de usuario actualizado exitosamente',
       });
       await loadUsers();
       await loadStats();
     } catch (error: any) {
       toast({
         title: 'Error',
-        description: error.message || 'Failed to update user role',
+        description: error.message || 'Error al actualizar rol de usuario',
         variant: 'destructive',
       });
     } finally {
@@ -177,15 +177,15 @@ export const AdminUsers = () => {
           taxId: formData.taxId,
         });
         toast({
-          title: 'Success',
-          description: 'User updated successfully',
+          title: 'Éxito',
+          description: 'Usuario actualizado exitosamente',
         });
       } else {
         // Create new user
         if (!formData.email || !formData.password) {
           toast({
             title: 'Error',
-            description: 'Email and password are required',
+            description: 'Email y contraseña son requeridos',
             variant: 'destructive',
           });
           return;
@@ -200,8 +200,8 @@ export const AdminUsers = () => {
           customerType: formData.customerType,
         });
         toast({
-          title: 'Success',
-          description: 'User created successfully',
+          title: 'Éxito',
+          description: 'Usuario creado exitosamente',
         });
       }
 
@@ -211,7 +211,7 @@ export const AdminUsers = () => {
     } catch (error: any) {
       toast({
         title: 'Error',
-        description: error.message || 'Failed to save user',
+        description: error.message || 'Error al guardar usuario',
         variant: 'destructive',
       });
     } finally {
@@ -226,8 +226,8 @@ export const AdminUsers = () => {
       setDeleting(true);
       await userService.deleteUser(deletingUser.id);
       toast({
-        title: 'Success',
-        description: 'User deleted successfully',
+        title: 'Éxito',
+        description: 'Usuario eliminado exitosamente',
       });
       setDeleteDialogOpen(false);
       setDeletingUser(null);
@@ -236,7 +236,7 @@ export const AdminUsers = () => {
     } catch (error: any) {
       toast({
         title: 'Error',
-        description: error.message || 'Failed to delete user',
+        description: error.message || 'Error al eliminar usuario',
         variant: 'destructive',
       });
     } finally {
@@ -251,7 +251,7 @@ export const AdminUsers = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card className="card-feminine group hover-rose-glow">
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Total Users</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">Total Usuarios</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold">{stats.totalUsers}</div>
@@ -259,7 +259,7 @@ export const AdminUsers = () => {
           </Card>
           <Card className="card-feminine group hover-rose-glow">
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Admins</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">Administradores</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-purple-600">{stats.adminCount}</div>
@@ -267,7 +267,7 @@ export const AdminUsers = () => {
           </Card>
           <Card className="card-feminine group hover-rose-glow">
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Regular Users</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">Usuarios Regulares</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold">{stats.regularUsersCount}</div>
@@ -275,7 +275,7 @@ export const AdminUsers = () => {
           </Card>
           <Card className="card-feminine group hover-rose-glow">
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">New This Month</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">Nuevos Este Mes</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-green-600">{stats.newUsersThisMonth}</div>
@@ -293,13 +293,13 @@ export const AdminUsers = () => {
                 <Sparkles className="h-4 w-4 text-accent" />
               </div>
               <div>
-                <CardTitle>Users</CardTitle>
-                <CardDescription>Manage user accounts and permissions</CardDescription>
+                <CardTitle>Usuarios</CardTitle>
+                <CardDescription>Administra cuentas de usuario y permisos</CardDescription>
               </div>
             </div>
             <Button className="btn-gradient-gold" onClick={handleAddUser}>
               <Plus className="mr-2 h-4 w-4" />
-              Add User
+              Agregar Usuario
             </Button>
           </div>
         </CardHeader>
@@ -308,7 +308,7 @@ export const AdminUsers = () => {
           <div className="flex flex-col sm:flex-row gap-4 mb-6">
             <div className="flex-1 flex gap-2">
               <Input
-                placeholder="Search by name or email..."
+                placeholder="Buscar por nombre o email..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -320,12 +320,12 @@ export const AdminUsers = () => {
             </div>
             <Select value={roleFilter} onValueChange={setRoleFilter}>
               <SelectTrigger className="w-full sm:w-[180px] border-border/50">
-                <SelectValue placeholder="Filter by role" />
+                <SelectValue placeholder="Filtrar por rol" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Roles</SelectItem>
-                <SelectItem value="USER">Users</SelectItem>
-                <SelectItem value="ADMIN">Admins</SelectItem>
+                <SelectItem value="all">Todos los Roles</SelectItem>
+                <SelectItem value="USER">Usuarios</SelectItem>
+                <SelectItem value="ADMIN">Administradores</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -334,7 +334,7 @@ export const AdminUsers = () => {
             <div className="flex justify-center py-12">
               <div className="text-center">
                 <Loader2 className="h-8 w-8 animate-spin text-accent mx-auto" />
-                <p className="text-muted-foreground mt-2">Loading users...</p>
+                <p className="text-muted-foreground mt-2">Cargando usuarios...</p>
               </div>
             </div>
           ) : (
@@ -342,13 +342,13 @@ export const AdminUsers = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Name</TableHead>
+                    <TableHead>Nombre</TableHead>
                     <TableHead>Email</TableHead>
-                    <TableHead>Role</TableHead>
-                    <TableHead>Customer Type</TableHead>
-                    <TableHead>Orders</TableHead>
-                    <TableHead>Created At</TableHead>
-                    <TableHead className="w-[150px]">Actions</TableHead>
+                    <TableHead>Rol</TableHead>
+                    <TableHead>Tipo de Cliente</TableHead>
+                    <TableHead>Pedidos</TableHead>
+                    <TableHead>Creado</TableHead>
+                    <TableHead className="w-[150px]">Acciones</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -356,21 +356,21 @@ export const AdminUsers = () => {
                     <TableRow>
                       <TableCell colSpan={7} className="text-center text-muted-foreground py-8">
                         <UsersIcon className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                        <p>No users found</p>
+                        <p>No se encontraron usuarios</p>
                       </TableCell>
                     </TableRow>
                   ) : (
                     users.map((user) => (
                       <TableRow key={user.id} className="hover:bg-muted/30">
                         <TableCell className="font-medium">
-                          {user.firstName || user.lastName ? `${user.firstName} ${user.lastName}` : 'No name'}
+                          {user.firstName || user.lastName ? `${user.firstName} ${user.lastName}` : 'Sin nombre'}
                         </TableCell>
                         <TableCell className="text-muted-foreground">{user.email}</TableCell>
                         <TableCell>
                           {user.role === 'ADMIN' ? (
                             <Badge variant="default" className="bg-purple-600">Admin</Badge>
                           ) : (
-                            <Badge variant="outline">User</Badge>
+                            <Badge variant="outline">Usuario</Badge>
                           )}
                         </TableCell>
                         <TableCell>
@@ -384,7 +384,7 @@ export const AdminUsers = () => {
                               variant="ghost"
                               size="sm"
                               onClick={() => handleEditUser(user)}
-                              title="Edit user"
+                              title="Editar usuario"
                             >
                               <Edit className="h-4 w-4" />
                             </Button>
@@ -393,12 +393,12 @@ export const AdminUsers = () => {
                               size="sm"
                               onClick={() => {
                                 const newRole = user.role === 'ADMIN' ? 'USER' : 'ADMIN';
-                                if (confirm(`Change ${user.email} to ${newRole}?`)) {
+                                if (confirm(`¿Cambiar ${user.email} a ${newRole}?`)) {
                                   handleUpdateRole(user.id, newRole);
                                 }
                               }}
                               disabled={updatingRole === user.id}
-                              title="Toggle role"
+                              title="Cambiar rol"
                             >
                               {updatingRole === user.id ? (
                                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -410,7 +410,7 @@ export const AdminUsers = () => {
                               variant="ghost"
                               size="sm"
                               onClick={() => handleDeleteUser(user)}
-                              title="Delete user"
+                              title="Eliminar usuario"
                             >
                               <Trash2 className="h-4 w-4 text-destructive" />
                             </Button>
@@ -430,15 +430,15 @@ export const AdminUsers = () => {
       <Dialog open={formDialogOpen} onOpenChange={setFormDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>{editingUser ? 'Edit User' : 'Create New User'}</DialogTitle>
+            <DialogTitle>{editingUser ? 'Editar Usuario' : 'Crear Nuevo Usuario'}</DialogTitle>
             <DialogDescription>
-              {editingUser ? 'Update user information below.' : 'Fill in the details to create a new user.'}
+              {editingUser ? 'Actualiza la información del usuario.' : 'Completa los datos para crear un nuevo usuario.'}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="firstName">First Name</Label>
+                <Label htmlFor="firstName">Nombre</Label>
                 <Input
                   id="firstName"
                   value={formData.firstName}
@@ -447,7 +447,7 @@ export const AdminUsers = () => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="lastName">Last Name</Label>
+                <Label htmlFor="lastName">Apellido</Label>
                 <Input
                   id="lastName"
                   value={formData.lastName}
@@ -468,18 +468,18 @@ export const AdminUsers = () => {
             </div>
             {!editingUser && (
               <div className="space-y-2">
-                <Label htmlFor="password">Password *</Label>
+                <Label htmlFor="password">Contraseña *</Label>
                 <Input
                   id="password"
                   type="password"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  placeholder="Enter password"
+                  placeholder="Ingrese contraseña"
                 />
               </div>
             )}
             <div className="space-y-2">
-              <Label htmlFor="phone">Phone</Label>
+              <Label htmlFor="phone">Teléfono</Label>
               <Input
                 id="phone"
                 value={formData.phone}
@@ -490,7 +490,7 @@ export const AdminUsers = () => {
             <div className="grid grid-cols-2 gap-4">
               {!editingUser && (
                 <div className="space-y-2">
-                  <Label htmlFor="role">Role</Label>
+                  <Label htmlFor="role">Rol</Label>
                   <Select
                     value={formData.role}
                     onValueChange={(value: 'USER' | 'ADMIN') => setFormData({ ...formData, role: value })}
@@ -499,14 +499,14 @@ export const AdminUsers = () => {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="USER">User</SelectItem>
-                      <SelectItem value="ADMIN">Admin</SelectItem>
+                      <SelectItem value="USER">Usuario</SelectItem>
+                      <SelectItem value="ADMIN">Administrador</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               )}
               <div className="space-y-2">
-                <Label htmlFor="customerType">Customer Type</Label>
+                <Label htmlFor="customerType">Tipo de Cliente</Label>
                 <Select
                   value={formData.customerType}
                   onValueChange={(value: 'INDIVIDUAL' | 'BUSINESS') => setFormData({ ...formData, customerType: value })}
@@ -516,35 +516,35 @@ export const AdminUsers = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="INDIVIDUAL">Individual</SelectItem>
-                    <SelectItem value="BUSINESS">Business</SelectItem>
+                    <SelectItem value="BUSINESS">Empresa</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
             {editingUser && (
               <div className="space-y-2">
-                <Label htmlFor="taxId">Tax ID</Label>
+                <Label htmlFor="taxId">RUT / ID Fiscal</Label>
                 <Input
                   id="taxId"
                   value={formData.taxId}
                   onChange={(e) => setFormData({ ...formData, taxId: e.target.value })}
-                  placeholder="Tax identification number"
+                  placeholder="Número de identificación fiscal"
                 />
               </div>
             )}
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setFormDialogOpen(false)}>
-              Cancel
+              Cancelar
             </Button>
             <Button onClick={handleFormSubmit} disabled={formSubmitting} className="btn-gradient-gold">
               {formSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Saving...
+                  Guardando...
                 </>
               ) : (
-                editingUser ? 'Update User' : 'Create User'
+                editingUser ? 'Actualizar Usuario' : 'Crear Usuario'
               )}
             </Button>
           </DialogFooter>
@@ -555,14 +555,14 @@ export const AdminUsers = () => {
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete User</AlertDialogTitle>
+            <AlertDialogTitle>Eliminar Usuario</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete the user "{deletingUser?.email}"?
-              This action cannot be undone and will remove all associated data.
+              ¿Estás seguro de que deseas eliminar al usuario "{deletingUser?.email}"?
+              Esta acción no se puede deshacer y eliminará todos los datos asociados.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
@@ -571,10 +571,10 @@ export const AdminUsers = () => {
               {deleting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Deleting...
+                  Eliminando...
                 </>
               ) : (
-                'Delete'
+                'Eliminar'
               )}
             </AlertDialogAction>
           </AlertDialogFooter>

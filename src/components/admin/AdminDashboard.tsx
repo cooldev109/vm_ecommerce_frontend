@@ -34,7 +34,7 @@ export const AdminDashboard = () => {
     } catch (error: any) {
       toast({
         title: 'Error',
-        description: error.message || 'Failed to load analytics',
+        description: error.message || 'Error al cargar analíticas',
         variant: 'destructive',
       });
     } finally {
@@ -50,7 +50,7 @@ export const AdminDashboard = () => {
             <Loader2 className="h-12 w-12 animate-spin text-accent mx-auto" />
             <div className="absolute inset-0 animate-glow-pulse rounded-full" />
           </div>
-          <p className="text-muted-foreground mt-4">Loading analytics...</p>
+          <p className="text-muted-foreground mt-4">Cargando analíticas...</p>
         </div>
       </div>
     );
@@ -61,7 +61,7 @@ export const AdminDashboard = () => {
       <Card className="card-feminine">
         <CardContent className="py-12 text-center">
           <BarChart3 className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-          <p className="text-muted-foreground">No analytics data available</p>
+          <p className="text-muted-foreground">No hay datos de analíticas disponibles</p>
         </CardContent>
       </Card>
     );
@@ -74,17 +74,17 @@ export const AdminDashboard = () => {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'PENDING':
-        return <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">Pending</Badge>;
+        return <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">Pendiente</Badge>;
       case 'PROCESSING':
-        return <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">Processing</Badge>;
+        return <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">Procesando</Badge>;
       case 'PAID':
-        return <Badge variant="default" className="bg-green-600">Paid</Badge>;
+        return <Badge variant="default" className="bg-green-600">Pagado</Badge>;
       case 'SHIPPED':
-        return <Badge variant="secondary" className="bg-purple-50 text-purple-700 border-purple-200">Shipped</Badge>;
+        return <Badge variant="secondary" className="bg-purple-50 text-purple-700 border-purple-200">Enviado</Badge>;
       case 'DELIVERED':
-        return <Badge variant="default" className="bg-emerald-600">Delivered</Badge>;
+        return <Badge variant="default" className="bg-emerald-600">Entregado</Badge>;
       case 'CANCELLED':
-        return <Badge variant="destructive">Cancelled</Badge>;
+        return <Badge variant="destructive">Cancelado</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }
@@ -111,7 +111,7 @@ export const AdminDashboard = () => {
         {/* Total Revenue */}
         <Card className="card-feminine group hover-rose-glow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Revenue</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Ingresos Totales</CardTitle>
             <div className="w-10 h-10 rounded-full bg-gradient-rose-gold flex items-center justify-center group-hover:animate-gentle-pulse">
               <DollarSign className="h-5 w-5 text-accent" />
             </div>
@@ -123,7 +123,7 @@ export const AdminDashboard = () => {
                 {revenueGrowth >= 0 ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
                 {Math.abs(revenueGrowth)}%
               </span>
-              <span className="text-xs text-muted-foreground">from {analytics.paidOrdersCount} orders</span>
+              <span className="text-xs text-muted-foreground">de {analytics.paidOrdersCount} pedidos</span>
             </div>
           </CardContent>
         </Card>
@@ -131,7 +131,7 @@ export const AdminDashboard = () => {
         {/* Total Orders */}
         <Card className="card-feminine group hover-rose-glow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Orders</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Total Pedidos</CardTitle>
             <div className="w-10 h-10 rounded-full bg-gradient-rose-gold flex items-center justify-center group-hover:animate-gentle-pulse">
               <ShoppingCart className="h-5 w-5 text-accent" />
             </div>
@@ -143,7 +143,7 @@ export const AdminDashboard = () => {
                 {ordersGrowth >= 0 ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
                 {Math.abs(ordersGrowth)}%
               </span>
-              <span className="text-xs text-muted-foreground">all time orders</span>
+              <span className="text-xs text-muted-foreground">pedidos totales</span>
             </div>
           </CardContent>
         </Card>
@@ -151,7 +151,7 @@ export const AdminDashboard = () => {
         {/* This Month */}
         <Card className="card-feminine group hover-rose-glow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">This Month</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Este Mes</CardTitle>
             <div className="w-10 h-10 rounded-full bg-gradient-rose-gold flex items-center justify-center group-hover:animate-gentle-pulse">
               <TrendingUp className="h-5 w-5 text-accent" />
             </div>
@@ -160,7 +160,7 @@ export const AdminDashboard = () => {
             <div className="text-3xl font-bold text-foreground">{analytics.thisMonth.orders}</div>
             <div className="flex items-center gap-2 mt-2">
               <Sparkles className="h-3 w-3 text-accent" />
-              <span className="text-xs text-muted-foreground">${analytics.thisMonth.revenue.toFixed(2)} revenue</span>
+              <span className="text-xs text-muted-foreground">${analytics.thisMonth.revenue.toFixed(2)} ingresos</span>
             </div>
           </CardContent>
         </Card>
@@ -168,7 +168,7 @@ export const AdminDashboard = () => {
         {/* Order Status Distribution */}
         <Card className="card-feminine group hover-rose-glow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Order Status</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Estado de Pedidos</CardTitle>
             <div className="w-10 h-10 rounded-full bg-gradient-rose-gold flex items-center justify-center group-hover:animate-gentle-pulse">
               <Package className="h-5 w-5 text-accent" />
             </div>
@@ -202,8 +202,8 @@ export const AdminDashboard = () => {
                 <Clock className="h-4 w-4 text-accent" />
               </div>
               <div>
-                <CardTitle>Recent Orders</CardTitle>
-                <CardDescription>Latest {analytics.recentOrders.length} orders from your store</CardDescription>
+                <CardTitle>Pedidos Recientes</CardTitle>
+                <CardDescription>Últimos {analytics.recentOrders.length} pedidos de tu tienda</CardDescription>
               </div>
             </div>
           </CardHeader>
@@ -212,7 +212,7 @@ export const AdminDashboard = () => {
               {analytics.recentOrders.length === 0 ? (
                 <div className="text-center py-8">
                   <ShoppingCart className="h-10 w-10 mx-auto text-muted-foreground/50 mb-2" />
-                  <p className="text-sm text-muted-foreground">No orders yet</p>
+                  <p className="text-sm text-muted-foreground">Sin pedidos aún</p>
                 </div>
               ) : (
                 analytics.recentOrders.map((order, index) => (
@@ -246,8 +246,8 @@ export const AdminDashboard = () => {
                 <Sparkles className="h-4 w-4 text-accent" />
               </div>
               <div>
-                <CardTitle>Top Products</CardTitle>
-                <CardDescription>Best selling products (all time)</CardDescription>
+                <CardTitle>Productos Más Vendidos</CardTitle>
+                <CardDescription>Productos más vendidos (todo el tiempo)</CardDescription>
               </div>
             </div>
           </CardHeader>
@@ -256,7 +256,7 @@ export const AdminDashboard = () => {
               {analytics.topProducts.length === 0 ? (
                 <div className="text-center py-8">
                   <Package className="h-10 w-10 mx-auto text-muted-foreground/50 mb-2" />
-                  <p className="text-sm text-muted-foreground">No sales yet</p>
+                  <p className="text-sm text-muted-foreground">Sin ventas aún</p>
                 </div>
               ) : (
                 analytics.topProducts.map((item, index) => {
@@ -279,7 +279,7 @@ export const AdminDashboard = () => {
                             <p className="text-sm font-medium">
                               {translation?.name || item.productId}
                             </p>
-                            <p className="text-xs text-muted-foreground">{item.totalSold} sold</p>
+                            <p className="text-xs text-muted-foreground">{item.totalSold} vendidos</p>
                           </div>
                         </div>
                         <div className="text-sm font-bold">
@@ -304,8 +304,8 @@ export const AdminDashboard = () => {
               <BarChart3 className="h-4 w-4 text-accent" />
             </div>
             <div>
-              <CardTitle>Order Status Overview</CardTitle>
-              <CardDescription>Distribution of orders by status</CardDescription>
+              <CardTitle>Resumen de Estados</CardTitle>
+              <CardDescription>Distribución de pedidos por estado</CardDescription>
             </div>
           </div>
         </CardHeader>

@@ -70,7 +70,7 @@ export const AdminSettings = () => {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
     setSaving(false);
-    toast.success('Settings saved successfully');
+    toast.success('Configuración guardada exitosamente');
   };
 
   return (
@@ -78,8 +78,8 @@ export const AdminSettings = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-serif font-bold text-foreground">Store Settings</h2>
-          <p className="text-muted-foreground">Configure your V&M Candle store preferences</p>
+          <h2 className="text-2xl font-serif font-bold text-foreground">Configuración de Tienda</h2>
+          <p className="text-muted-foreground">Configura las preferencias de tu tienda V&M Candle</p>
         </div>
         <Button
           onClick={handleSaveSettings}
@@ -89,12 +89,12 @@ export const AdminSettings = () => {
           {saving ? (
             <>
               <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-              Saving...
+              Guardando...
             </>
           ) : (
             <>
               <Save className="mr-2 h-4 w-4" />
-              Save All Settings
+              Guardar Configuración
             </>
           )}
         </Button>
@@ -109,14 +109,14 @@ export const AdminSettings = () => {
                 <Store className="h-5 w-5 text-accent" />
               </div>
               <div>
-                <CardTitle>Store Information</CardTitle>
-                <CardDescription>Basic store details and contact info</CardDescription>
+                <CardTitle>Información de Tienda</CardTitle>
+                <CardDescription>Detalles básicos y contacto de la tienda</CardDescription>
               </div>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="storeName">Store Name</Label>
+              <Label htmlFor="storeName">Nombre de Tienda</Label>
               <Input
                 id="storeName"
                 value={storeSettings.storeName}
@@ -124,7 +124,7 @@ export const AdminSettings = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="storeEmail">Contact Email</Label>
+              <Label htmlFor="storeEmail">Email de Contacto</Label>
               <Input
                 id="storeEmail"
                 type="email"
@@ -133,7 +133,7 @@ export const AdminSettings = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="storePhone">Phone Number</Label>
+              <Label htmlFor="storePhone">Número de Teléfono</Label>
               <Input
                 id="storePhone"
                 value={storeSettings.storePhone}
@@ -141,7 +141,7 @@ export const AdminSettings = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="storeAddress">Address</Label>
+              <Label htmlFor="storeAddress">Dirección</Label>
               <Textarea
                 id="storeAddress"
                 value={storeSettings.storeAddress}
@@ -151,7 +151,7 @@ export const AdminSettings = () => {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="currency">Currency</Label>
+                <Label htmlFor="currency">Moneda</Label>
                 <Input
                   id="currency"
                   value={storeSettings.currency}
@@ -159,7 +159,7 @@ export const AdminSettings = () => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="taxRate">Tax Rate (%)</Label>
+                <Label htmlFor="taxRate">Tasa de Impuesto (%)</Label>
                 <Input
                   id="taxRate"
                   type="number"
@@ -179,25 +179,25 @@ export const AdminSettings = () => {
                 <Bell className="h-5 w-5 text-accent" />
               </div>
               <div>
-                <CardTitle>Email Notifications</CardTitle>
-                <CardDescription>Configure email notification preferences</CardDescription>
+                <CardTitle>Notificaciones por Email</CardTitle>
+                <CardDescription>Configura las preferencias de notificaciones por email</CardDescription>
               </div>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
             {Object.entries({
-              orderConfirmation: 'Order Confirmation',
-              orderShipped: 'Order Shipped',
-              newUserRegistration: 'New User Registration',
-              lowStockAlert: 'Low Stock Alert',
-              subscriptionRenewal: 'Subscription Renewal',
-              paymentFailed: 'Payment Failed Alert',
+              orderConfirmation: 'Confirmación de Pedido',
+              orderShipped: 'Pedido Enviado',
+              newUserRegistration: 'Nuevo Registro de Usuario',
+              lowStockAlert: 'Alerta de Bajo Stock',
+              subscriptionRenewal: 'Renovación de Suscripción',
+              paymentFailed: 'Alerta de Pago Fallido',
             }).map(([key, label]) => (
               <div key={key} className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label htmlFor={key}>{label}</Label>
                   <p className="text-xs text-muted-foreground">
-                    Send email when {label.toLowerCase()}
+                    Enviar email cuando ocurra {label.toLowerCase()}
                   </p>
                 </div>
                 <Switch
@@ -220,14 +220,14 @@ export const AdminSettings = () => {
                 <Truck className="h-5 w-5 text-accent" />
               </div>
               <div>
-                <CardTitle>Shipping Configuration</CardTitle>
-                <CardDescription>Set shipping rates and options</CardDescription>
+                <CardTitle>Configuración de Envío</CardTitle>
+                <CardDescription>Configura tarifas y opciones de envío</CardDescription>
               </div>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="freeShippingThreshold">Free Shipping Threshold ($)</Label>
+              <Label htmlFor="freeShippingThreshold">Mínimo para Envío Gratis ($)</Label>
               <Input
                 id="freeShippingThreshold"
                 type="number"
@@ -237,12 +237,12 @@ export const AdminSettings = () => {
                 }
               />
               <p className="text-xs text-muted-foreground">
-                Orders above this amount qualify for free shipping
+                Pedidos sobre este monto califican para envío gratis
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="standardShippingRate">Standard Shipping ($)</Label>
+                <Label htmlFor="standardShippingRate">Envío Estándar ($)</Label>
                 <Input
                   id="standardShippingRate"
                   type="number"
@@ -253,7 +253,7 @@ export const AdminSettings = () => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="expressShippingRate">Express Shipping ($)</Label>
+                <Label htmlFor="expressShippingRate">Envío Express ($)</Label>
                 <Input
                   id="expressShippingRate"
                   type="number"
@@ -267,9 +267,9 @@ export const AdminSettings = () => {
             <Separator />
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label>International Shipping</Label>
+                <Label>Envío Internacional</Label>
                 <p className="text-xs text-muted-foreground">
-                  Enable shipping to international addresses
+                  Habilitar envío a direcciones internacionales
                 </p>
               </div>
               <Switch
@@ -290,27 +290,27 @@ export const AdminSettings = () => {
                 <Settings2 className="h-5 w-5 text-accent" />
               </div>
               <div>
-                <CardTitle>Feature Toggles</CardTitle>
-                <CardDescription>Enable or disable store features</CardDescription>
+                <CardTitle>Características</CardTitle>
+                <CardDescription>Habilita o deshabilita funciones de la tienda</CardDescription>
               </div>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
             {Object.entries({
-              subscriptionsEnabled: { label: 'Subscriptions', desc: 'Allow customers to subscribe to plans' },
-              audioExperienceEnabled: { label: 'Audio Experience', desc: 'Enable audio content for subscribers' },
-              guestCheckout: { label: 'Guest Checkout', desc: 'Allow purchases without account' },
-              reviewsEnabled: { label: 'Product Reviews', desc: 'Allow customers to leave reviews' },
-              wishlistEnabled: { label: 'Wishlist', desc: 'Enable wishlist functionality' },
+              subscriptionsEnabled: { label: 'Suscripciones', desc: 'Permitir a clientes suscribirse a planes' },
+              audioExperienceEnabled: { label: 'Experiencia de Audio', desc: 'Habilitar contenido de audio para suscriptores' },
+              guestCheckout: { label: 'Compra como Invitado', desc: 'Permitir compras sin cuenta' },
+              reviewsEnabled: { label: 'Reseñas de Productos', desc: 'Permitir a clientes dejar reseñas' },
+              wishlistEnabled: { label: 'Lista de Deseos', desc: 'Habilitar funcionalidad de lista de deseos' },
             }).map(([key, { label, desc }]) => (
               <div key={key} className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <div className="flex items-center gap-2">
                     <Label htmlFor={key}>{label}</Label>
                     {features[key as keyof typeof features] ? (
-                      <Badge variant="default" className="bg-green-600 text-xs">Active</Badge>
+                      <Badge variant="default" className="bg-green-600 text-xs">Activo</Badge>
                     ) : (
-                      <Badge variant="outline" className="text-xs">Disabled</Badge>
+                      <Badge variant="outline" className="text-xs">Deshabilitado</Badge>
                     )}
                   </div>
                   <p className="text-xs text-muted-foreground">{desc}</p>
@@ -336,18 +336,18 @@ export const AdminSettings = () => {
               <Database className="h-5 w-5 text-accent" />
             </div>
             <div>
-              <CardTitle>System Status</CardTitle>
-              <CardDescription>Current system health and integrations</CardDescription>
+              <CardTitle>Estado del Sistema</CardTitle>
+              <CardDescription>Estado de salud del sistema e integraciones</CardDescription>
             </div>
           </div>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { label: 'Database', status: 'healthy', icon: Database },
-              { label: 'Payments (Webpay)', status: 'healthy', icon: CreditCard },
-              { label: 'Email Service', status: 'healthy', icon: Mail },
-              { label: 'SSL Certificate', status: 'healthy', icon: Shield },
+              { label: 'Base de Datos', status: 'healthy', icon: Database },
+              { label: 'Pagos (Webpay)', status: 'healthy', icon: CreditCard },
+              { label: 'Servicio de Email', status: 'healthy', icon: Mail },
+              { label: 'Certificado SSL', status: 'healthy', icon: Shield },
             ].map((item) => (
               <div
                 key={item.label}
@@ -367,7 +367,7 @@ export const AdminSettings = () => {
                   <p className={`text-xs capitalize ${
                     item.status === 'healthy' ? 'text-green-600' : 'text-yellow-600'
                   }`}>
-                    {item.status}
+                    {item.status === 'healthy' ? 'Saludable' : 'Advertencia'}
                   </p>
                 </div>
               </div>
@@ -379,26 +379,26 @@ export const AdminSettings = () => {
       {/* Quick Actions */}
       <Card className="card-feminine">
         <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
-          <CardDescription>Common administrative tasks</CardDescription>
+          <CardTitle>Acciones Rápidas</CardTitle>
+          <CardDescription>Tareas administrativas comunes</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-3">
             <Button variant="outline" className="border-gold-accent hover-glow">
               <RefreshCw className="mr-2 h-4 w-4" />
-              Clear Cache
+              Limpiar Caché
             </Button>
             <Button variant="outline" className="border-gold-accent hover-glow">
               <Database className="mr-2 h-4 w-4" />
-              Export Data
+              Exportar Datos
             </Button>
             <Button variant="outline" className="border-gold-accent hover-glow">
               <Mail className="mr-2 h-4 w-4" />
-              Test Email
+              Probar Email
             </Button>
             <Button variant="outline" className="border-gold-accent hover-glow">
               <Globe className="mr-2 h-4 w-4" />
-              View Site
+              Ver Sitio
             </Button>
           </div>
         </CardContent>

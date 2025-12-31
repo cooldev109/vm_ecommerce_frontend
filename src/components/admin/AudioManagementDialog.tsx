@@ -47,12 +47,12 @@ export const AudioManagementDialog = ({
       return response.data;
     },
     onSuccess: () => {
-      toast.success('Audio updated successfully');
+      toast.success('Audio actualizado exitosamente');
       onSuccess();
       onOpenChange(false);
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.error?.message || 'Failed to update audio');
+      toast.error(error.response?.data?.error?.message || 'Error al actualizar audio');
     },
   });
 
@@ -62,7 +62,7 @@ export const AudioManagementDialog = ({
       return response.data;
     },
     onSuccess: () => {
-      toast.success('Audio removed successfully');
+      toast.success('Audio eliminado exitosamente');
       setAudioUrl('');
       setAudioTitle('');
       setAudioDuration('');
@@ -70,13 +70,13 @@ export const AudioManagementDialog = ({
       onOpenChange(false);
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.error?.message || 'Failed to remove audio');
+      toast.error(error.response?.data?.error?.message || 'Error al eliminar audio');
     },
   });
 
   const handleSave = () => {
     if (!audioUrl.trim()) {
-      toast.error('Audio URL is required');
+      toast.error('URL de audio es requerida');
       return;
     }
 
@@ -88,7 +88,7 @@ export const AudioManagementDialog = ({
   };
 
   const handleRemove = () => {
-    if (window.confirm('Are you sure you want to remove the audio from this product?')) {
+    if (window.confirm('¿Estás seguro de que deseas eliminar el audio de este producto?')) {
       removeMutation.mutate();
     }
   };
@@ -103,10 +103,10 @@ export const AudioManagementDialog = ({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Music className="h-5 w-5" />
-            Manage Audio - {product.name}
+            Gestionar Audio - {product.name}
           </DialogTitle>
           <DialogDescription>
-            Add or update audio experience for this product
+            Agregar o actualizar experiencia de audio para este producto
           </DialogDescription>
         </DialogHeader>
 
@@ -114,7 +114,7 @@ export const AudioManagementDialog = ({
           {/* Audio Preview */}
           {product.audioUrl && (
             <div>
-              <Label className="mb-2 block">Current Audio</Label>
+              <Label className="mb-2 block">Audio Actual</Label>
               <AudioPlayer
                 audioUrl={product.audioUrl}
                 audioTitle={product.audioTitle}
@@ -124,7 +124,7 @@ export const AudioManagementDialog = ({
 
           {/* Audio URL */}
           <div>
-            <Label htmlFor="audioUrl">Audio URL *</Label>
+            <Label htmlFor="audioUrl">URL del Audio *</Label>
             <Input
               id="audioUrl"
               value={audioUrl}
@@ -134,50 +134,50 @@ export const AudioManagementDialog = ({
               className="mt-1"
             />
             <p className="text-xs text-muted-foreground mt-1">
-              Direct link to the audio file (MP3, WAV, OGG)
+              Enlace directo al archivo de audio (MP3, WAV, OGG)
             </p>
           </div>
 
           {/* Audio Title */}
           <div>
-            <Label htmlFor="audioTitle">Audio Title</Label>
+            <Label htmlFor="audioTitle">Título del Audio</Label>
             <Input
               id="audioTitle"
               value={audioTitle}
               onChange={(e) => setAudioTitle(e.target.value)}
-              placeholder="e.g., Calming Meditation"
+              placeholder="ej., Meditación Calmante"
               disabled={isPending}
               className="mt-1"
             />
             <p className="text-xs text-muted-foreground mt-1">
-              Optional title for the audio experience
+              Título opcional para la experiencia de audio
             </p>
           </div>
 
           {/* Audio Duration */}
           <div>
-            <Label htmlFor="audioDuration">Duration (seconds)</Label>
+            <Label htmlFor="audioDuration">Duración (segundos)</Label>
             <Input
               id="audioDuration"
               type="number"
               value={audioDuration}
               onChange={(e) => setAudioDuration(e.target.value)}
-              placeholder="e.g., 300"
+              placeholder="ej., 300"
               disabled={isPending}
               className="mt-1"
             />
             <p className="text-xs text-muted-foreground mt-1">
-              Optional duration in seconds
+              Duración opcional en segundos
             </p>
           </div>
 
           {/* Preview New Audio */}
           {audioUrl && audioUrl !== product.audioUrl && (
             <div>
-              <Label className="mb-2 block">Preview New Audio</Label>
+              <Label className="mb-2 block">Vista Previa del Nuevo Audio</Label>
               <AudioPlayer
                 audioUrl={audioUrl}
-                audioTitle={audioTitle || 'Preview'}
+                audioTitle={audioTitle || 'Vista Previa'}
               />
             </div>
           )}
@@ -194,27 +194,27 @@ export const AudioManagementDialog = ({
               {removeMutation.isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Removing...
+                  Eliminando...
                 </>
               ) : (
                 <>
                   <Trash2 className="mr-2 h-4 w-4" />
-                  Remove Audio
+                  Eliminar Audio
                 </>
               )}
             </Button>
           )}
           <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isPending}>
-            Cancel
+            Cancelar
           </Button>
           <Button onClick={handleSave} disabled={isPending || !audioUrl.trim()}>
             {updateMutation.isPending ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Saving...
+                Guardando...
               </>
             ) : (
-              'Save Audio'
+              'Guardar Audio'
             )}
           </Button>
         </DialogFooter>

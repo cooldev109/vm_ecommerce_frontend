@@ -28,9 +28,9 @@ import {
 } from '@/services/subscriptionService';
 
 const PLAN_NAMES = {
-  MONTHLY: 'Monthly',
-  QUARTERLY: 'Quarterly',
-  ANNUAL: 'Annual',
+  MONTHLY: 'Mensual',
+  QUARTERLY: 'Trimestral',
+  ANNUAL: 'Anual',
 };
 
 export default function AdminSubscriptions() {
@@ -59,7 +59,7 @@ export default function AdminSubscriptions() {
     } catch (error: any) {
       toast({
         title: 'Error',
-        description: error.message || 'Failed to load subscription data',
+        description: error.message || 'Error al cargar datos de suscripciones',
         variant: 'destructive',
       });
     } finally {
@@ -77,10 +77,10 @@ export default function AdminSubscriptions() {
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, { variant: 'default' | 'secondary' | 'destructive'; label: string }> = {
-      ACTIVE: { variant: 'default', label: 'Active' },
-      PAUSED: { variant: 'secondary', label: 'Paused' },
-      CANCELLED: { variant: 'destructive', label: 'Cancelled' },
-      EXPIRED: { variant: 'destructive', label: 'Expired' },
+      ACTIVE: { variant: 'default', label: 'Activa' },
+      PAUSED: { variant: 'secondary', label: 'Pausada' },
+      CANCELLED: { variant: 'destructive', label: 'Cancelada' },
+      EXPIRED: { variant: 'destructive', label: 'Expirada' },
     };
 
     const config = variants[status] || variants.EXPIRED;
@@ -116,20 +116,20 @@ export default function AdminSubscriptions() {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Active Subscriptions</CardTitle>
+              <CardTitle className="text-sm font-medium">Suscripciones Activas</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{analytics.summary.totalActive}</div>
               <p className="text-xs text-muted-foreground">
-                {analytics.summary.totalSubscriptions} total
+                {analytics.summary.totalSubscriptions} en total
               </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Monthly Recurring Revenue</CardTitle>
+              <CardTitle className="text-sm font-medium">Ingresos Mensuales Recurrentes</CardTitle>
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -140,7 +140,7 @@ export default function AdminSubscriptions() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Annual Recurring Revenue</CardTitle>
+              <CardTitle className="text-sm font-medium">Ingresos Anuales Recurrentes</CardTitle>
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -151,21 +151,21 @@ export default function AdminSubscriptions() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Plan Breakdown</CardTitle>
+              <CardTitle className="text-sm font-medium">Desglose por Plan</CardTitle>
               <Crown className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="space-y-1">
                 <div className="flex justify-between text-sm">
-                  <span>Monthly:</span>
+                  <span>Mensual:</span>
                   <span className="font-medium">{analytics.planBreakdown.monthly}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span>Quarterly:</span>
+                  <span>Trimestral:</span>
                   <span className="font-medium">{analytics.planBreakdown.quarterly}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span>Annual:</span>
+                  <span>Anual:</span>
                   <span className="font-medium">{analytics.planBreakdown.annual}</span>
                 </div>
               </div>
@@ -179,22 +179,22 @@ export default function AdminSubscriptions() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle>All Subscriptions</CardTitle>
+              <CardTitle>Todas las Suscripciones</CardTitle>
               <CardDescription>
-                Manage and monitor customer subscriptions
+                Administra y monitorea las suscripciones de clientes
               </CardDescription>
             </div>
             <div className="flex items-center gap-4">
               <Select value={statusFilter || "all"} onValueChange={(value) => setStatusFilter(value === "all" ? "" : value)}>
                 <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Filter by status" />
+                  <SelectValue placeholder="Filtrar por estado" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Statuses</SelectItem>
-                  <SelectItem value="ACTIVE">Active</SelectItem>
-                  <SelectItem value="PAUSED">Paused</SelectItem>
-                  <SelectItem value="CANCELLED">Cancelled</SelectItem>
-                  <SelectItem value="EXPIRED">Expired</SelectItem>
+                  <SelectItem value="all">Todos los Estados</SelectItem>
+                  <SelectItem value="ACTIVE">Activa</SelectItem>
+                  <SelectItem value="PAUSED">Pausada</SelectItem>
+                  <SelectItem value="CANCELLED">Cancelada</SelectItem>
+                  <SelectItem value="EXPIRED">Expirada</SelectItem>
                 </SelectContent>
               </Select>
               <Button variant="outline" size="icon" onClick={loadData} disabled={loading}>
@@ -210,20 +210,20 @@ export default function AdminSubscriptions() {
             </div>
           ) : subscriptions.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
-              No subscriptions found
+              No se encontraron suscripciones
             </div>
           ) : (
             <>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Customer</TableHead>
+                    <TableHead>Cliente</TableHead>
                     <TableHead>Email</TableHead>
                     <TableHead>Plan</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Started</TableHead>
-                    <TableHead>Next Renewal</TableHead>
-                    <TableHead>Auto-Renew</TableHead>
+                    <TableHead>Estado</TableHead>
+                    <TableHead>Inicio</TableHead>
+                    <TableHead>Próxima Renovación</TableHead>
+                    <TableHead>Auto-Renovar</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -245,7 +245,7 @@ export default function AdminSubscriptions() {
                       </TableCell>
                       <TableCell>
                         <Badge variant={subscription.autoRenew ? 'default' : 'secondary'}>
-                          {subscription.autoRenew ? 'Yes' : 'No'}
+                          {subscription.autoRenew ? 'Sí' : 'No'}
                         </Badge>
                       </TableCell>
                     </TableRow>
@@ -257,9 +257,9 @@ export default function AdminSubscriptions() {
               {pagination && pagination.pages > 1 && (
                 <div className="flex items-center justify-between mt-4">
                   <p className="text-sm text-muted-foreground">
-                    Showing {(pagination.page - 1) * pagination.limit + 1} to{' '}
-                    {Math.min(pagination.page * pagination.limit, pagination.total)} of{' '}
-                    {pagination.total} subscriptions
+                    Mostrando {(pagination.page - 1) * pagination.limit + 1} a{' '}
+                    {Math.min(pagination.page * pagination.limit, pagination.total)} de{' '}
+                    {pagination.total} suscripciones
                   </p>
                   <div className="flex gap-2">
                     <Button
@@ -268,7 +268,7 @@ export default function AdminSubscriptions() {
                       onClick={() => setPage(page - 1)}
                       disabled={page === 1 || loading}
                     >
-                      Previous
+                      Anterior
                     </Button>
                     <Button
                       variant="outline"
@@ -276,7 +276,7 @@ export default function AdminSubscriptions() {
                       onClick={() => setPage(page + 1)}
                       disabled={page === pagination.pages || loading}
                     >
-                      Next
+                      Siguiente
                     </Button>
                   </div>
                 </div>
@@ -290,8 +290,8 @@ export default function AdminSubscriptions() {
       {analytics && analytics.recentSubscriptions.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Recent Subscriptions</CardTitle>
-            <CardDescription>Latest subscription activations</CardDescription>
+            <CardTitle>Suscripciones Recientes</CardTitle>
+            <CardDescription>Últimas activaciones de suscripciones</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">

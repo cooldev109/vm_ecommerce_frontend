@@ -59,12 +59,12 @@ export const AdminProducts = () => {
     mutationFn: (productId: string) => deleteProduct(productId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-products'] });
-      toast.success('Product deleted successfully');
+      toast.success('Producto eliminado exitosamente');
       setDeleteDialogOpen(false);
       setDeletingProduct(null);
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.error?.message || 'Failed to delete product');
+      toast.error(error.response?.data?.error?.message || 'Error al eliminar producto');
     },
   });
 
@@ -112,12 +112,12 @@ export const AdminProducts = () => {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle>Products</CardTitle>
-              <CardDescription>Manage your product catalog</CardDescription>
+              <CardTitle>Productos</CardTitle>
+              <CardDescription>Administra tu catálogo de productos</CardDescription>
             </div>
             <Button className="btn-luxury" onClick={handleAddProduct}>
               <Plus className="mr-2 h-4 w-4" />
-              Add Product
+              Agregar Producto
             </Button>
           </div>
         </CardHeader>
@@ -128,7 +128,7 @@ export const AdminProducts = () => {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               type="text"
-              placeholder="Search products..."
+              placeholder="Buscar productos..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10"
@@ -141,21 +141,21 @@ export const AdminProducts = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[80px]">Image</TableHead>
+                <TableHead className="w-[80px]">Imagen</TableHead>
                 <TableHead>ID</TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Price</TableHead>
+                <TableHead>Nombre</TableHead>
+                <TableHead>Categoría</TableHead>
+                <TableHead>Precio</TableHead>
                 <TableHead>Stock</TableHead>
-                <TableHead>Featured</TableHead>
-                <TableHead className="w-[100px]">Actions</TableHead>
+                <TableHead>Destacado</TableHead>
+                <TableHead className="w-[100px]">Acciones</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredProducts.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={8} className="text-center text-muted-foreground">
-                    No products found
+                    No se encontraron productos
                   </TableCell>
                 </TableRow>
               ) : (
@@ -176,14 +176,14 @@ export const AdminProducts = () => {
                     <TableCell>${parseFloat(product.price).toFixed(2)}</TableCell>
                     <TableCell>
                       {product.inStock ? (
-                        <Badge variant="default" className="bg-green-600">In Stock</Badge>
+                        <Badge variant="default" className="bg-green-600">En Stock</Badge>
                       ) : (
-                        <Badge variant="destructive">Out of Stock</Badge>
+                        <Badge variant="destructive">Sin Stock</Badge>
                       )}
                     </TableCell>
                     <TableCell>
                       {product.featured && (
-                        <Badge variant="secondary">Featured</Badge>
+                        <Badge variant="secondary">Destacado</Badge>
                       )}
                     </TableCell>
                     <TableCell>
@@ -192,7 +192,7 @@ export const AdminProducts = () => {
                           variant="ghost"
                           size="sm"
                           onClick={() => handleManageAudio(product)}
-                          title="Manage Audio"
+                          title="Gestionar Audio"
                         >
                           <Music className={`h-4 w-4 ${product.audioUrl ? 'text-accent' : 'text-muted-foreground'}`} />
                         </Button>
@@ -233,13 +233,13 @@ export const AdminProducts = () => {
     <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+          <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
           <AlertDialogDescription>
-            This will permanently delete the product "{deletingProduct?.name}". This action cannot be undone.
+            Esto eliminará permanentemente el producto "{deletingProduct?.name}". Esta acción no se puede deshacer.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>Cancelar</AlertDialogCancel>
           <AlertDialogAction
             onClick={confirmDelete}
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
@@ -247,10 +247,10 @@ export const AdminProducts = () => {
             {deleteMutation.isPending ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Deleting...
+                Eliminando...
               </>
             ) : (
-              'Delete'
+              'Eliminar'
             )}
           </AlertDialogAction>
         </AlertDialogFooter>

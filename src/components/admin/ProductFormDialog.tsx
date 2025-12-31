@@ -97,13 +97,13 @@ export const ProductFormDialog = ({ open, onOpenChange, product, onSuccess }: Pr
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      toast.error('Please select an image file');
+      toast.error('Por favor selecciona un archivo de imagen');
       return;
     }
 
     // Validate file size (5MB max)
     if (file.size > 5 * 1024 * 1024) {
-      toast.error('Image size must be less than 5MB');
+      toast.error('El tamaño de la imagen debe ser menor a 5MB');
       return;
     }
 
@@ -112,10 +112,10 @@ export const ProductFormDialog = ({ open, onOpenChange, product, onSuccess }: Pr
       const result = await uploadProductImage(file);
       setImage(result.filePath);
       setImagePreview(URL.createObjectURL(file));
-      toast.success('Image uploaded successfully');
+      toast.success('Imagen subida exitosamente');
     } catch (error: any) {
       console.error('Upload error:', error);
-      toast.error(error.message || 'Failed to upload image');
+      toast.error(error.message || 'Error al subir imagen');
     } finally {
       setUploading(false);
     }
@@ -152,10 +152,10 @@ export const ProductFormDialog = ({ open, onOpenChange, product, onSuccess }: Pr
       // Create or update product
       if (isEdit) {
         await updateProduct(productId, productData);
-        toast.success('Product updated successfully');
+        toast.success('Producto actualizado exitosamente');
       } else {
         await createProduct(productData);
-        toast.success('Product created successfully');
+        toast.success('Producto creado exitosamente');
       }
 
       // Update English translation
@@ -183,7 +183,7 @@ export const ProductFormDialog = ({ open, onOpenChange, product, onSuccess }: Pr
       resetForm();
     } catch (error: any) {
       console.error('Error saving product:', error);
-      toast.error(error.response?.data?.error?.message || 'Failed to save product');
+      toast.error(error.response?.data?.error?.message || 'Error al guardar producto');
     } finally {
       setLoading(false);
     }
@@ -193,47 +193,47 @@ export const ProductFormDialog = ({ open, onOpenChange, product, onSuccess }: Pr
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{isEdit ? 'Edit Product' : 'Add New Product'}</DialogTitle>
+          <DialogTitle>{isEdit ? 'Editar Producto' : 'Agregar Nuevo Producto'}</DialogTitle>
           <DialogDescription>
-            {isEdit ? 'Update product information and translations' : 'Create a new product with translations'}
+            {isEdit ? 'Actualiza información del producto y traducciones' : 'Crea un nuevo producto con traducciones'}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Product Info */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-lg">Product Information</h3>
+            <h3 className="font-semibold text-lg">Información del Producto</h3>
 
             <div className="grid grid-cols-2 gap-4">
               {!isEdit && (
                 <div>
-                  <Label htmlFor="id">Product ID *</Label>
+                  <Label htmlFor="id">ID de Producto *</Label>
                   <Input
                     id="id"
                     value={id}
                     onChange={(e) => setId(e.target.value)}
                     required
-                    placeholder="e.g., 12"
+                    placeholder="ej., 12"
                   />
                 </div>
               )}
 
               <div>
-                <Label htmlFor="category">Category *</Label>
+                <Label htmlFor="category">Categoría *</Label>
                 <Select value={category} onValueChange={(value: any) => setCategory(value)}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="CANDLES">Candles</SelectItem>
-                    <SelectItem value="ACCESSORIES">Accessories</SelectItem>
+                    <SelectItem value="CANDLES">Velas</SelectItem>
+                    <SelectItem value="ACCESSORIES">Accesorios</SelectItem>
                     <SelectItem value="SETS">Sets</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div>
-                <Label htmlFor="price">Price (USD) *</Label>
+                <Label htmlFor="price">Precio (CLP) *</Label>
                 <Input
                   id="price"
                   type="number"
@@ -246,13 +246,13 @@ export const ProductFormDialog = ({ open, onOpenChange, product, onSuccess }: Pr
               </div>
 
               <div className="col-span-2">
-                <Label htmlFor="image">Product Image *</Label>
+                <Label htmlFor="image">Imagen del Producto *</Label>
                 <div className="mt-2">
                   {imagePreview || image ? (
                     <div className="relative inline-block">
                       <img
                         src={imagePreview || `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}${image}`}
-                        alt="Product preview"
+                        alt="Vista previa del producto"
                         className="w-40 h-40 object-cover rounded-lg border-2 border-border"
                       />
                       <button
@@ -282,12 +282,12 @@ export const ProductFormDialog = ({ open, onOpenChange, product, onSuccess }: Pr
                           {uploading ? (
                             <span className="flex items-center space-x-2">
                               <Loader2 className="h-4 w-4 animate-spin" />
-                              <span>Uploading...</span>
+                              <span>Subiendo...</span>
                             </span>
                           ) : (
                             <>
-                              <span className="font-semibold text-accent hover:text-accent/80">Click to upload</span>
-                              <span className="block mt-1">PNG, JPG, WEBP up to 5MB</span>
+                              <span className="font-semibold text-accent hover:text-accent/80">Haz clic para subir</span>
+                              <span className="block mt-1">PNG, JPG, WEBP hasta 5MB</span>
                             </>
                           )}
                         </div>
@@ -298,17 +298,17 @@ export const ProductFormDialog = ({ open, onOpenChange, product, onSuccess }: Pr
               </div>
 
               <div>
-                <Label htmlFor="burnTime">Burn Time</Label>
+                <Label htmlFor="burnTime">Tiempo de Quemado</Label>
                 <Input
                   id="burnTime"
                   value={burnTime}
                   onChange={(e) => setBurnTime(e.target.value)}
-                  placeholder="50-60 hours"
+                  placeholder="50-60 horas"
                 />
               </div>
 
               <div>
-                <Label htmlFor="size">Size</Label>
+                <Label htmlFor="size">Tamaño</Label>
                 <Input
                   id="size"
                   value={size}
@@ -318,7 +318,7 @@ export const ProductFormDialog = ({ open, onOpenChange, product, onSuccess }: Pr
               </div>
 
               <div>
-                <Label htmlFor="sortOrder">Sort Order</Label>
+                <Label htmlFor="sortOrder">Orden</Label>
                 <Input
                   id="sortOrder"
                   type="number"
@@ -331,11 +331,11 @@ export const ProductFormDialog = ({ open, onOpenChange, product, onSuccess }: Pr
               <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-2">
                   <Switch checked={inStock} onCheckedChange={setInStock} />
-                  <Label>In Stock</Label>
+                  <Label>En Stock</Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Switch checked={featured} onCheckedChange={setFeatured} />
-                  <Label>Featured</Label>
+                  <Label>Destacado</Label>
                 </div>
               </div>
             </div>
@@ -343,44 +343,44 @@ export const ProductFormDialog = ({ open, onOpenChange, product, onSuccess }: Pr
 
           {/* English Translation */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-lg">English Translation</h3>
+            <h3 className="font-semibold text-lg">Traducción en Inglés</h3>
 
             <div>
-              <Label htmlFor="nameEN">Name (EN) *</Label>
+              <Label htmlFor="nameEN">Nombre (EN) *</Label>
               <Input
                 id="nameEN"
                 value={nameEN}
                 onChange={(e) => setNameEN(e.target.value)}
                 required
-                placeholder="Product Name"
+                placeholder="Nombre del Producto"
               />
             </div>
 
             <div>
-              <Label htmlFor="descEN">Description (EN) *</Label>
+              <Label htmlFor="descEN">Descripción (EN) *</Label>
               <Textarea
                 id="descEN"
                 value={descEN}
                 onChange={(e) => setDescEN(e.target.value)}
                 required
-                placeholder="Short description"
+                placeholder="Descripción corta"
                 rows={2}
               />
             </div>
 
             <div>
-              <Label htmlFor="longDescEN">Long Description (EN)</Label>
+              <Label htmlFor="longDescEN">Descripción Larga (EN)</Label>
               <Textarea
                 id="longDescEN"
                 value={longDescEN}
                 onChange={(e) => setLongDescEN(e.target.value)}
-                placeholder="Detailed description"
+                placeholder="Descripción detallada"
                 rows={3}
               />
             </div>
 
             <div>
-              <Label htmlFor="featuresEN">Features (EN - one per line)</Label>
+              <Label htmlFor="featuresEN">Características (EN - una por línea)</Label>
               <Textarea
                 id="featuresEN"
                 value={featuresEN}
@@ -393,10 +393,10 @@ export const ProductFormDialog = ({ open, onOpenChange, product, onSuccess }: Pr
 
           {/* Spanish Translation */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-lg">Spanish Translation</h3>
+            <h3 className="font-semibold text-lg">Traducción en Español</h3>
 
             <div>
-              <Label htmlFor="nameES">Name (ES)</Label>
+              <Label htmlFor="nameES">Nombre (ES)</Label>
               <Input
                 id="nameES"
                 value={nameES}
@@ -406,7 +406,7 @@ export const ProductFormDialog = ({ open, onOpenChange, product, onSuccess }: Pr
             </div>
 
             <div>
-              <Label htmlFor="descES">Description (ES)</Label>
+              <Label htmlFor="descES">Descripción (ES)</Label>
               <Textarea
                 id="descES"
                 value={descES}
@@ -417,7 +417,7 @@ export const ProductFormDialog = ({ open, onOpenChange, product, onSuccess }: Pr
             </div>
 
             <div>
-              <Label htmlFor="longDescES">Long Description (ES)</Label>
+              <Label htmlFor="longDescES">Descripción Larga (ES)</Label>
               <Textarea
                 id="longDescES"
                 value={longDescES}
@@ -428,7 +428,7 @@ export const ProductFormDialog = ({ open, onOpenChange, product, onSuccess }: Pr
             </div>
 
             <div>
-              <Label htmlFor="featuresES">Features (ES - one per line)</Label>
+              <Label htmlFor="featuresES">Características (ES - una por línea)</Label>
               <Textarea
                 id="featuresES"
                 value={featuresES}
@@ -446,11 +446,11 @@ export const ProductFormDialog = ({ open, onOpenChange, product, onSuccess }: Pr
               onClick={() => onOpenChange(false)}
               disabled={loading}
             >
-              Cancel
+              Cancelar
             </Button>
             <Button type="submit" className="btn-luxury" disabled={loading}>
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {isEdit ? 'Update Product' : 'Create Product'}
+              {isEdit ? 'Actualizar Producto' : 'Crear Producto'}
             </Button>
           </DialogFooter>
         </form>

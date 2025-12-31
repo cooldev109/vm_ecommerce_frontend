@@ -62,7 +62,7 @@ export const AdminCustomers = () => {
     } catch (error: any) {
       toast({
         title: 'Error',
-        description: error.message || 'Failed to load customers',
+        description: error.message || 'Error al cargar clientes',
         variant: 'destructive',
       });
     } finally {
@@ -93,7 +93,7 @@ export const AdminCustomers = () => {
     } catch (error: any) {
       toast({
         title: 'Error',
-        description: error.message || 'Failed to load customer details',
+        description: error.message || 'Error al cargar detalles del cliente',
         variant: 'destructive',
       });
       setDetailsDialogOpen(false);
@@ -103,8 +103,8 @@ export const AdminCustomers = () => {
   };
 
   const formatDate = (date: string | null) => {
-    if (!date) return 'Never';
-    return new Date(date).toLocaleDateString('en-US', {
+    if (!date) return 'Nunca';
+    return new Date(date).toLocaleDateString('es-CL', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -119,14 +119,14 @@ export const AdminCustomers = () => {
           <Card className="card-feminine group hover-rose-glow">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-medium text-muted-foreground">Total Customers</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">Total Clientes</CardTitle>
                 <UsersIcon className="h-4 w-4 text-muted-foreground" />
               </div>
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold">{stats.totalCustomers}</div>
               <p className="text-xs text-muted-foreground mt-1">
-                {stats.customersWithOrders} with orders
+                {stats.customersWithOrders} con pedidos
               </p>
             </CardContent>
           </Card>
@@ -134,27 +134,27 @@ export const AdminCustomers = () => {
           <Card className="card-feminine group hover-rose-glow">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-medium text-muted-foreground">New This Month</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">Nuevos Este Mes</CardTitle>
                 <TrendingUp className="h-4 w-4 text-muted-foreground" />
               </div>
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-green-600">{stats.newCustomersThisMonth}</div>
-              <p className="text-xs text-muted-foreground mt-1">New registrations</p>
+              <p className="text-xs text-muted-foreground mt-1">Nuevos registros</p>
             </CardContent>
           </Card>
 
           <Card className="card-feminine group hover-rose-glow">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-medium text-muted-foreground">Retention Rate</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">Tasa de Retención</CardTitle>
                 <UserCheck className="h-4 w-4 text-muted-foreground" />
               </div>
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-blue-600">{stats.customerRetentionRate}%</div>
               <p className="text-xs text-muted-foreground mt-1">
-                {stats.repeatCustomers} repeat customers
+                {stats.repeatCustomers} clientes recurrentes
               </p>
             </CardContent>
           </Card>
@@ -162,7 +162,7 @@ export const AdminCustomers = () => {
           <Card className="card-feminine group hover-rose-glow">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-medium text-muted-foreground">Top Customer</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">Mejor Cliente</CardTitle>
                 <DollarSign className="h-4 w-4 text-muted-foreground" />
               </div>
             </CardHeader>
@@ -177,7 +177,7 @@ export const AdminCustomers = () => {
                   </p>
                 </>
               ) : (
-                <div className="text-xl font-bold text-muted-foreground">No data</div>
+                <div className="text-xl font-bold text-muted-foreground">Sin datos</div>
               )}
             </CardContent>
           </Card>
@@ -193,8 +193,8 @@ export const AdminCustomers = () => {
                 <Sparkles className="h-4 w-4 text-accent" />
               </div>
               <div>
-                <CardTitle>Top Customers by Spending</CardTitle>
-                <CardDescription>Your most valuable customers</CardDescription>
+                <CardTitle>Mejores Clientes por Gasto</CardTitle>
+                <CardDescription>Tus clientes más valiosos</CardDescription>
               </div>
             </div>
           </CardHeader>
@@ -207,13 +207,13 @@ export const AdminCustomers = () => {
                       {index + 1}
                     </div>
                     <div>
-                      <p className="font-medium">{customer.name || 'Unknown'}</p>
+                      <p className="font-medium">{customer.name || 'Desconocido'}</p>
                       <p className="text-sm text-muted-foreground">{customer.email}</p>
                     </div>
                   </div>
                   <div className="text-right">
                     <p className="font-bold text-lg">${customer.totalSpent.toLocaleString()}</p>
-                    <p className="text-sm text-muted-foreground">{customer.orderCount} orders</p>
+                    <p className="text-sm text-muted-foreground">{customer.orderCount} pedidos</p>
                   </div>
                 </div>
               ))}
@@ -231,8 +231,8 @@ export const AdminCustomers = () => {
                 <ShoppingBag className="h-4 w-4 text-accent" />
               </div>
               <div>
-                <CardTitle>All Customers</CardTitle>
-                <CardDescription>View and manage customer information</CardDescription>
+                <CardTitle>Todos los Clientes</CardTitle>
+                <CardDescription>Ver y gestionar información de clientes</CardDescription>
               </div>
             </div>
           </div>
@@ -241,7 +241,7 @@ export const AdminCustomers = () => {
           {/* Search */}
           <div className="flex gap-2 mb-6">
             <Input
-              placeholder="Search by name or email..."
+              placeholder="Buscar por nombre o email..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -256,7 +256,7 @@ export const AdminCustomers = () => {
             <div className="flex justify-center py-12">
               <div className="text-center">
                 <Loader2 className="h-8 w-8 animate-spin text-accent mx-auto" />
-                <p className="text-muted-foreground mt-2">Loading customers...</p>
+                <p className="text-muted-foreground mt-2">Cargando clientes...</p>
               </div>
             </div>
           ) : (
@@ -265,15 +265,15 @@ export const AdminCustomers = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Customer</TableHead>
+                      <TableHead>Cliente</TableHead>
                       <TableHead>Email</TableHead>
-                      <TableHead>Role</TableHead>
-                      <TableHead className="text-right">Total Orders</TableHead>
-                      <TableHead className="text-right">Total Spent</TableHead>
-                      <TableHead className="text-right">Avg Order</TableHead>
-                      <TableHead>Last Order</TableHead>
-                      <TableHead>Registered</TableHead>
-                      <TableHead className="w-[100px]">Actions</TableHead>
+                      <TableHead>Rol</TableHead>
+                      <TableHead className="text-right">Total Pedidos</TableHead>
+                      <TableHead className="text-right">Total Gastado</TableHead>
+                      <TableHead className="text-right">Promedio</TableHead>
+                      <TableHead>Último Pedido</TableHead>
+                      <TableHead>Registrado</TableHead>
+                      <TableHead className="w-[100px]">Acciones</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -281,7 +281,7 @@ export const AdminCustomers = () => {
                       <TableRow>
                         <TableCell colSpan={9} className="text-center text-muted-foreground py-8">
                           <UsersIcon className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                          <p>No customers found</p>
+                          <p>No se encontraron clientes</p>
                         </TableCell>
                       </TableRow>
                     ) : (
@@ -291,9 +291,9 @@ export const AdminCustomers = () => {
                             <div>
                               <p>{customer.firstName || customer.lastName
                                 ? `${customer.firstName} ${customer.lastName}`.trim()
-                                : 'No name'}</p>
+                                : 'Sin nombre'}</p>
                               {customer.customerType === 'BUSINESS' && (
-                                <Badge variant="secondary" className="mt-1">Business</Badge>
+                                <Badge variant="secondary" className="mt-1">Empresa</Badge>
                               )}
                             </div>
                           </TableCell>
@@ -302,7 +302,7 @@ export const AdminCustomers = () => {
                             {customer.role === 'ADMIN' ? (
                               <Badge variant="default" className="bg-purple-600">Admin</Badge>
                             ) : (
-                              <Badge variant="outline">User</Badge>
+                              <Badge variant="outline">Usuario</Badge>
                             )}
                           </TableCell>
                           <TableCell className="text-right font-medium">{customer.totalOrders}</TableCell>
@@ -323,7 +323,7 @@ export const AdminCustomers = () => {
                               variant="ghost"
                               size="sm"
                               onClick={() => handleViewDetails(customer.id)}
-                              title="View details"
+                              title="Ver detalles"
                             >
                               <Eye className="h-4 w-4" />
                             </Button>
@@ -339,7 +339,7 @@ export const AdminCustomers = () => {
               {totalPages > 1 && (
                 <div className="flex items-center justify-between mt-6">
                   <p className="text-sm text-muted-foreground">
-                    Page {page} of {totalPages}
+                    Página {page} de {totalPages}
                   </p>
                   <div className="flex gap-2">
                     <Button
@@ -348,7 +348,7 @@ export const AdminCustomers = () => {
                       onClick={() => setPage(p => Math.max(1, p - 1))}
                       disabled={page === 1}
                     >
-                      Previous
+                      Anterior
                     </Button>
                     <Button
                       variant="outline"
@@ -356,7 +356,7 @@ export const AdminCustomers = () => {
                       onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                       disabled={page === totalPages}
                     >
-                      Next
+                      Siguiente
                     </Button>
                   </div>
                 </div>
@@ -370,9 +370,9 @@ export const AdminCustomers = () => {
       <Dialog open={detailsDialogOpen} onOpenChange={setDetailsDialogOpen}>
         <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Customer Details</DialogTitle>
+            <DialogTitle>Detalles del Cliente</DialogTitle>
             <DialogDescription>
-              Complete profile and order history
+              Perfil completo e historial de pedidos
             </DialogDescription>
           </DialogHeader>
 
@@ -385,10 +385,10 @@ export const AdminCustomers = () => {
               {/* Customer Info */}
               <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <h3 className="font-semibold mb-4">Profile Information</h3>
+                  <h3 className="font-semibold mb-4">Información del Perfil</h3>
                   <dl className="space-y-2 text-sm">
                     <div>
-                      <dt className="text-muted-foreground">Name</dt>
+                      <dt className="text-muted-foreground">Nombre</dt>
                       <dd className="font-medium">
                         {selectedCustomer.profile.firstName} {selectedCustomer.profile.lastName}
                       </dd>
@@ -398,22 +398,22 @@ export const AdminCustomers = () => {
                       <dd className="font-medium">{selectedCustomer.email}</dd>
                     </div>
                     <div>
-                      <dt className="text-muted-foreground">Phone</dt>
-                      <dd className="font-medium">{selectedCustomer.profile.phone || 'N/A'}</dd>
+                      <dt className="text-muted-foreground">Teléfono</dt>
+                      <dd className="font-medium">{selectedCustomer.profile.phone || 'N/D'}</dd>
                     </div>
                     <div>
-                      <dt className="text-muted-foreground">Customer Type</dt>
+                      <dt className="text-muted-foreground">Tipo de Cliente</dt>
                       <dd>
                         <Badge variant="secondary">{selectedCustomer.profile.customerType}</Badge>
                       </dd>
                     </div>
                     <div>
-                      <dt className="text-muted-foreground">Role</dt>
+                      <dt className="text-muted-foreground">Rol</dt>
                       <dd>
                         {selectedCustomer.role === 'ADMIN' ? (
                           <Badge className="bg-purple-600">Admin</Badge>
                         ) : (
-                          <Badge variant="outline">User</Badge>
+                          <Badge variant="outline">Usuario</Badge>
                         )}
                       </dd>
                     </div>
@@ -421,28 +421,28 @@ export const AdminCustomers = () => {
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-4">Statistics</h3>
+                  <h3 className="font-semibold mb-4">Estadísticas</h3>
                   <dl className="space-y-2 text-sm">
                     <div>
-                      <dt className="text-muted-foreground">Total Orders</dt>
+                      <dt className="text-muted-foreground">Total Pedidos</dt>
                       <dd className="font-medium text-lg">{selectedCustomer.statistics.totalOrders}</dd>
                     </div>
                     <div>
-                      <dt className="text-muted-foreground">Lifetime Value</dt>
+                      <dt className="text-muted-foreground">Valor de Por Vida</dt>
                       <dd className="font-medium text-lg text-green-600">
                         {formatCurrency(selectedCustomer.statistics.lifetimeValue)}
                       </dd>
                     </div>
                     <div>
-                      <dt className="text-muted-foreground">Average Order Value</dt>
+                      <dt className="text-muted-foreground">Valor Promedio de Pedido</dt>
                       <dd className="font-medium">{formatCurrency(selectedCustomer.statistics.avgOrderValue)}</dd>
                     </div>
                     <div>
-                      <dt className="text-muted-foreground">Last Order</dt>
+                      <dt className="text-muted-foreground">Último Pedido</dt>
                       <dd className="font-medium">{formatDate(selectedCustomer.statistics.lastOrderDate)}</dd>
                     </div>
                     <div>
-                      <dt className="text-muted-foreground">Registration Date</dt>
+                      <dt className="text-muted-foreground">Fecha de Registro</dt>
                       <dd className="font-medium">{formatDate(selectedCustomer.registrationDate)}</dd>
                     </div>
                   </dl>
@@ -451,20 +451,20 @@ export const AdminCustomers = () => {
 
               {/* Order History */}
               <div>
-                <h3 className="font-semibold mb-4">Order History</h3>
+                <h3 className="font-semibold mb-4">Historial de Pedidos</h3>
                 {selectedCustomer.orderHistory.length === 0 ? (
-                  <p className="text-muted-foreground text-sm text-center py-8">No orders yet</p>
+                  <p className="text-muted-foreground text-sm text-center py-8">Sin pedidos aún</p>
                 ) : (
                   <div className="rounded-md border border-border/50">
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>Order ID</TableHead>
-                          <TableHead>Status</TableHead>
-                          <TableHead>Payment</TableHead>
+                          <TableHead>ID Pedido</TableHead>
+                          <TableHead>Estado</TableHead>
+                          <TableHead>Pago</TableHead>
                           <TableHead className="text-right">Items</TableHead>
                           <TableHead className="text-right">Total</TableHead>
-                          <TableHead>Date</TableHead>
+                          <TableHead>Fecha</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>

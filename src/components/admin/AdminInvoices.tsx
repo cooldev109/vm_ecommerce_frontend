@@ -49,7 +49,7 @@ export const AdminInvoices = () => {
     } catch (error: any) {
       toast({
         title: 'Error',
-        description: error.message || 'Failed to load invoices',
+        description: error.message || 'Error al cargar facturas',
         variant: 'destructive',
       });
     } finally {
@@ -62,14 +62,14 @@ export const AdminInvoices = () => {
       setGenerating(orderId);
       await generateInvoiceAPI({ orderId });
       toast({
-        title: 'Success',
-        description: 'Invoice generated successfully',
+        title: 'Éxito',
+        description: 'Factura generada exitosamente',
       });
       await loadInvoices();
     } catch (error: any) {
       toast({
         title: 'Error',
-        description: error.message || 'Failed to generate invoice',
+        description: error.message || 'Error al generar factura',
         variant: 'destructive',
       });
     } finally {
@@ -116,14 +116,14 @@ export const AdminInvoices = () => {
       window.URL.revokeObjectURL(url);
 
       toast({
-        title: 'Success',
-        description: 'Invoice downloaded successfully',
+        title: 'Éxito',
+        description: 'Factura descargada exitosamente',
       });
     } catch (error: any) {
       console.error('Download error:', error);
       toast({
         title: 'Error',
-        description: error.message || 'Failed to download invoice',
+        description: error.message || 'Error al descargar factura',
         variant: 'destructive',
       });
     }
@@ -132,13 +132,13 @@ export const AdminInvoices = () => {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'DRAFT':
-        return <Badge variant="outline" className="bg-gray-100">Draft</Badge>;
+        return <Badge variant="outline" className="bg-gray-100">Borrador</Badge>;
       case 'ISSUED':
-        return <Badge variant="default" className="bg-blue-600">Issued</Badge>;
+        return <Badge variant="default" className="bg-blue-600">Emitida</Badge>;
       case 'PAID':
-        return <Badge variant="default" className="bg-green-600">Paid</Badge>;
+        return <Badge variant="default" className="bg-green-600">Pagada</Badge>;
       case 'CANCELLED':
-        return <Badge variant="destructive">Cancelled</Badge>;
+        return <Badge variant="destructive">Cancelada</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }
@@ -147,13 +147,13 @@ export const AdminInvoices = () => {
   const getPaymentBadge = (status: string) => {
     switch (status) {
       case 'PENDING':
-        return <Badge variant="outline">Pending</Badge>;
+        return <Badge variant="outline">Pendiente</Badge>;
       case 'PAID':
-        return <Badge variant="default" className="bg-green-600">Paid</Badge>;
+        return <Badge variant="default" className="bg-green-600">Pagado</Badge>;
       case 'FAILED':
-        return <Badge variant="destructive">Failed</Badge>;
+        return <Badge variant="destructive">Fallido</Badge>;
       case 'REFUNDED':
-        return <Badge variant="secondary">Refunded</Badge>;
+        return <Badge variant="secondary">Reembolsado</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }
@@ -162,8 +162,8 @@ export const AdminInvoices = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Invoices</CardTitle>
-        <CardDescription>Manage customer invoices and billing</CardDescription>
+        <CardTitle>Facturas</CardTitle>
+        <CardDescription>Gestionar facturas y facturación de clientes</CardDescription>
       </CardHeader>
       <CardContent>
         {loading ? (
@@ -175,21 +175,21 @@ export const AdminInvoices = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Invoice #</TableHead>
-                  <TableHead>Order ID</TableHead>
-                  <TableHead>Customer</TableHead>
-                  <TableHead>Date</TableHead>
+                  <TableHead>Factura #</TableHead>
+                  <TableHead>ID Pedido</TableHead>
+                  <TableHead>Cliente</TableHead>
+                  <TableHead>Fecha</TableHead>
                   <TableHead>Total</TableHead>
-                  <TableHead>Payment</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="w-[150px]">Actions</TableHead>
+                  <TableHead>Pago</TableHead>
+                  <TableHead>Estado</TableHead>
+                  <TableHead className="w-[150px]">Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {invoices.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={8} className="text-center text-muted-foreground py-8">
-                      No invoices found
+                      No se encontraron facturas
                     </TableCell>
                   </TableRow>
                 ) : (
@@ -222,7 +222,7 @@ export const AdminInvoices = () => {
                               variant="ghost"
                               size="sm"
                               onClick={() => handleDownloadPDF(invoice.id, invoice.invoiceNumber)}
-                              title="Download PDF"
+                              title="Descargar PDF"
                             >
                               <Download className="h-4 w-4" />
                             </Button>
@@ -232,7 +232,7 @@ export const AdminInvoices = () => {
                               size="sm"
                               onClick={() => handleGenerateInvoice(invoice.order.id)}
                               disabled={generating === invoice.order.id}
-                              title="Generate Invoice"
+                              title="Generar Factura"
                             >
                               {generating === invoice.order.id ? (
                                 <Loader2 className="h-4 w-4 animate-spin" />

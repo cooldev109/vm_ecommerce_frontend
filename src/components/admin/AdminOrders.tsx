@@ -60,7 +60,7 @@ export const AdminOrders = () => {
     } catch (error: any) {
       toast({
         title: 'Error',
-        description: error.message || 'Failed to load orders',
+        description: error.message || 'Error al cargar pedidos',
         variant: 'destructive',
       });
     } finally {
@@ -84,15 +84,15 @@ export const AdminOrders = () => {
       setUpdating(true);
       await updateOrderStatus(selectedOrder.id, { status: statusUpdate as any });
       toast({
-        title: 'Success',
-        description: 'Order status updated successfully',
+        title: 'Éxito',
+        description: 'Estado del pedido actualizado exitosamente',
       });
       await loadOrders();
       setDialogOpen(false);
     } catch (error: any) {
       toast({
         title: 'Error',
-        description: error.message || 'Failed to update order status',
+        description: error.message || 'Error al actualizar estado del pedido',
         variant: 'destructive',
       });
     } finally {
@@ -111,15 +111,15 @@ export const AdminOrders = () => {
         adminNotes,
       });
       toast({
-        title: 'Success',
-        description: 'Tracking information updated successfully',
+        title: 'Éxito',
+        description: 'Información de seguimiento actualizada exitosamente',
       });
       await loadOrders();
       setDialogOpen(false);
     } catch (error: any) {
       toast({
         title: 'Error',
-        description: error.message || 'Failed to update tracking',
+        description: error.message || 'Error al actualizar seguimiento',
         variant: 'destructive',
       });
     } finally {
@@ -134,13 +134,13 @@ export const AdminOrders = () => {
       setGeneratingInvoice(true);
       await api.post('/invoices/generate', { orderId: selectedOrder.id });
       toast({
-        title: 'Success',
-        description: 'Invoice generated successfully',
+        title: 'Éxito',
+        description: 'Factura generada exitosamente',
       });
     } catch (error: any) {
       toast({
         title: 'Error',
-        description: error.response?.data?.error?.message || 'Failed to generate invoice',
+        description: error.response?.data?.error?.message || 'Error al generar factura',
         variant: 'destructive',
       });
     } finally {
@@ -151,17 +151,17 @@ export const AdminOrders = () => {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'PENDING':
-        return <Badge variant="outline" className="bg-yellow-100">Pending</Badge>;
+        return <Badge variant="outline" className="bg-yellow-100">Pendiente</Badge>;
       case 'PROCESSING':
-        return <Badge variant="outline" className="bg-blue-100">Processing</Badge>;
+        return <Badge variant="outline" className="bg-blue-100">Procesando</Badge>;
       case 'PAID':
-        return <Badge variant="default" className="bg-green-600">Paid</Badge>;
+        return <Badge variant="default" className="bg-green-600">Pagado</Badge>;
       case 'SHIPPED':
-        return <Badge variant="secondary">Shipped</Badge>;
+        return <Badge variant="secondary">Enviado</Badge>;
       case 'DELIVERED':
-        return <Badge variant="default" className="bg-emerald-600">Delivered</Badge>;
+        return <Badge variant="default" className="bg-emerald-600">Entregado</Badge>;
       case 'CANCELLED':
-        return <Badge variant="destructive">Cancelled</Badge>;
+        return <Badge variant="destructive">Cancelado</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }
@@ -170,13 +170,13 @@ export const AdminOrders = () => {
   const getPaymentBadge = (status: string) => {
     switch (status) {
       case 'PENDING':
-        return <Badge variant="outline">Pending</Badge>;
+        return <Badge variant="outline">Pendiente</Badge>;
       case 'PAID':
-        return <Badge variant="default" className="bg-green-600">Paid</Badge>;
+        return <Badge variant="default" className="bg-green-600">Pagado</Badge>;
       case 'FAILED':
-        return <Badge variant="destructive">Failed</Badge>;
+        return <Badge variant="destructive">Fallido</Badge>;
       case 'REFUNDED':
-        return <Badge variant="secondary">Refunded</Badge>;
+        return <Badge variant="secondary">Reembolsado</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }
@@ -186,8 +186,8 @@ export const AdminOrders = () => {
     <>
       <Card>
         <CardHeader>
-          <CardTitle>Orders</CardTitle>
-          <CardDescription>Manage customer orders and tracking</CardDescription>
+          <CardTitle>Pedidos</CardTitle>
+          <CardDescription>Administra pedidos y seguimiento de clientes</CardDescription>
         </CardHeader>
         <CardContent>
           {loading ? (
@@ -199,21 +199,21 @@ export const AdminOrders = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Order ID</TableHead>
-                    <TableHead>Customer</TableHead>
-                    <TableHead>Date</TableHead>
+                    <TableHead>ID Pedido</TableHead>
+                    <TableHead>Cliente</TableHead>
+                    <TableHead>Fecha</TableHead>
                     <TableHead>Items</TableHead>
                     <TableHead>Total</TableHead>
-                    <TableHead>Payment</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="w-[100px]">Actions</TableHead>
+                    <TableHead>Pago</TableHead>
+                    <TableHead>Estado</TableHead>
+                    <TableHead className="w-[100px]">Acciones</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {orders.length === 0 ? (
                     <TableRow>
                       <TableCell colSpan={8} className="text-center text-muted-foreground py-8">
-                        No orders found
+                        No se encontraron pedidos
                       </TableCell>
                     </TableRow>
                   ) : (
@@ -256,9 +256,9 @@ export const AdminOrders = () => {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Order Details - {selectedOrder?.id}</DialogTitle>
+            <DialogTitle>Detalles del Pedido - {selectedOrder?.id}</DialogTitle>
             <DialogDescription>
-              Manage order status and tracking information
+              Administrar estado del pedido e información de seguimiento
             </DialogDescription>
           </DialogHeader>
 
@@ -266,10 +266,10 @@ export const AdminOrders = () => {
             <div className="space-y-6">
               {/* Customer Information */}
               <div>
-                <h3 className="text-sm font-semibold mb-2">Customer Information</h3>
+                <h3 className="text-sm font-semibold mb-2">Información del Cliente</h3>
                 <div className="grid grid-cols-2 gap-2 text-sm">
                   <div>
-                    <p className="text-muted-foreground">Name:</p>
+                    <p className="text-muted-foreground">Nombre:</p>
                     <p className="font-medium">{selectedOrder.firstName} {selectedOrder.lastName}</p>
                   </div>
                   <div>
@@ -277,11 +277,11 @@ export const AdminOrders = () => {
                     <p className="font-medium">{selectedOrder.email}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">Phone:</p>
+                    <p className="text-muted-foreground">Teléfono:</p>
                     <p className="font-medium">{selectedOrder.phone}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">Customer Type:</p>
+                    <p className="text-muted-foreground">Tipo de Cliente:</p>
                     <p className="font-medium">{selectedOrder.customerType}</p>
                   </div>
                 </div>
@@ -291,7 +291,7 @@ export const AdminOrders = () => {
               <div>
                 <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
                   <Package2 className="h-4 w-4" />
-                  Order Items
+                  Items del Pedido
                 </h3>
                 <div className="space-y-2">
                   {selectedOrder.items.map((item) => (
@@ -300,7 +300,7 @@ export const AdminOrders = () => {
                         <img src={resolveProductImage(item.image)} alt={item.name} className="w-12 h-12 object-cover rounded" />
                         <div>
                           <p className="font-medium text-sm">{item.name}</p>
-                          <p className="text-xs text-muted-foreground">Qty: {item.quantity}</p>
+                          <p className="text-xs text-muted-foreground">Cant: {item.quantity}</p>
                         </div>
                       </div>
                       <p className="font-semibold">${parseFloat(item.price.toString()).toFixed(2)}</p>
@@ -313,7 +313,7 @@ export const AdminOrders = () => {
                     <span>${parseFloat(selectedOrder.subtotal.toString()).toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Shipping:</span>
+                    <span className="text-muted-foreground">Envío:</span>
                     <span>${parseFloat(selectedOrder.shippingCost.toString()).toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between font-bold text-base pt-2 border-t">
@@ -325,21 +325,21 @@ export const AdminOrders = () => {
 
               {/* Status Update */}
               <div>
-                <h3 className="text-sm font-semibold mb-3">Update Status</h3>
+                <h3 className="text-sm font-semibold mb-3">Actualizar Estado</h3>
                 <div className="space-y-3">
                   <div>
-                    <Label htmlFor="status">Order Status</Label>
+                    <Label htmlFor="status">Estado del Pedido</Label>
                     <Select value={statusUpdate} onValueChange={setStatusUpdate}>
                       <SelectTrigger id="status">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="PENDING">Pending</SelectItem>
-                        <SelectItem value="PROCESSING">Processing</SelectItem>
-                        <SelectItem value="PAID">Paid</SelectItem>
-                        <SelectItem value="SHIPPED">Shipped</SelectItem>
-                        <SelectItem value="DELIVERED">Delivered</SelectItem>
-                        <SelectItem value="CANCELLED">Cancelled</SelectItem>
+                        <SelectItem value="PENDING">Pendiente</SelectItem>
+                        <SelectItem value="PROCESSING">Procesando</SelectItem>
+                        <SelectItem value="PAID">Pagado</SelectItem>
+                        <SelectItem value="SHIPPED">Enviado</SelectItem>
+                        <SelectItem value="DELIVERED">Entregado</SelectItem>
+                        <SelectItem value="CANCELLED">Cancelado</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -349,7 +349,7 @@ export const AdminOrders = () => {
                     className="w-full"
                   >
                     {updating ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-                    Update Status
+                    Actualizar Estado
                   </Button>
                 </div>
               </div>
@@ -358,34 +358,34 @@ export const AdminOrders = () => {
               <div>
                 <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
                   <Truck className="h-4 w-4" />
-                  Tracking Information
+                  Información de Seguimiento
                 </h3>
                 <div className="space-y-3">
                   <div>
-                    <Label htmlFor="tracking">Tracking Number</Label>
+                    <Label htmlFor="tracking">Número de Seguimiento</Label>
                     <Input
                       id="tracking"
                       value={trackingNumber}
                       onChange={(e) => setTrackingNumber(e.target.value)}
-                      placeholder="Enter tracking number"
+                      placeholder="Ingrese número de seguimiento"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="carrier">Carrier</Label>
+                    <Label htmlFor="carrier">Transportista</Label>
                     <Input
                       id="carrier"
                       value={carrier}
                       onChange={(e) => setCarrier(e.target.value)}
-                      placeholder="e.g., Chilexpress, Starken, Correos Chile"
+                      placeholder="ej., Chilexpress, Starken, Correos Chile"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="notes">Admin Notes</Label>
+                    <Label htmlFor="notes">Notas del Admin</Label>
                     <Textarea
                       id="notes"
                       value={adminNotes}
                       onChange={(e) => setAdminNotes(e.target.value)}
-                      placeholder="Internal notes about this order"
+                      placeholder="Notas internas sobre este pedido"
                       rows={3}
                     />
                   </div>
@@ -396,14 +396,14 @@ export const AdminOrders = () => {
                     variant="secondary"
                   >
                     {updating ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-                    Update Tracking
+                    Actualizar Seguimiento
                   </Button>
                 </div>
               </div>
 
               {/* Shipping Address */}
               <div>
-                <h3 className="text-sm font-semibold mb-2">Shipping Address</h3>
+                <h3 className="text-sm font-semibold mb-2">Dirección de Envío</h3>
                 <div className="text-sm space-y-1">
                   <p>{selectedOrder.shippingAddress}</p>
                   <p>{selectedOrder.shippingCity}, {selectedOrder.shippingPostalCode}</p>
@@ -416,7 +416,7 @@ export const AdminOrders = () => {
                 <div>
                   <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
                     <FileText className="h-4 w-4" />
-                    Invoice
+                    Factura
                   </h3>
                   <Button
                     onClick={handleGenerateInvoice}
@@ -427,17 +427,17 @@ export const AdminOrders = () => {
                     {generatingInvoice ? (
                       <>
                         <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                        Generating Invoice...
+                        Generando Factura...
                       </>
                     ) : (
                       <>
                         <FileText className="h-4 w-4 mr-2" />
-                        Generate Invoice
+                        Generar Factura
                       </>
                     )}
                   </Button>
                   <p className="text-xs text-muted-foreground mt-2">
-                    Generate a PDF invoice for this paid order
+                    Genera una factura PDF para este pedido pagado
                   </p>
                 </div>
               )}

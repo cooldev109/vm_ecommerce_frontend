@@ -114,12 +114,12 @@ export const AdminAudioContent = () => {
     mutationFn: createAudioContent,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-audio-content'] });
-      toast.success('Audio content created');
+      toast.success('Contenido de audio creado');
       setContentDialogOpen(false);
       resetForm();
     },
     onError: (error: any) => {
-      toast.error(error.message || 'Failed to create audio content');
+      toast.error(error.message || 'Error al crear contenido de audio');
     },
   });
 
@@ -127,12 +127,12 @@ export const AdminAudioContent = () => {
     mutationFn: ({ id, data }: { id: string; data: any }) => updateAudioContent(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-audio-content'] });
-      toast.success('Audio content updated');
+      toast.success('Contenido de audio actualizado');
       setContentDialogOpen(false);
       resetForm();
     },
     onError: (error: any) => {
-      toast.error(error.message || 'Failed to update audio content');
+      toast.error(error.message || 'Error al actualizar contenido de audio');
     },
   });
 
@@ -140,12 +140,12 @@ export const AdminAudioContent = () => {
     mutationFn: deleteAudioContent,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-audio-content'] });
-      toast.success('Audio content deleted');
+      toast.success('Contenido de audio eliminado');
       setDeleteDialogOpen(false);
       setDeletingContent(null);
     },
     onError: (error: any) => {
-      toast.error(error.message || 'Failed to delete audio content');
+      toast.error(error.message || 'Error al eliminar contenido de audio');
     },
   });
 
@@ -153,11 +153,11 @@ export const AdminAudioContent = () => {
     mutationFn: generateAccessKeys,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-access-keys'] });
-      toast.success('Access keys generated');
+      toast.success('Claves de acceso generadas');
       setGenerateDialogOpen(false);
     },
     onError: (error: any) => {
-      toast.error(error.message || 'Failed to generate keys');
+      toast.error(error.message || 'Error al generar claves');
     },
   });
 
@@ -196,9 +196,9 @@ export const AdminAudioContent = () => {
       setIsUploading(true);
       const result = await uploadAudioFile(selectedFile);
       setFormData(prev => ({ ...prev, fileUrl: result.filePath }));
-      toast.success('Audio file uploaded successfully');
+      toast.success('Archivo de audio subido exitosamente');
     } catch (error: any) {
-      toast.error(error.message || 'Failed to upload audio file');
+      toast.error(error.message || 'Error al subir archivo de audio');
     } finally {
       setIsUploading(false);
     }
@@ -230,7 +230,7 @@ export const AdminAudioContent = () => {
 
   const handleSubmitContent = () => {
     if (!formData.titleKey || !formData.fileUrl) {
-      toast.error('Title key and file URL are required');
+      toast.error('Clave de título y URL del archivo son requeridos');
       return;
     }
 
@@ -266,11 +266,11 @@ export const AdminAudioContent = () => {
         <TabsList>
           <TabsTrigger value="content">
             <Music className="h-4 w-4 mr-2" />
-            Audio Content
+            Contenido de Audio
           </TabsTrigger>
           <TabsTrigger value="keys">
             <Key className="h-4 w-4 mr-2" />
-            Access Keys
+            Claves de Acceso
           </TabsTrigger>
         </TabsList>
 
@@ -280,12 +280,12 @@ export const AdminAudioContent = () => {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle>Audio Content Library</CardTitle>
-                  <CardDescription>Manage audio tracks for premium subscribers</CardDescription>
+                  <CardTitle>Biblioteca de Contenido de Audio</CardTitle>
+                  <CardDescription>Administra pistas de audio para suscriptores premium</CardDescription>
                 </div>
                 <Button onClick={handleAddContent}>
                   <Plus className="h-4 w-4 mr-2" />
-                  Add Audio
+                  Agregar Audio
                 </Button>
               </div>
             </CardHeader>
@@ -298,12 +298,12 @@ export const AdminAudioContent = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Title</TableHead>
-                      <TableHead>Category</TableHead>
-                      <TableHead>Duration</TableHead>
-                      <TableHead>Access</TableHead>
-                      <TableHead>Order</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
+                      <TableHead>Título</TableHead>
+                      <TableHead>Categoría</TableHead>
+                      <TableHead>Duración</TableHead>
+                      <TableHead>Acceso</TableHead>
+                      <TableHead>Orden</TableHead>
+                      <TableHead className="text-right">Acciones</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -321,11 +321,11 @@ export const AdminAudioContent = () => {
                         <TableCell>{formatDuration(audio.durationSeconds)}</TableCell>
                         <TableCell>
                           {audio.isPreview ? (
-                            <Badge variant="secondary">Preview</Badge>
+                            <Badge variant="secondary">Vista Previa</Badge>
                           ) : audio.requiredPlan ? (
                             <Badge className="bg-amber-500">{audio.requiredPlan}</Badge>
                           ) : (
-                            <Badge variant="default">All Plans</Badge>
+                            <Badge variant="default">Todos los Planes</Badge>
                           )}
                         </TableCell>
                         <TableCell>{audio.sortOrder}</TableCell>
@@ -362,12 +362,12 @@ export const AdminAudioContent = () => {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle>Access Keys</CardTitle>
-                  <CardDescription>Generate and manage promotional access codes</CardDescription>
+                  <CardTitle>Claves de Acceso</CardTitle>
+                  <CardDescription>Genera y administra códigos de acceso promocionales</CardDescription>
                 </div>
                 <Button onClick={() => setGenerateDialogOpen(true)}>
                   <Plus className="h-4 w-4 mr-2" />
-                  Generate Keys
+                  Generar Claves
                 </Button>
               </div>
             </CardHeader>
@@ -380,12 +380,12 @@ export const AdminAudioContent = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Key Code</TableHead>
+                      <TableHead>Código de Clave</TableHead>
                       <TableHead>Plan</TableHead>
-                      <TableHead>Duration</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Redeemed By</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
+                      <TableHead>Duración</TableHead>
+                      <TableHead>Estado</TableHead>
+                      <TableHead>Canjeado Por</TableHead>
+                      <TableHead className="text-right">Acciones</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -395,12 +395,12 @@ export const AdminAudioContent = () => {
                         <TableCell>
                           <Badge variant="outline">{key.planId}</Badge>
                         </TableCell>
-                        <TableCell>{key.durationMonths} month(s)</TableCell>
+                        <TableCell>{key.durationMonths} mes(es)</TableCell>
                         <TableCell>
                           {key.isRedeemed ? (
-                            <Badge variant="secondary">Redeemed</Badge>
+                            <Badge variant="secondary">Canjeado</Badge>
                           ) : (
-                            <Badge variant="default">Available</Badge>
+                            <Badge variant="default">Disponible</Badge>
                           )}
                         </TableCell>
                         <TableCell>
@@ -443,22 +443,22 @@ export const AdminAudioContent = () => {
       <Dialog open={contentDialogOpen} onOpenChange={setContentDialogOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>{editingContent ? 'Edit Audio Content' : 'Add Audio Content'}</DialogTitle>
+            <DialogTitle>{editingContent ? 'Editar Contenido de Audio' : 'Agregar Contenido de Audio'}</DialogTitle>
             <DialogDescription>
-              {editingContent ? 'Update the audio track details' : 'Add a new audio track to the library'}
+              {editingContent ? 'Actualiza los detalles de la pista de audio' : 'Agrega una nueva pista de audio a la biblioteca'}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <Label>Title Key</Label>
+              <Label>Clave de Título</Label>
               <Input
                 value={formData.titleKey}
                 onChange={(e) => setFormData({ ...formData, titleKey: e.target.value })}
-                placeholder="e.g., morningSerenity"
+                placeholder="ej., morningSerenity"
               />
             </div>
             <div>
-              <Label>Category</Label>
+              <Label>Categoría</Label>
               <Select
                 value={formData.category}
                 onValueChange={(value) => setFormData({ ...formData, category: value as AudioCategory })}
@@ -467,13 +467,13 @@ export const AdminAudioContent = () => {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="AMBIENT">Ambient</SelectItem>
-                  <SelectItem value="MEDITATION">Meditation</SelectItem>
+                  <SelectItem value="AMBIENT">Ambiental</SelectItem>
+                  <SelectItem value="MEDITATION">Meditación</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label>Audio File</Label>
+              <Label>Archivo de Audio</Label>
               <div className="space-y-2">
                 <div className="flex gap-2">
                   <Input
@@ -497,24 +497,24 @@ export const AdminAudioContent = () => {
                 </div>
                 {selectedFile && !formData.fileUrl && (
                   <p className="text-xs text-muted-foreground">
-                    Selected: {selectedFile.name} - Click upload button to upload
+                    Seleccionado: {selectedFile.name} - Haz clic en el botón de subir
                   </p>
                 )}
                 {formData.fileUrl && (
                   <p className="text-xs text-green-600">
-                    ✓ Uploaded: {formData.fileUrl}
+                    ✓ Subido: {formData.fileUrl}
                   </p>
                 )}
                 <Input
                   value={formData.fileUrl}
                   onChange={(e) => setFormData({ ...formData, fileUrl: e.target.value })}
-                  placeholder="Or enter URL manually: /audio/filename.mp3"
+                  placeholder="O ingresa URL manualmente: /audio/filename.mp3"
                   className="text-xs"
                 />
               </div>
             </div>
             <div>
-              <Label>Duration (seconds) {formData.durationSeconds > 0 && `(${formatDuration(formData.durationSeconds)})`}</Label>
+              <Label>Duración (segundos) {formData.durationSeconds > 0 && `(${formatDuration(formData.durationSeconds)})`}</Label>
               <Input
                 type="number"
                 value={formData.durationSeconds}
@@ -522,7 +522,7 @@ export const AdminAudioContent = () => {
               />
             </div>
             <div>
-              <Label>Required Plan (optional)</Label>
+              <Label>Plan Requerido (opcional)</Label>
               <Select
                 value={formData.requiredPlan || 'none'}
                 onValueChange={(value) => setFormData({ ...formData, requiredPlan: value === 'none' ? '' : value })}
@@ -531,15 +531,15 @@ export const AdminAudioContent = () => {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="none">All Plans</SelectItem>
-                  <SelectItem value="MONTHLY">Monthly+</SelectItem>
-                  <SelectItem value="QUARTERLY">Quarterly+</SelectItem>
-                  <SelectItem value="ANNUAL">Annual Only</SelectItem>
+                  <SelectItem value="none">Todos los Planes</SelectItem>
+                  <SelectItem value="MONTHLY">Mensual+</SelectItem>
+                  <SelectItem value="QUARTERLY">Trimestral+</SelectItem>
+                  <SelectItem value="ANNUAL">Solo Anual</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label>Sort Order</Label>
+              <Label>Orden</Label>
               <Input
                 type="number"
                 value={formData.sortOrder}
@@ -551,12 +551,12 @@ export const AdminAudioContent = () => {
                 checked={formData.isPreview}
                 onCheckedChange={(checked) => setFormData({ ...formData, isPreview: checked })}
               />
-              <Label>Free Preview</Label>
+              <Label>Vista Previa Gratuita</Label>
             </div>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setContentDialogOpen(false)}>
-              Cancel
+              Cancelar
             </Button>
             <Button
               onClick={handleSubmitContent}
@@ -565,7 +565,7 @@ export const AdminAudioContent = () => {
               {(createMutation.isPending || updateMutation.isPending) && (
                 <Loader2 className="h-4 w-4 mr-2 animate-spin" />
               )}
-              {editingContent ? 'Update' : 'Create'}
+              {editingContent ? 'Actualizar' : 'Crear'}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -575,8 +575,8 @@ export const AdminAudioContent = () => {
       <Dialog open={generateDialogOpen} onOpenChange={setGenerateDialogOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Generate Access Keys</DialogTitle>
-            <DialogDescription>Create promotional access codes for audio content</DialogDescription>
+            <DialogTitle>Generar Claves de Acceso</DialogTitle>
+            <DialogDescription>Crear códigos de acceso promocionales para contenido de audio</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div>
@@ -589,14 +589,14 @@ export const AdminAudioContent = () => {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="MONTHLY">Monthly</SelectItem>
-                  <SelectItem value="QUARTERLY">Quarterly</SelectItem>
-                  <SelectItem value="ANNUAL">Annual</SelectItem>
+                  <SelectItem value="MONTHLY">Mensual</SelectItem>
+                  <SelectItem value="QUARTERLY">Trimestral</SelectItem>
+                  <SelectItem value="ANNUAL">Anual</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label>Duration (months)</Label>
+              <Label>Duración (meses)</Label>
               <Input
                 type="number"
                 min="1"
@@ -606,7 +606,7 @@ export const AdminAudioContent = () => {
               />
             </div>
             <div>
-              <Label>Number of Keys</Label>
+              <Label>Cantidad de Claves</Label>
               <Input
                 type="number"
                 min="1"
@@ -618,11 +618,11 @@ export const AdminAudioContent = () => {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setGenerateDialogOpen(false)}>
-              Cancel
+              Cancelar
             </Button>
             <Button onClick={handleGenerateKeys} disabled={generateKeysMutation.isPending}>
               {generateKeysMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-              Generate
+              Generar
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -632,20 +632,20 @@ export const AdminAudioContent = () => {
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Audio Content?</AlertDialogTitle>
+            <AlertDialogTitle>¿Eliminar Contenido de Audio?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete "{deletingContent && getTitle(deletingContent.titleKey)}".
-              This action cannot be undone.
+              Esto eliminará permanentemente "{deletingContent && getTitle(deletingContent.titleKey)}".
+              Esta acción no se puede deshacer.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => deletingContent && deleteMutation.mutate(deletingContent.id)}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               {deleteMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-              Delete
+              Eliminar
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
