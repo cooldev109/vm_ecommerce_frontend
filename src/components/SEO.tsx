@@ -24,14 +24,14 @@ const DEFAULT_IMAGE = '/og-image.jpg';
 
 const seoTranslations = {
   es: {
-    siteName: 'V&M Candle Experience',
-    defaultTitle: 'V&M Candle Experience - Rituales que Restauran tu Alma',
+    siteName: 'V&M Experience',
+    defaultTitle: 'V&M Experience',
     defaultDescription: 'Velas artesanales de alta gama con experiencias de audio premium. Rituales de bienestar que elevan tu alma. Elaboradas en Chile con cera de soya 100% natural.',
     defaultKeywords: 'velas artesanales, velas premium, velas de soya, aromaterapia, bienestar, meditación, rituales, Chile, velas naturales, experiencia sensorial',
   },
   en: {
-    siteName: 'V&M Candle Experience',
-    defaultTitle: 'V&M Candle Experience - Rituals that Restore Your Soul',
+    siteName: 'V&M Experience',
+    defaultTitle: 'V&M Experience',
     defaultDescription: 'High-end artisanal candles with premium audio experiences. Wellness rituals that elevate your soul. Handcrafted in Chile with 100% natural soy wax.',
     defaultKeywords: 'artisanal candles, premium candles, soy candles, aromatherapy, wellness, meditation, rituals, Chile, natural candles, sensory experience',
   },
@@ -71,7 +71,7 @@ export const SEO = ({
       <title>{seoTitle}</title>
       <meta name="description" content={seoDescription} />
       <meta name="keywords" content={seoKeywords} />
-      <meta name="author" content="V&M Candle Experience" />
+      <meta name="author" content="V&M Experience" />
       <link rel="canonical" href={seoUrl} />
 
       {/* Robots */}
@@ -112,7 +112,7 @@ export const SEO = ({
             url: seoUrl,
             brand: {
               '@type': 'Brand',
-              name: 'V&M Candle Experience',
+              name: 'V&M Experience',
             },
             offers: {
               '@type': 'Offer',
@@ -123,7 +123,7 @@ export const SEO = ({
                 : 'https://schema.org/InStock',
               seller: {
                 '@type': 'Organization',
-                name: 'V&M Candle Experience',
+                name: 'V&M Experience',
               },
             },
           })}
@@ -144,11 +144,11 @@ export const SEO = ({
             dateModified: modifiedTime || publishedTime,
             author: {
               '@type': 'Person',
-              name: author || 'V&M Candle Experience',
+              name: author || 'V&M Experience',
             },
             publisher: {
               '@type': 'Organization',
-              name: 'V&M Candle Experience',
+              name: 'V&M Experience',
               logo: {
                 '@type': 'ImageObject',
                 url: `${BASE_URL}/logo.png`,
@@ -164,7 +164,7 @@ export const SEO = ({
           {JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'Organization',
-            name: 'V&M Candle Experience',
+            name: 'V&M Experience',
             url: BASE_URL,
             logo: `${BASE_URL}/logo.png`,
             description: seoDescription,
@@ -191,7 +191,7 @@ export const SEO = ({
           {JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'LocalBusiness',
-            name: 'V&M Candle Experience',
+            name: 'V&M Experience',
             description: seoDescription,
             url: BASE_URL,
             telephone: '+56992257712',
