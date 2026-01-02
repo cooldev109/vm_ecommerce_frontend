@@ -74,6 +74,67 @@ export default function SubscriptionResult() {
     );
   }
 
+
+  // Upgrade success state
+  if (status === 'upgraded') {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <Card className="max-w-md w-full">
+          <CardHeader className="text-center">
+            <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-green-100 flex items-center justify-center">
+              <ArrowUpCircle className="h-10 w-10 text-green-600" />
+            </div>
+            <CardTitle className="text-2xl text-green-600">{t('upgradeSuccessful')}</CardTitle>
+            <CardDescription>
+              {t('subscriptionUpgraded')}
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent className="space-y-4">
+            <div className="bg-muted/50 rounded-lg p-4 space-y-3">
+              <div className="flex items-center gap-3">
+                <Crown className="h-5 w-5 text-primary" />
+                <div>
+                  <p className="font-medium">
+                    {upgradedPlan ? getPlanName(upgradedPlan) : (subscriptionData?.planId ? getPlanName(subscriptionData.planId) : t('premiumSubscription'))}
+                  </p>
+                  <p className="text-sm text-muted-foreground">{t('activeSubscriptionLabel')}</p>
+                </div>
+              </div>
+
+              {subscriptionData && (
+                <>
+                  <div className="border-t pt-3 space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">{t('validFrom')}</span>
+                      <span>{formatDate(subscriptionData.startedAt)}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">{t('validUntil')}</span>
+                      <span>{formatDate(subscriptionData.expiresAt)}</span>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+
+            <div className="text-center text-sm text-muted-foreground">
+              <p>{t('upgradeActivatedMessage')}</p>
+            </div>
+          </CardContent>
+
+          <CardFooter className="flex flex-col gap-3">
+            <Button className="w-full" onClick={() => navigate('/audio')}>
+              {t('exploreAudioExperiences')}
+            </Button>
+            <Button variant="outline" className="w-full" onClick={() => navigate('/account?tab=subscription')}>
+              {t('manageSubscription')}
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+    );
+  }
   // Success state
   if (status === 'success') {
     return (
