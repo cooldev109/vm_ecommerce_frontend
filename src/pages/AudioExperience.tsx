@@ -415,7 +415,9 @@ const AudioExperience = () => {
   // Skip time
   const skipTime = (seconds: number) => {
     if (audioRef.current) {
-      audioRef.current.currentTime = Math.max(0, Math.min(audioRef.current.currentTime + seconds, duration));
+      const newTime = Math.max(0, Math.min(audioRef.current.currentTime + seconds, duration));
+      audioRef.current.currentTime = newTime;
+      setCurrentTime(newTime); // Update UI immediately
     }
   };
 
