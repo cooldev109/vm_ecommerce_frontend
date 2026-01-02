@@ -9,6 +9,7 @@ import { Switch } from '@/components/ui/switch';
 import { Loader2, Upload, X } from 'lucide-react';
 import { createProduct, updateProduct, upsertProductTranslation } from '@/services/adminProductService';
 import { uploadProductImage } from '@/services/uploadService';
+import { getProductTranslations } from '@/services/productService';
 import { toast } from 'sonner';
 
 interface ProductFormDialogProps {
@@ -50,7 +51,7 @@ export const ProductFormDialog = ({ open, onOpenChange, product, onSuccess }: Pr
 
   // Load existing product data in edit mode
   useEffect(() => {
-    if (product) {
+    if (product && open) {
       setId(product.id || '');
       setCategory(product.category || 'CANDLES');
       setPrice(product.price?.toString() || '');
@@ -60,15 +61,44 @@ export const ProductFormDialog = ({ open, onOpenChange, product, onSuccess }: Pr
       setInStock(product.inStock ?? true);
       setFeatured(product.featured ?? false);
       setSortOrder(product.sortOrder?.toString() || '');
-      setNameEN(product.name || '');
-      setDescEN(product.description || '');
-      setLongDescEN(product.longDescription || '');
-      setFeaturesEN(product.features?.join('\n') || '');
-    } else {
+
+      // Fetch translations for edit mode
+      loadTranslations(product.id);
+    } else if (!product && open) {
       // Reset form for add mode
       resetForm();
     }
   }, [product, open]);
+
+  // Load translations from API
+  const loadTranslations = async (productId: string) => {
+    try {
+      const response = await getProductTranslations(productId);
+      if (response.success && response.data?.translations) {
+        const translations = response.data.translations;
+
+        // Find English translation
+        const enTranslation = translations.find(t => t.language === 'EN');
+        if (enTranslation) {
+          setNameEN(enTranslation.name || '');
+          setDescEN(enTranslation.description || '');
+          setLongDescEN(enTranslation.longDescription || '');
+          setFeaturesEN(enTranslation.features?.join('\n') || '');
+        }
+
+        // Find Spanish translation
+        const esTranslation = translations.find(t => t.language === 'ES');
+        if (esTranslation) {
+          setNameES(esTranslation.name || '');
+          setDescES(esTranslation.description || '');
+          setLongDescES(esTranslation.longDescription || '');
+          setFeaturesES(esTranslation.features?.join('\n') || '');
+        }
+      }
+    } catch (error) {
+      console.error('Error loading translations:', error);
+    }
+  };
 
   const resetForm = () => {
     setId('');

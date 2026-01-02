@@ -59,3 +59,10 @@ export async function getFeaturedProducts(language?: string) {
 export async function searchProducts(query: string, language?: string) {
   return getProducts({ search: query, language });
 }
+
+/**
+ * Get all translations for a product
+ */
+export async function getProductTranslations(productId: string) {
+  return api.get<{ productId: string; translations: Array<{ language: string; name: string; description: string; longDescription?: string; features?: string[] }> }>(`/products/${productId}/translations`);
+}
