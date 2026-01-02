@@ -132,7 +132,7 @@ export async function uploadAudioFile(file: File): Promise<{ filePath: string; f
   const formData = new FormData();
   formData.append('audio', file);
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('auth_token');
   const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
   const response = await fetch(`${baseUrl}/upload/audio`, {
