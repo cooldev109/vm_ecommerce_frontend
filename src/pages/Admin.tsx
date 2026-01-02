@@ -50,7 +50,7 @@ const Admin = () => {
             <Loader2 className="h-16 w-16 animate-spin mx-auto mb-4 text-accent" />
             <div className="absolute inset-0 animate-glow-pulse rounded-full" />
           </div>
-          <p className="text-luxury text-lg">Loading admin panel...</p>
+          <p className="text-luxury text-lg">Cargando panel de administración...</p>
         </div>
       </div>
     );
@@ -65,11 +65,11 @@ const Admin = () => {
             <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-destructive/10 flex items-center justify-center">
               <Users className="h-8 w-8 text-destructive" />
             </div>
-            <h1 className="text-2xl font-serif font-bold mb-3 text-foreground">Access Denied</h1>
-            <p className="text-muted-foreground mb-6">You don't have permission to access this page.</p>
+            <h1 className="text-2xl font-serif font-bold mb-3 text-foreground">Acceso Denegado</h1>
+            <p className="text-muted-foreground mb-6">No tienes permiso para acceder a esta página.</p>
             <Button onClick={() => navigate('/')} className="btn-gradient-gold">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Go to Home
+              Ir al Inicio
             </Button>
           </CardContent>
         </Card>
@@ -90,9 +90,9 @@ const Admin = () => {
                 </div>
                 <div>
                   <h1 className="font-serif text-4xl font-bold text-foreground">
-                    Admin Dashboard
+                    Panel de Administración
                   </h1>
-                  <p className="text-muted-foreground">Manage your V&M Candle store</p>
+                  <p className="text-muted-foreground">Gestiona tu tienda V&M Candle</p>
                 </div>
               </div>
               <Button
@@ -101,7 +101,7 @@ const Admin = () => {
                 className="border-gold-accent hover-glow transition-silk"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Store
+                Volver a Tienda
               </Button>
             </div>
             {/* Decorative Line */}
@@ -116,42 +116,42 @@ const Admin = () => {
                 className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-soft transition-elegant"
               >
                 <DollarSign className="h-4 w-4" />
-                <span className="hidden sm:inline">Dashboard</span>
+                <span className="hidden sm:inline">Panel</span>
               </TabsTrigger>
               <TabsTrigger
                 value="analytics"
                 className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-soft transition-elegant"
               >
                 <BarChart3 className="h-4 w-4" />
-                <span className="hidden sm:inline">Analytics</span>
+                <span className="hidden sm:inline">Analíticas</span>
               </TabsTrigger>
               <TabsTrigger
                 value="products"
                 className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-soft transition-elegant"
               >
                 <Package className="h-4 w-4" />
-                <span className="hidden sm:inline">Products</span>
+                <span className="hidden sm:inline">Productos</span>
               </TabsTrigger>
               <TabsTrigger
                 value="orders"
                 className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-soft transition-elegant"
               >
                 <ShoppingCart className="h-4 w-4" />
-                <span className="hidden sm:inline">Orders</span>
+                <span className="hidden sm:inline">Pedidos</span>
               </TabsTrigger>
               <TabsTrigger
                 value="invoices"
                 className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-soft transition-elegant"
               >
                 <FileText className="h-4 w-4" />
-                <span className="hidden sm:inline">Invoices</span>
+                <span className="hidden sm:inline">Facturas</span>
               </TabsTrigger>
               <TabsTrigger
                 value="subscriptions"
                 className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-soft transition-elegant"
               >
                 <Crown className="h-4 w-4" />
-                <span className="hidden sm:inline">Subscriptions</span>
+                <span className="hidden sm:inline">Suscripciones</span>
               </TabsTrigger>
               <TabsTrigger
                 value="audio"
@@ -165,14 +165,14 @@ const Admin = () => {
                 className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-soft transition-elegant"
               >
                 <Users className="h-4 w-4" />
-                <span className="hidden sm:inline">Users</span>
+                <span className="hidden sm:inline">Usuarios</span>
               </TabsTrigger>
               <TabsTrigger
                 value="settings"
                 className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-soft transition-elegant"
               >
                 <Settings className="h-4 w-4" />
-                <span className="hidden sm:inline">Settings</span>
+                <span className="hidden sm:inline">Configuración</span>
               </TabsTrigger>
             </TabsList>
 
