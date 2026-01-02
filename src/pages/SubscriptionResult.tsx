@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { CheckCircle, XCircle, Loader2, AlertCircle, Crown } from 'lucide-react';
+import { CheckCircle, XCircle, Loader2, AlertCircle, Crown, ArrowUpCircle } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -16,6 +16,7 @@ export default function SubscriptionResult() {
   const status = searchParams.get('status');
   const subscriptionId = searchParams.get('subscriptionId');
   const errorMessage = searchParams.get('message');
+  const upgradedPlan = searchParams.get('plan'); // For upgrade success
 
   const getPlanName = (planId: string) => {
     const planNames: Record<string, string> = {
@@ -27,7 +28,7 @@ export default function SubscriptionResult() {
   };
 
   useEffect(() => {
-    if (subscriptionId && status === 'success') {
+    if (subscriptionId && (status === 'success' || status === 'upgraded')) {
       loadSubscriptionStatus();
     } else {
       setLoading(false);
@@ -139,7 +140,7 @@ export default function SubscriptionResult() {
   }
 
   // Failed state
-  if (status === 'failed') {
+  if (status === 'failed' || status === 'upgrade_failed') {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
         <Card className="max-w-md w-full">

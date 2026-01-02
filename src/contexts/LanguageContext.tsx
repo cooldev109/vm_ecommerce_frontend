@@ -308,6 +308,11 @@ const translations: Record<Language, Record<string, string>> = {
     sessionExpired: 'La sesión de pago expiró o fue inválida. Por favor, intenta nuevamente.',
     subscriptionNotFoundMsg: 'No pudimos encontrar tu suscripción. Por favor, contacta soporte.',
     unexpectedError: 'Ocurrió un error inesperado. Por favor, intenta nuevamente o contacta soporte si el problema persiste.',
+    upgradeSuccessful: '!Actualización exitosa!',
+    subscriptionUpgraded: 'Tu suscripción ha sido actualizada al nuevo plan',
+    upgradeActivatedMessage: 'Tu nuevo plan está activo ahora. Disfruta de todos los beneficios adicionales.',
+    upgradeFailed: 'Actualización Fallida',
+    upgradeFailedDesc: 'No pudimos procesar la actualización de tu plan',
     subscribeNow: 'Suscribirse',
     processingPayment: 'Procesando...',
 
@@ -841,6 +846,11 @@ const translations: Record<Language, Record<string, string>> = {
     sessionExpired: 'The payment session expired or was invalid. Please try again.',
     subscriptionNotFoundMsg: 'We could not find your subscription. Please contact support.',
     unexpectedError: 'An unexpected error occurred. Please try again or contact support if the problem persists.',
+    upgradeSuccessful: 'Upgrade Successful!',
+    subscriptionUpgraded: 'Your subscription has been upgraded to the new plan',
+    upgradeActivatedMessage: 'Your new plan is now active. Enjoy all the additional benefits.',
+    upgradeFailed: 'Upgrade Failed',
+    upgradeFailedDesc: 'We could not process your plan upgrade',
 
     // Product Documentation Page
     productDocumentation: 'Product Documentation',
