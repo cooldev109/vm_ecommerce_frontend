@@ -1053,7 +1053,7 @@ const AudioExperience = () => {
 
                   {/* Time Display */}
                   <div className="flex items-center justify-center gap-3 mb-3 font-mono">
-                    <span className="text-2xl font-light text-white tracking-wide">
+                    <span className="text-2xl font-medium text-amber-400 tracking-wide">
                       {formatTime(currentTime)}
                     </span>
                     <span className="text-slate-500">/</span>
