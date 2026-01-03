@@ -31,21 +31,33 @@ export interface ProductTranslationRequest {
  * Create a new product
  */
 export async function createProduct(data: CreateProductRequest) {
-  return api.post('/products', data);
+  const response = await api.post('/products', data);
+  if (!response.success) {
+    throw new Error(response.error?.message || 'Error al crear producto');
+  }
+  return response;
 }
 
 /**
  * Update an existing product
  */
 export async function updateProduct(productId: string, data: UpdateProductRequest) {
-  return api.put(`/products/${productId}`, data);
+  const response = await api.put(`/products/${productId}`, data);
+  if (!response.success) {
+    throw new Error(response.error?.message || 'Error al actualizar producto');
+  }
+  return response;
 }
 
 /**
  * Delete a product
  */
 export async function deleteProduct(productId: string) {
-  return api.delete(`/products/${productId}`);
+  const response = await api.delete(`/products/${productId}`);
+  if (!response.success) {
+    throw new Error(response.error?.message || 'Error al eliminar producto');
+  }
+  return response;
 }
 
 /**
@@ -56,5 +68,9 @@ export async function upsertProductTranslation(
   language: 'EN' | 'ES',
   data: ProductTranslationRequest
 ) {
-  return api.put(`/products/${productId}/translations/${language}`, data);
+  const response = await api.put(`/products/${productId}/translations/${language}`, data);
+  if (!response.success) {
+    throw new Error(response.error?.message || 'Error al actualizar traducción');
+  }
+  return response;
 }

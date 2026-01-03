@@ -63,8 +63,8 @@ export const AdminProducts = () => {
       setDeleteDialogOpen(false);
       setDeletingProduct(null);
     },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.error?.message || 'Error al eliminar producto');
+    onError: (error: Error) => {
+      toast.error(error.message || 'Error al eliminar producto');
     },
   });
 
