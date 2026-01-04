@@ -13,6 +13,7 @@ import * as orderService from '@/services/orderService';
 import * as paymentService from '@/services/paymentService';
 import type { Address } from '@/types';
 import { resolveProductImage } from '@/lib/imageHelper';
+import { formatCurrency } from '@/lib/utils';
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -26,7 +27,8 @@ const Checkout = () => {
   const [selectedBillingId, setSelectedBillingId] = useState<string>('');
   const [sameAsShipping, setSameAsShipping] = useState(true);
 
-  const shippingCost = total >= 50 ? 0 : 5; // Free shipping over $50
+  // Free shipping over $50.000 CLP, otherwise $5.000 CLP shipping
+  const shippingCost = total >= 50000 ? 0 : 5000;
   const finalTotal = total + shippingCost;
 
   // Redirect if not authenticated
@@ -344,7 +346,7 @@ const Checkout = () => {
                       <p className="font-semibold text-foreground">{item.name}</p>
                       <p className="text-sm text-luxury">{t('quantityLabel')}: {item.quantity}</p>
                       <p className="text-sm font-semibold text-accent">
-                        ${(item.price * item.quantity).toFixed(2)}
+                        {formatCurrency(item.price * item.quantity)}
                       </p>
                     </div>
                   </div>
@@ -354,18 +356,18 @@ const Checkout = () => {
               <div className="space-y-3 pt-6 border-t border-border">
                 <div className="flex justify-between text-lg">
                   <span className="text-luxury">{t('subtotal')}</span>
-                  <span className="font-semibold">${total.toFixed(2)}</span>
+                  <span className="font-semibold">{formatCurrency(total)}</span>
                 </div>
                 <div className="flex justify-between text-lg">
                   <span className="text-luxury">{t('shipping')}</span>
                   <span className="font-semibold">
-                    {shippingCost === 0 ? t('free') : `$${shippingCost.toFixed(2)}`}
+                    {shippingCost === 0 ? t('free') : formatCurrency(shippingCost)}
                   </span>
                 </div>
                 <div className="pt-3 border-t border-border">
                   <div className="flex justify-between text-xl font-semibold">
                     <span>{t('total')}</span>
-                    <span className="text-accent">${finalTotal.toFixed(2)}</span>
+                    <span className="text-accent">{formatCurrency(finalTotal)}</span>
                   </div>
                 </div>
               </div>

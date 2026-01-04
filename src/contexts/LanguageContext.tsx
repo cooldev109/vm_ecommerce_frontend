@@ -245,7 +245,7 @@ const translations: Record<Language, Record<string, string>> = {
     hours: 'horas',
     back: 'Volver',
     free: 'Gratis',
-    freeShippingOver100: '¡Envío gratis en compras sobre $100!',
+    freeShippingOver50000: '¡Envío gratis en compras sobre $50.000!',
     quantityLabel: 'Cantidad',
 
     // Footer - Information Section
@@ -781,7 +781,7 @@ const translations: Record<Language, Record<string, string>> = {
     hours: 'hours',
     back: 'Back',
     free: 'Free',
-    freeShippingOver100: 'Free shipping on orders over $100!',
+    freeShippingOver50000: 'Free shipping on orders over $50.000 CLP!',
     quantityLabel: 'Quantity',
 
     // Footer - Information Section

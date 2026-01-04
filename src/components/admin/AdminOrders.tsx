@@ -32,6 +32,7 @@ import { getAllOrders, updateOrderStatus, updateOrderTracking, type Order } from
 import { useToast } from '@/hooks/use-toast';
 import api from '@/lib/api';
 import { resolveProductImage } from '@/lib/imageHelper';
+import { formatCurrency } from '@/lib/utils';
 
 export const AdminOrders = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -230,7 +231,7 @@ export const AdminOrders = () => {
                           {new Date(order.createdAt).toLocaleDateString()}
                         </TableCell>
                         <TableCell className="text-sm">{order.items.length}</TableCell>
-                        <TableCell className="font-semibold">${parseFloat(order.total.toString()).toFixed(2)}</TableCell>
+                        <TableCell className="font-semibold">{formatCurrency(parseFloat(order.total.toString()))}</TableCell>
                         <TableCell>{getPaymentBadge(order.paymentStatus)}</TableCell>
                         <TableCell>{getStatusBadge(order.status)}</TableCell>
                         <TableCell>
@@ -303,22 +304,22 @@ export const AdminOrders = () => {
                           <p className="text-xs text-muted-foreground">Cant: {item.quantity}</p>
                         </div>
                       </div>
-                      <p className="font-semibold">${parseFloat(item.price.toString()).toFixed(2)}</p>
+                      <p className="font-semibold">{formatCurrency(parseFloat(item.price.toString()))}</p>
                     </div>
                   ))}
                 </div>
                 <div className="mt-4 space-y-1 text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Subtotal:</span>
-                    <span>${parseFloat(selectedOrder.subtotal.toString()).toFixed(2)}</span>
+                    <span>{formatCurrency(parseFloat(selectedOrder.subtotal.toString()))}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Envío:</span>
-                    <span>${parseFloat(selectedOrder.shippingCost.toString()).toFixed(2)}</span>
+                    <span>{formatCurrency(parseFloat(selectedOrder.shippingCost.toString()))}</span>
                   </div>
                   <div className="flex justify-between font-bold text-base pt-2 border-t">
                     <span>Total:</span>
-                    <span>${parseFloat(selectedOrder.total.toString()).toFixed(2)}</span>
+                    <span>{formatCurrency(parseFloat(selectedOrder.total.toString()))}</span>
                   </div>
                 </div>
               </div>

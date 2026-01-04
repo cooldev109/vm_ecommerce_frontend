@@ -4,13 +4,15 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useCart } from '@/contexts/CartContext';
 import { Trash2, ShoppingBag } from 'lucide-react';
 import { resolveProductImage } from '@/lib/imageHelper';
+import { formatCurrency } from '@/lib/utils';
 
 const Cart = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
   const { items, removeItem, updateQuantity, total } = useCart();
 
-  const shippingCost = total > 100 ? 0 : 10;
+  // Free shipping over $50.000 CLP, otherwise $5.000 CLP shipping
+  const shippingCost = total > 50000 ? 0 : 5000;
   const finalTotal = total + shippingCost;
 
   return (
@@ -49,7 +51,7 @@ const Cart = () => {
                     {item.name}
                   </h3>
                   <p className="text-lg font-semibold text-accent mb-4">
-                    ${item.price.toFixed(2)}
+                    {formatCurrency(item.price)}
                   </p>
 
                   <div className="flex items-center gap-4">
@@ -82,7 +84,7 @@ const Cart = () => {
 
                 <div className="text-right md:text-left">
                   <p className="text-lg font-semibold text-foreground">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    {formatCurrency(item.price * item.quantity)}
                   </p>
                 </div>
               </div>
@@ -97,23 +99,23 @@ const Cart = () => {
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-lg">
                   <span className="text-luxury">{t('subtotal')}</span>
-                  <span className="font-semibold">${total.toFixed(2)}</span>
+                  <span className="font-semibold">{formatCurrency(total)}</span>
                 </div>
                 <div className="flex justify-between text-lg">
                   <span className="text-luxury">{t('shipping')}</span>
                   <span className="font-semibold">
-                    {shippingCost === 0 ? t('free') : `$${shippingCost.toFixed(2)}`}
+                    {shippingCost === 0 ? t('free') : formatCurrency(shippingCost)}
                   </span>
                 </div>
-                {total > 100 && (
+                {total > 50000 && (
                   <p className="text-sm text-accent">
-                    {t('freeShippingOver100')}
+                    {t('freeShippingOver50000')}
                   </p>
                 )}
                 <div className="pt-4 border-t border-border">
                   <div className="flex justify-between text-xl font-semibold">
                     <span>{t('total')}</span>
-                    <span className="text-accent">${finalTotal.toFixed(2)}</span>
+                    <span className="text-accent">{formatCurrency(finalTotal)}</span>
                   </div>
                 </div>
               </div>

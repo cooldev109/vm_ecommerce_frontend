@@ -9,6 +9,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getProductById } from '@/services/productService';
 import { getProductReviews, createReview } from '@/services/reviewService';
 import { resolveProductImage } from '@/lib/imageHelper';
+import { formatCurrency } from '@/lib/utils';
 import { AudioPlayer } from '@/components/AudioPlayer';
 import { SEO } from '@/components/SEO';
 import ReviewList from '@/components/ReviewList';
@@ -163,7 +164,7 @@ const ProductDetail = () => {
               {product.name}
             </h1>
             <p className="text-2xl font-semibold text-accent mb-6">
-              ${parseFloat(product.price).toFixed(2)}
+              {formatCurrency(parseFloat(product.price))}
             </p>
             <p className="text-lg text-luxury mb-4">
               {product.description}

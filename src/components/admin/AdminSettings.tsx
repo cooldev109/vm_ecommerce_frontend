@@ -34,7 +34,7 @@ export const AdminSettings = () => {
     storeEmail: 'contact@vmcandles.com',
     storePhone: '+56 9 1234 5678',
     storeAddress: 'Santiago, Chile',
-    currency: 'USD',
+    currency: 'CLP',
     taxRate: '19',
   });
 
@@ -48,11 +48,11 @@ export const AdminSettings = () => {
     paymentFailed: true,
   });
 
-  // Shipping Settings
+  // Shipping Settings (in CLP)
   const [shippingSettings, setShippingSettings] = useState({
-    freeShippingThreshold: '100',
-    standardShippingRate: '10',
-    expressShippingRate: '25',
+    freeShippingThreshold: '50000',
+    standardShippingRate: '5000',
+    expressShippingRate: '10000',
     internationalShipping: false,
   });
 

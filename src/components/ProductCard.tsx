@@ -4,6 +4,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useCart } from '@/contexts/CartContext';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { formatCurrency } from '@/lib/utils';
 
 interface ProductCardProps {
   id: string;
@@ -44,7 +45,7 @@ export const ProductCard = ({ id, name, price, image, description }: ProductCard
           )}
           <div className="flex items-center justify-between">
             <span className="text-xl font-semibold text-accent">
-              ${price.toFixed(2)}
+              {formatCurrency(price)}
             </span>
             <Button
               onClick={handleAddToCart}

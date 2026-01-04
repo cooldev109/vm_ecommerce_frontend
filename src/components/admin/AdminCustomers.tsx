@@ -170,7 +170,7 @@ export const AdminCustomers = () => {
               {stats.topCustomers.length > 0 ? (
                 <>
                   <div className="text-xl font-bold text-purple-600">
-                    ${stats.topCustomers[0].totalSpent.toLocaleString()}
+                    {formatCurrency(stats.topCustomers[0].totalSpent)}
                   </div>
                   <p className="text-xs text-muted-foreground mt-1 truncate">
                     {stats.topCustomers[0].name || stats.topCustomers[0].email}
@@ -212,7 +212,7 @@ export const AdminCustomers = () => {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-bold text-lg">${customer.totalSpent.toLocaleString()}</p>
+                    <p className="font-bold text-lg">{formatCurrency(customer.totalSpent)}</p>
                     <p className="text-sm text-muted-foreground">{customer.orderCount} pedidos</p>
                   </div>
                 </div>
