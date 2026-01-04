@@ -14,7 +14,6 @@ import {
   FileText,
   Crown,
   Music,
-  Settings,
   Sparkles,
   BarChart3,
   CreditCard
@@ -26,7 +25,6 @@ import { AdminDashboard } from '@/components/admin/AdminDashboard';
 import { AdminInvoices } from '@/components/admin/AdminInvoices';
 import AdminSubscriptions from '@/components/admin/AdminSubscriptions';
 import { AdminAudioContent } from '@/components/admin/AdminAudioContent';
-import { AdminSettings } from '@/components/admin/AdminSettings';
 import { AdminAnalytics } from '@/components/admin/AdminAnalytics';
 import { AdminPlans } from '@/components/admin/AdminPlans';
 
@@ -112,7 +110,7 @@ const Admin = () => {
 
           {/* Tabs with Enhanced Styling */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-10 lg:w-auto lg:inline-grid bg-silk-cream/50 backdrop-blur-sm border border-border/50 p-1 rounded-lg">
+            <TabsList className="grid w-full grid-cols-9 lg:w-auto lg:inline-grid bg-silk-cream/50 backdrop-blur-sm border border-border/50 p-1 rounded-lg">
               <TabsTrigger
                 value="dashboard"
                 className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-soft transition-elegant"
@@ -176,13 +174,6 @@ const Admin = () => {
                 <Users className="h-4 w-4" />
                 <span className="hidden sm:inline">Usuarios</span>
               </TabsTrigger>
-              <TabsTrigger
-                value="settings"
-                className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-soft transition-elegant"
-              >
-                <Settings className="h-4 w-4" />
-                <span className="hidden sm:inline">Configuración</span>
-              </TabsTrigger>
             </TabsList>
 
             <div className="animate-fade-in">
@@ -220,10 +211,6 @@ const Admin = () => {
 
               <TabsContent value="users">
                 <AdminUsers />
-              </TabsContent>
-
-              <TabsContent value="settings">
-                <AdminSettings />
               </TabsContent>
             </div>
           </Tabs>
