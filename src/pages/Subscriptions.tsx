@@ -284,11 +284,6 @@ export default function Subscriptions() {
                 <div className="text-sm text-muted-foreground">
                   {t('perPeriod')} {lang === 'es' ? plan.billingPeriodEs : plan.billingPeriod}
                 </div>
-                {plan.savings && (
-                  <div className="mt-2 text-sm font-medium text-green-600">
-                    {t('save')} {formatPrice(plan.savings)}
-                  </div>
-                )}
               </div>
             </CardHeader>
 
