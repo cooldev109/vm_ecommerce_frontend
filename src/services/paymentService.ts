@@ -1,6 +1,6 @@
 /**
  * Payment Service
- * Handles Webpay payment integration
+ * Handles Flow.cl payment integration
  */
 
 import api from '@/lib/api';
@@ -11,10 +11,10 @@ export interface InitPaymentRequest {
 }
 
 /**
- * Initialize Webpay payment for an order
+ * Initialize Flow payment for an order
  */
-export async function initWebpayPayment(data: InitPaymentRequest) {
-  return api.post<PaymentIntent>('/payments/webpay/init', data);
+export async function initFlowPayment(data: InitPaymentRequest) {
+  return api.post<PaymentIntent>('/payments/flow/init', data);
 }
 
 /**

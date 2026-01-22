@@ -110,26 +110,15 @@ const Checkout = () => {
 
       const orderId = checkoutResponse.data.order.id;
 
-      // Step 2: Initialize WebPay payment
-      const paymentResponse = await paymentService.initWebpayPayment({ orderId });
+      // Step 2: Initialize Flow payment
+      const paymentResponse = await paymentService.initFlowPayment({ orderId });
 
       if (!paymentResponse.success || !paymentResponse.data) {
         throw new Error(paymentResponse.error?.message || 'Payment initialization failed');
       }
 
-      // Step 3: Redirect to WebPay
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = paymentResponse.data.url;
-
-      const tokenInput = document.createElement('input');
-      tokenInput.type = 'hidden';
-      tokenInput.name = 'token_ws';
-      tokenInput.value = paymentResponse.data.token;
-
-      form.appendChild(tokenInput);
-      document.body.appendChild(form);
-      form.submit();
+      // Step 3: Redirect to Flow payment page
+      window.location.href = paymentResponse.data.url;
 
     } catch (error: any) {
       toast.error(error.message || 'Checkout failed');
@@ -299,7 +288,7 @@ const Checkout = () => {
                   <div className="text-center">
                     <CreditCard className="h-12 w-12 text-accent mx-auto mb-4" />
                     <p className="text-lg font-semibold text-foreground mb-2">
-                      Webpay Plus
+                      Flow
                     </p>
                     <p className="text-sm text-luxury">
                       {t('webpayRedirectMessage')}

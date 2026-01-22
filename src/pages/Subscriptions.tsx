@@ -87,20 +87,8 @@ export default function Subscriptions() {
         // Step 2: Initialize payment
         const paymentData = await initSubscriptionPayment(subscription.id);
 
-        // Step 3: Redirect to Webpay
-        // Create a form and submit it to Webpay
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = paymentData.url;
-
-        const tokenInput = document.createElement('input');
-        tokenInput.type = 'hidden';
-        tokenInput.name = 'token_ws';
-        tokenInput.value = paymentData.token;
-        form.appendChild(tokenInput);
-
-        document.body.appendChild(form);
-        form.submit();
+        // Step 3: Redirect to Flow payment page
+        window.location.href = paymentData.url;
       } else {
         // Subscription activated without payment (shouldn't happen normally)
         toast({
