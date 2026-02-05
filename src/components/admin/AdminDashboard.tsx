@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 import {
   DollarSign,
   Package,
@@ -12,7 +14,8 @@ import {
   ArrowDownRight,
   Sparkles,
   Clock,
-  BarChart3
+  BarChart3,
+  FlaskConical
 } from 'lucide-react';
 import { getOrderAnalytics, type OrderAnalytics } from '@/services/orderService';
 import { useToast } from '@/hooks/use-toast';
@@ -20,11 +23,25 @@ import { useToast } from '@/hooks/use-toast';
 export const AdminDashboard = () => {
   const [analytics, setAnalytics] = useState<OrderAnalytics | null>(null);
   const [loading, setLoading] = useState(true);
+  const [testModeShipping, setTestModeShipping] = useState(() => {
+    return localStorage.getItem('testMode_freeShipping') === 'true';
+  });
   const { toast } = useToast();
 
   useEffect(() => {
     loadAnalytics();
   }, []);
+
+  const handleTestModeShippingChange = (checked: boolean) => {
+    setTestModeShipping(checked);
+    localStorage.setItem('testMode_freeShipping', String(checked));
+    toast({
+      title: checked ? 'Modo Prueba Activado' : 'Modo Prueba Desactivado',
+      description: checked
+        ? 'Envío gratis activado para todas las compras'
+        : 'Envío con costo normal restaurado',
+    });
+  };
 
   const loadAnalytics = async () => {
     try {
@@ -106,6 +123,49 @@ export const AdminDashboard = () => {
 
   return (
     <div className="space-y-6">
+      {/* Test Mode Card */}
+      <Card className="card-feminine border-amber-200 bg-amber-50/50">
+        <CardHeader className="pb-3">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
+              <FlaskConical className="h-5 w-5 text-amber-600" />
+            </div>
+            <div>
+              <CardTitle className="text-lg text-amber-800">Modo de Prueba</CardTitle>
+              <CardDescription className="text-amber-600">
+                Opciones para probar la tienda sin cargos reales
+              </CardDescription>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-between p-4 bg-white rounded-lg border border-amber-200">
+            <div className="flex items-center gap-3">
+              <div>
+                <Label htmlFor="test-shipping" className="text-sm font-medium">
+                  Envío Gratis (Prueba)
+                </Label>
+                <p className="text-xs text-muted-foreground">
+                  Activa para que todas las compras tengan envío $0
+                </p>
+              </div>
+            </div>
+            <Switch
+              id="test-shipping"
+              checked={testModeShipping}
+              onCheckedChange={handleTestModeShippingChange}
+            />
+          </div>
+          {testModeShipping && (
+            <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
+              <p className="text-sm text-green-700 font-medium">
+                ✓ Envío gratis activado para pruebas
+              </p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
       {/* Stats Grid with Oriental Styling */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Total Revenue */}

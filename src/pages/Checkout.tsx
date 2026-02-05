@@ -27,8 +27,11 @@ const Checkout = () => {
   const [selectedBillingId, setSelectedBillingId] = useState<string>('');
   const [sameAsShipping, setSameAsShipping] = useState(true);
 
-  // Free shipping over $50.000 CLP, otherwise $5.000 CLP shipping
-  const shippingCost = total >= 50000 ? 0 : 5000;
+  // Check test mode for free shipping
+  const testModeFreeShipping = localStorage.getItem('testMode_freeShipping') === 'true';
+
+  // Free shipping over $50.000 CLP, otherwise $5.000 CLP shipping (or $0 in test mode)
+  const shippingCost = testModeFreeShipping ? 0 : (total >= 50000 ? 0 : 5000);
   const finalTotal = total + shippingCost;
 
   // Redirect if not authenticated
@@ -98,6 +101,7 @@ const Checkout = () => {
       const checkoutResponse = await orderService.checkout({
         shippingAddressId: selectedShippingId,
         billingAddressId: sameAsShipping ? selectedShippingId : selectedBillingId || selectedShippingId,
+        testModeFreeShipping,
       });
 
       console.log('Checkout response:', checkoutResponse);

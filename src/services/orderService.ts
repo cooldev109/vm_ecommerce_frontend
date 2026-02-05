@@ -8,6 +8,8 @@ import type { Order } from '@/types';
 
 export interface CheckoutRequest {
   shippingAddressId: string;
+  billingAddressId?: string;
+  testModeFreeShipping?: boolean;
 }
 
 export interface CheckoutResponse {

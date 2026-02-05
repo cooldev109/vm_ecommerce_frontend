@@ -10,8 +10,10 @@ import { Loader2, MapPin, Plus, Edit, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import * as authService from '@/services/authService';
 import type { Address } from '@/types';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const AddressesTab = () => {
+  const { t } = useLanguage();
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -91,7 +93,7 @@ const AddressesTab = () => {
       }
 
       if (response.success) {
-        toast.success(editingAddress ? 'Address updated successfully' : 'Address created successfully');
+        toast.success(editingAddress ? t('addressUpdatedSuccess') : t('addressCreatedSuccess'));
         setDialogOpen(false);
         loadAddresses();
       } else {
@@ -105,7 +107,7 @@ const AddressesTab = () => {
   };
 
   const handleDelete = async (addressId: string) => {
-    if (!confirm('Are you sure you want to delete this address?')) {
+    if (!confirm(t('confirmDeleteAddress'))) {
       return;
     }
 
@@ -113,7 +115,7 @@ const AddressesTab = () => {
       const response = await authService.deleteAddress(addressId);
 
       if (response.success) {
-        toast.success('Address deleted successfully');
+        toast.success(t('addressDeletedSuccess'));
         loadAddresses();
       } else {
         throw new Error(response.error?.message || 'Failed to delete address');
@@ -139,22 +141,22 @@ const AddressesTab = () => {
           <DialogTrigger asChild>
             <Button onClick={() => handleOpenDialog()} className="btn-luxury">
               <Plus className="h-4 w-4 mr-2" />
-              Add New Address
+              {t('addNewAddress')}
             </Button>
           </DialogTrigger>
 
           <DialogContent className="sm:max-w-[500px]">
             <DialogHeader>
-              <DialogTitle>{editingAddress ? 'Edit Address' : 'Add New Address'}</DialogTitle>
+              <DialogTitle>{editingAddress ? t('editAddress') : t('addNewAddress')}</DialogTitle>
               <DialogDescription>
-                {editingAddress ? 'Update your address information' : 'Add a new shipping or billing address'}
+                {editingAddress ? t('updateAddressInfo') : t('addAddressDescription')}
               </DialogDescription>
             </DialogHeader>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Address Type */}
               <div>
-                <Label>Address Type</Label>
+                <Label>{t('addressType')}</Label>
                 <RadioGroup
                   value={formData.type}
                   onValueChange={(value) => setFormData({ ...formData, type: value as 'SHIPPING' | 'BILLING' })}
@@ -162,18 +164,18 @@ const AddressesTab = () => {
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="SHIPPING" id="shipping" />
-                    <Label htmlFor="shipping" className="cursor-pointer">Shipping</Label>
+                    <Label htmlFor="shipping" className="cursor-pointer">{t('shippingType')}</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="BILLING" id="billing" />
-                    <Label htmlFor="billing" className="cursor-pointer">Billing</Label>
+                    <Label htmlFor="billing" className="cursor-pointer">{t('billingType')}</Label>
                   </div>
                 </RadioGroup>
               </div>
 
               {/* Street */}
               <div>
-                <Label htmlFor="street">Street Address</Label>
+                <Label htmlFor="street">{t('streetAddress')}</Label>
                 <Input
                   id="street"
                   value={formData.street}
@@ -186,7 +188,7 @@ const AddressesTab = () => {
               {/* City and Region */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="city">City</Label>
+                  <Label htmlFor="city">{t('city')}</Label>
                   <Input
                     id="city"
                     value={formData.city}
@@ -196,7 +198,7 @@ const AddressesTab = () => {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="region">Region</Label>
+                  <Label htmlFor="region">{t('region')}</Label>
                   <Input
                     id="region"
                     value={formData.region}
@@ -210,7 +212,7 @@ const AddressesTab = () => {
               {/* Postal Code and Country */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="postalCode">Postal Code</Label>
+                  <Label htmlFor="postalCode">{t('postalCode')}</Label>
                   <Input
                     id="postalCode"
                     value={formData.postalCode}
@@ -220,7 +222,7 @@ const AddressesTab = () => {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="country">Country</Label>
+                  <Label htmlFor="country">{t('country')}</Label>
                   <Input
                     id="country"
                     value={formData.country}
@@ -238,7 +240,7 @@ const AddressesTab = () => {
                   onCheckedChange={(checked) => setFormData({ ...formData, isDefault: checked as boolean })}
                 />
                 <Label htmlFor="isDefault" className="cursor-pointer">
-                  Set as default {formData.type.toLowerCase()} address
+                  {formData.type === 'SHIPPING' ? t('setDefaultShipping') : t('setDefaultBilling')}
                 </Label>
               </div>
 
@@ -248,12 +250,12 @@ const AddressesTab = () => {
                   {submitting ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Saving...
+                      {t('saving')}
                     </>
                   ) : editingAddress ? (
-                    'Update Address'
+                    t('updateAddress')
                   ) : (
-                    'Add Address'
+                    t('addAddress')
                   )}
                 </Button>
                 <Button
@@ -262,7 +264,7 @@ const AddressesTab = () => {
                   onClick={() => setDialogOpen(false)}
                   disabled={submitting}
                 >
-                  Cancel
+                  {t('cancel')}
                 </Button>
               </div>
             </form>
@@ -275,8 +277,8 @@ const AddressesTab = () => {
         <Card className="card-luxury">
           <CardContent className="py-12 text-center">
             <MapPin className="h-16 w-16 text-luxury mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-foreground mb-2">No Addresses Yet</h3>
-            <p className="text-luxury mb-4">Add your first address to get started</p>
+            <h3 className="text-xl font-semibold text-foreground mb-2">{t('noAddressesYet')}</h3>
+            <p className="text-luxury mb-4">{t('addFirstAddress')}</p>
           </CardContent>
         </Card>
       ) : (
@@ -288,12 +290,12 @@ const AddressesTab = () => {
                   <div className="flex items-center gap-2">
                     <MapPin className="h-5 w-5 text-accent" />
                     <CardTitle className="text-lg">
-                      {address.type === 'SHIPPING' ? 'Shipping' : 'Billing'} Address
+                      {address.type === 'SHIPPING' ? t('shippingAddressTitle') : t('billingAddressTitle')}
                     </CardTitle>
                   </div>
                   {address.isDefault && (
                     <span className="text-xs bg-accent/10 text-accent px-2 py-1 rounded">
-                      Default
+                      {t('default')}
                     </span>
                   )}
                 </div>
@@ -315,7 +317,7 @@ const AddressesTab = () => {
                     className="flex-1"
                   >
                     <Edit className="h-4 w-4 mr-1" />
-                    Edit
+                    {t('edit')}
                   </Button>
                   <Button
                     variant="outline"
