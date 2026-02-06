@@ -26,6 +26,9 @@ export const AdminDashboard = () => {
   const [testModeShipping, setTestModeShipping] = useState(() => {
     return localStorage.getItem('testMode_freeShipping') === 'true';
   });
+  const [testModePrices, setTestModePrices] = useState(() => {
+    return localStorage.getItem('testMode_zeroPrices') === 'true';
+  });
   const { toast } = useToast();
 
   useEffect(() => {
@@ -40,6 +43,17 @@ export const AdminDashboard = () => {
       description: checked
         ? 'Envío gratis activado para todas las compras'
         : 'Envío con costo normal restaurado',
+    });
+  };
+
+  const handleTestModePricesChange = (checked: boolean) => {
+    setTestModePrices(checked);
+    localStorage.setItem('testMode_zeroPrices', String(checked));
+    toast({
+      title: checked ? 'Precios $0 Activado' : 'Precios $0 Desactivado',
+      description: checked
+        ? 'Todos los productos se mostrarán con precio $0'
+        : 'Precios normales restaurados',
     });
   };
 
@@ -156,10 +170,32 @@ export const AdminDashboard = () => {
               onCheckedChange={handleTestModeShippingChange}
             />
           </div>
-          {testModeShipping && (
+          {/* Zero Prices Toggle */}
+          <div className="flex items-center justify-between p-4 bg-white rounded-lg border border-amber-200 mt-3">
+            <div className="flex items-center gap-3">
+              <div>
+                <Label htmlFor="test-prices" className="text-sm font-medium">
+                  Precios $0 (Prueba)
+                </Label>
+                <p className="text-xs text-muted-foreground">
+                  Activa para que todos los productos tengan precio $0
+                </p>
+              </div>
+            </div>
+            <Switch
+              id="test-prices"
+              checked={testModePrices}
+              onCheckedChange={handleTestModePricesChange}
+            />
+          </div>
+          {(testModeShipping || testModePrices) && (
             <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
               <p className="text-sm text-green-700 font-medium">
-                ✓ Envío gratis activado para pruebas
+                {testModeShipping && testModePrices
+                  ? '✓ Envío gratis y precios $0 activados para pruebas'
+                  : testModeShipping
+                    ? '✓ Envío gratis activado para pruebas'
+                    : '✓ Precios $0 activados para pruebas'}
               </p>
             </div>
           )}

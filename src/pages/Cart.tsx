@@ -9,10 +9,13 @@ import { formatCurrency } from '@/lib/utils';
 const Cart = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
-  const { items, removeItem, updateQuantity, total } = useCart();
+  const { items, removeItem, updateQuantity, total, testModeZeroPrices } = useCart();
 
-  // Free shipping over $50.000 CLP, otherwise $5.000 CLP shipping
-  const shippingCost = total > 50000 ? 0 : 5000;
+  // Check test mode for free shipping
+  const testModeFreeShipping = localStorage.getItem('testMode_freeShipping') === 'true';
+
+  // Free shipping over $50.000 CLP, otherwise $5.000 CLP shipping (or $0 in test mode)
+  const shippingCost = testModeFreeShipping ? 0 : (total > 50000 ? 0 : 5000);
   const finalTotal = total + shippingCost;
 
   return (
@@ -51,7 +54,7 @@ const Cart = () => {
                     {item.name}
                   </h3>
                   <p className="text-lg font-semibold text-accent mb-4">
-                    {formatCurrency(item.price)}
+                    {formatCurrency(testModeZeroPrices ? 0 : item.price)}
                   </p>
 
                   <div className="flex items-center gap-4">
@@ -84,7 +87,7 @@ const Cart = () => {
 
                 <div className="text-right md:text-left">
                   <p className="text-lg font-semibold text-foreground">
-                    {formatCurrency(item.price * item.quantity)}
+                    {formatCurrency(testModeZeroPrices ? 0 : item.price * item.quantity)}
                   </p>
                 </div>
               </div>

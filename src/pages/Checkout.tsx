@@ -18,7 +18,7 @@ import { formatCurrency } from '@/lib/utils';
 const Checkout = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
-  const { items, total } = useCart();
+  const { items, total, testModeZeroPrices } = useCart();
   const { user, isAuthenticated } = useAuth();
   const [loading, setLoading] = useState(false);
   const [loadingAddresses, setLoadingAddresses] = useState(true);
@@ -102,6 +102,7 @@ const Checkout = () => {
         shippingAddressId: selectedShippingId,
         billingAddressId: sameAsShipping ? selectedShippingId : selectedBillingId || selectedShippingId,
         testModeFreeShipping,
+        testModeZeroPrices,
       });
 
       console.log('Checkout response:', checkoutResponse);
@@ -339,7 +340,7 @@ const Checkout = () => {
                       <p className="font-semibold text-foreground">{item.name}</p>
                       <p className="text-sm text-luxury">{t('quantityLabel')}: {item.quantity}</p>
                       <p className="text-sm font-semibold text-accent">
-                        {formatCurrency(item.price * item.quantity)}
+                        {formatCurrency(testModeZeroPrices ? 0 : item.price * item.quantity)}
                       </p>
                     </div>
                   </div>

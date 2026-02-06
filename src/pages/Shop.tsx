@@ -16,6 +16,9 @@ const Shop = () => {
   const [sortBy, setSortBy] = useState('popular');
   const [category, setCategory] = useState('all');
 
+  // Check test mode for zero prices
+  const testModeZeroPrices = localStorage.getItem('testMode_zeroPrices') === 'true';
+
   // Fetch products from backend
   const { data, isLoading, error } = useQuery({
     queryKey: ['products', language],
@@ -28,11 +31,11 @@ const Shop = () => {
       id: product.id,
       name: product.name || 'Product',
       description: product.description || '',
-      price: parseFloat(product.price),
+      price: testModeZeroPrices ? 0 : parseFloat(product.price),
       image: resolveProductImage(product.image),
       category: product.category.toLowerCase(),
     }));
-  }, [data]);
+  }, [data, testModeZeroPrices]);
 
   // Filter and sort products
   const filteredProducts = useMemo(() => {
