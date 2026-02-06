@@ -15,10 +15,23 @@ import {
   Sparkles,
   Clock,
   BarChart3,
-  FlaskConical
+  FlaskConical,
+  Trash2
 } from 'lucide-react';
 import { getOrderAnalytics, type OrderAnalytics } from '@/services/orderService';
-import { getTestModeStatus, enableTestModePrices, disableTestModePrices } from '@/services/productService';
+import { getTestModeStatus, enableTestModePrices, disableTestModePrices, resetAllProducts } from '@/services/productService';
+import { Button } from '@/components/ui/button';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
 
 export const AdminDashboard = () => {
@@ -29,6 +42,7 @@ export const AdminDashboard = () => {
   });
   const [testModePrices, setTestModePrices] = useState(false);
   const [testModePricesLoading, setTestModePricesLoading] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -88,6 +102,29 @@ export const AdminDashboard = () => {
       });
     } finally {
       setTestModePricesLoading(false);
+    }
+  };
+
+  const handleResetAllProducts = async () => {
+    setResetLoading(true);
+    try {
+      const response = await resetAllProducts();
+      if (response.success) {
+        toast({
+          title: 'Datos Reseteados',
+          description: `${response.data.deletedProducts} productos eliminados`,
+        });
+        // Reload analytics after reset
+        loadAnalytics();
+      }
+    } catch (error: any) {
+      toast({
+        title: 'Error',
+        description: error.message || 'Error al resetear datos',
+        variant: 'destructive',
+      });
+    } finally {
+      setResetLoading(false);
     }
   };
 
@@ -237,6 +274,43 @@ export const AdminDashboard = () => {
               </p>
             </div>
           )}
+          {/* Reset All Products Button */}
+          <div className="mt-4 pt-4 border-t border-amber-200">
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="destructive"
+                  className="w-full"
+                  disabled={resetLoading}
+                >
+                  {resetLoading ? (
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  ) : (
+                    <Trash2 className="h-4 w-4 mr-2" />
+                  )}
+                  Resetear Todos los Productos
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Esta acción eliminará TODOS los productos, traducciones, reseñas, items del carrito y wishlist.
+                    Esta acción no se puede deshacer.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={handleResetAllProducts}
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  >
+                    Sí, eliminar todo
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         </CardContent>
       </Card>
 
