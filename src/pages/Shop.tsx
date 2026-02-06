@@ -16,10 +16,7 @@ const Shop = () => {
   const [sortBy, setSortBy] = useState('popular');
   const [category, setCategory] = useState('all');
 
-  // Check test mode for zero prices
-  const testModeZeroPrices = localStorage.getItem('testMode_zeroPrices') === 'true';
-
-  // Fetch products from backend
+  // Fetch products from backend (prices come from database, already $0 in test mode)
   const { data, isLoading, error } = useQuery({
     queryKey: ['products', language],
     queryFn: () => getProducts({ language: language.toUpperCase() }),
@@ -31,11 +28,11 @@ const Shop = () => {
       id: product.id,
       name: product.name || 'Product',
       description: product.description || '',
-      price: testModeZeroPrices ? 0 : parseFloat(product.price),
+      price: parseFloat(product.price),
       image: resolveProductImage(product.image),
       category: product.category.toLowerCase(),
     }));
-  }, [data, testModeZeroPrices]);
+  }, [data]);
 
   // Filter and sort products
   const filteredProducts = useMemo(() => {

@@ -18,6 +18,7 @@ import {
   FlaskConical
 } from 'lucide-react';
 import { getOrderAnalytics, type OrderAnalytics } from '@/services/orderService';
+import { getTestModeStatus, enableTestModePrices, disableTestModePrices } from '@/services/productService';
 import { useToast } from '@/hooks/use-toast';
 
 export const AdminDashboard = () => {
@@ -26,14 +27,25 @@ export const AdminDashboard = () => {
   const [testModeShipping, setTestModeShipping] = useState(() => {
     return localStorage.getItem('testMode_freeShipping') === 'true';
   });
-  const [testModePrices, setTestModePrices] = useState(() => {
-    return localStorage.getItem('testMode_zeroPrices') === 'true';
-  });
+  const [testModePrices, setTestModePrices] = useState(false);
+  const [testModePricesLoading, setTestModePricesLoading] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
     loadAnalytics();
+    loadTestModeStatus();
   }, []);
+
+  const loadTestModeStatus = async () => {
+    try {
+      const response = await getTestModeStatus();
+      if (response.success) {
+        setTestModePrices(response.data.testModeEnabled);
+      }
+    } catch (error) {
+      console.error('Error loading test mode status:', error);
+    }
+  };
 
   const handleTestModeShippingChange = (checked: boolean) => {
     setTestModeShipping(checked);
@@ -46,15 +58,37 @@ export const AdminDashboard = () => {
     });
   };
 
-  const handleTestModePricesChange = (checked: boolean) => {
-    setTestModePrices(checked);
-    localStorage.setItem('testMode_zeroPrices', String(checked));
-    toast({
-      title: checked ? 'Precios $0 Activado' : 'Precios $0 Desactivado',
-      description: checked
-        ? 'Todos los productos se mostrarán con precio $0'
-        : 'Precios normales restaurados',
-    });
+  const handleTestModePricesChange = async (checked: boolean) => {
+    setTestModePricesLoading(true);
+    try {
+      if (checked) {
+        const response = await enableTestModePrices();
+        if (response.success) {
+          setTestModePrices(true);
+          toast({
+            title: 'Precios $0 Activado',
+            description: `${response.data.productsUpdated} productos actualizados a precio $0`,
+          });
+        }
+      } else {
+        const response = await disableTestModePrices();
+        if (response.success) {
+          setTestModePrices(false);
+          toast({
+            title: 'Precios $0 Desactivado',
+            description: `${response.data.productsRestored} productos restaurados a precios originales`,
+          });
+        }
+      }
+    } catch (error: any) {
+      toast({
+        title: 'Error',
+        description: error.message || 'Error al cambiar modo de prueba',
+        variant: 'destructive',
+      });
+    } finally {
+      setTestModePricesLoading(false);
+    }
   };
 
   const loadAnalytics = async () => {
@@ -178,15 +212,19 @@ export const AdminDashboard = () => {
                   Precios $0 (Prueba)
                 </Label>
                 <p className="text-xs text-muted-foreground">
-                  Activa para que todos los productos tengan precio $0
+                  Activa para que todos los productos tengan precio $0 en la base de datos
                 </p>
               </div>
             </div>
-            <Switch
-              id="test-prices"
-              checked={testModePrices}
-              onCheckedChange={handleTestModePricesChange}
-            />
+            <div className="flex items-center gap-2">
+              {testModePricesLoading && <Loader2 className="h-4 w-4 animate-spin text-amber-600" />}
+              <Switch
+                id="test-prices"
+                checked={testModePrices}
+                onCheckedChange={handleTestModePricesChange}
+                disabled={testModePricesLoading}
+              />
+            </div>
           </div>
           {(testModeShipping || testModePrices) && (
             <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">

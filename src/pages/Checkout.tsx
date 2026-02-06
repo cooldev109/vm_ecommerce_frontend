@@ -18,7 +18,7 @@ import { formatCurrency } from '@/lib/utils';
 const Checkout = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
-  const { items, total, testModeZeroPrices } = useCart();
+  const { items, total } = useCart();
   const { user, isAuthenticated } = useAuth();
   const [loading, setLoading] = useState(false);
   const [loadingAddresses, setLoadingAddresses] = useState(true);
@@ -102,7 +102,6 @@ const Checkout = () => {
         shippingAddressId: selectedShippingId,
         billingAddressId: sameAsShipping ? selectedShippingId : selectedBillingId || selectedShippingId,
         testModeFreeShipping,
-        testModeZeroPrices,
       });
 
       console.log('Checkout response:', checkoutResponse);
@@ -115,8 +114,10 @@ const Checkout = () => {
 
       const orderId = checkoutResponse.data.order.id;
 
-      // Step 2: Initialize Flow payment
-      const paymentResponse = await paymentService.initFlowPayment({ orderId });
+      // Step 2: Initialize Flow payment (order total is already $0 in test mode since prices are $0 in database)
+      const paymentResponse = await paymentService.initFlowPayment({
+        orderId,
+      });
 
       if (!paymentResponse.success || !paymentResponse.data) {
         throw new Error(paymentResponse.error?.message || 'Payment initialization failed');
@@ -340,7 +341,7 @@ const Checkout = () => {
                       <p className="font-semibold text-foreground">{item.name}</p>
                       <p className="text-sm text-luxury">{t('quantityLabel')}: {item.quantity}</p>
                       <p className="text-sm font-semibold text-accent">
-                        {formatCurrency(testModeZeroPrices ? 0 : item.price * item.quantity)}
+                        {formatCurrency(item.price * item.quantity)}
                       </p>
                     </div>
                   </div>

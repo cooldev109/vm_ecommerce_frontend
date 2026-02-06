@@ -9,7 +9,7 @@ import { formatCurrency } from '@/lib/utils';
 const Cart = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
-  const { items, removeItem, updateQuantity, total, testModeZeroPrices } = useCart();
+  const { items, removeItem, updateQuantity, total } = useCart();
 
   // Check test mode for free shipping
   const testModeFreeShipping = localStorage.getItem('testMode_freeShipping') === 'true';
@@ -54,7 +54,7 @@ const Cart = () => {
                     {item.name}
                   </h3>
                   <p className="text-lg font-semibold text-accent mb-4">
-                    {formatCurrency(testModeZeroPrices ? 0 : item.price)}
+                    {formatCurrency(item.price)}
                   </p>
 
                   <div className="flex items-center gap-4">
@@ -87,7 +87,7 @@ const Cart = () => {
 
                 <div className="text-right md:text-left">
                   <p className="text-lg font-semibold text-foreground">
-                    {formatCurrency(testModeZeroPrices ? 0 : item.price * item.quantity)}
+                    {formatCurrency(item.price * item.quantity)}
                   </p>
                 </div>
               </div>

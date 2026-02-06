@@ -19,7 +19,6 @@ interface CartContextType {
   clearCart: () => Promise<void>;
   total: number;
   loading: boolean;
-  testModeZeroPrices: boolean;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -28,11 +27,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const { isAuthenticated } = useAuth();
   const [items, setItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(false);
-
-  // Check test mode for zero prices
-  const testModeZeroPrices = typeof window !== 'undefined'
-    ? localStorage.getItem('testMode_zeroPrices') === 'true'
-    : false;
 
   const loadCart = useCallback(async () => {
     if (!isAuthenticated) return;
@@ -241,14 +235,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [isAuthenticated, loadCart]);
 
-  // Apply zero prices in test mode
-  const total = testModeZeroPrices
-    ? 0
-    : items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  // Calculate total from actual prices (prices come from database, already $0 in test mode)
+  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
     <CartContext.Provider
-      value={{ items, addItem, removeItem, updateQuantity, clearCart, total, loading, testModeZeroPrices }}
+      value={{ items, addItem, removeItem, updateQuantity, clearCart, total, loading }}
     >
       {children}
     </CartContext.Provider>

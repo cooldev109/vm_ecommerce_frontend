@@ -10,7 +10,6 @@ export interface CheckoutRequest {
   shippingAddressId: string;
   billingAddressId?: string;
   testModeFreeShipping?: boolean;
-  testModeZeroPrices?: boolean;
 }
 
 export interface CheckoutResponse {
