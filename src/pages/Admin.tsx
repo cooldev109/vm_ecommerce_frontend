@@ -208,7 +208,7 @@ const Admin = () => {
                 </div>
               </div>
 
-              {/* Test Mode Controls - Warning Style */}
+              {/* Test Mode Controls - Strong Warning Style */}
               <div className="flex items-center gap-2">
                 <TooltipProvider>
                   {/* Free Shipping Toggle */}
@@ -219,14 +219,14 @@ const Admin = () => {
                         size="sm"
                         onClick={handleTestModeShippingToggle}
                         className={testModeShipping
-                          ? 'bg-amber-500 hover:bg-amber-600 text-white border-amber-500'
-                          : 'border-amber-400 text-amber-600 hover:bg-amber-50 hover:text-amber-700'}
+                          ? 'bg-orange-500 hover:bg-orange-600 text-white border-orange-600 shadow-md shadow-orange-200'
+                          : 'bg-orange-100 border-orange-400 text-orange-700 hover:bg-orange-200 hover:border-orange-500'}
                       >
                         <Truck className="h-4 w-4" />
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Envío Gratis {testModeShipping ? '(Activo)' : '(Inactivo)'}</p>
+                    <TooltipContent className="bg-orange-600 text-white border-orange-700">
+                      <p>⚠️ Envío Gratis {testModeShipping ? '(ACTIVO)' : '(Inactivo)'}</p>
                     </TooltipContent>
                   </Tooltip>
 
@@ -239,8 +239,8 @@ const Admin = () => {
                         onClick={handleTestModePricesToggle}
                         disabled={testModePricesLoading}
                         className={testModePrices
-                          ? 'bg-amber-500 hover:bg-amber-600 text-white border-amber-500'
-                          : 'border-amber-400 text-amber-600 hover:bg-amber-50 hover:text-amber-700'}
+                          ? 'bg-orange-500 hover:bg-orange-600 text-white border-orange-600 shadow-md shadow-orange-200'
+                          : 'bg-orange-100 border-orange-400 text-orange-700 hover:bg-orange-200 hover:border-orange-500'}
                       >
                         {testModePricesLoading ? (
                           <Loader2 className="h-4 w-4 animate-spin" />
@@ -249,12 +249,12 @@ const Admin = () => {
                         )}
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Precios $0 {testModePrices ? '(Activo)' : '(Inactivo)'}</p>
+                    <TooltipContent className="bg-orange-600 text-white border-orange-700">
+                      <p>⚠️ Precios $0 {testModePrices ? '(ACTIVO)' : '(Inactivo)'}</p>
                     </TooltipContent>
                   </Tooltip>
 
-                  {/* Reset All Products */}
+                  {/* Reset All Products - Danger Style */}
                   <AlertDialog>
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -263,7 +263,7 @@ const Admin = () => {
                             variant="outline"
                             size="sm"
                             disabled={resetLoading}
-                            className="border-red-300 hover:bg-red-50 text-red-600 hover:text-red-700"
+                            className="bg-red-100 border-red-400 text-red-700 hover:bg-red-200 hover:border-red-500 shadow-sm"
                           >
                             {resetLoading ? (
                               <Loader2 className="h-4 w-4 animate-spin" />
@@ -273,8 +273,8 @@ const Admin = () => {
                           </Button>
                         </AlertDialogTrigger>
                       </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Resetear Todos los Productos</p>
+                      <TooltipContent className="bg-red-600 text-white border-red-700">
+                        <p>🚨 Resetear Todos los Productos</p>
                       </TooltipContent>
                     </Tooltip>
                     <AlertDialogContent>
