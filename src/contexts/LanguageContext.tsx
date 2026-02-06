@@ -173,6 +173,11 @@ const translations: Record<Language, Record<string, string>> = {
     addressCreatedSuccess: 'Dirección creada exitosamente',
     addressDeletedSuccess: 'Dirección eliminada exitosamente',
     confirmDeleteAddress: '¿Estás seguro de que deseas eliminar esta dirección?',
+    manageAddresses: 'Gestionar Direcciones',
+    noShippingAddresses: 'No se encontraron direcciones de envío',
+    noBillingAddresses: 'No se encontraron direcciones de facturación',
+    continueToPayment: 'Continuar al Pago',
+    billingAddress: 'Dirección de Facturación',
 
     // Profile Tab
     profileInformation: 'Información de Perfil',
@@ -738,6 +743,11 @@ const translations: Record<Language, Record<string, string>> = {
     addressCreatedSuccess: 'Address created successfully',
     addressDeletedSuccess: 'Address deleted successfully',
     confirmDeleteAddress: 'Are you sure you want to delete this address?',
+    manageAddresses: 'Manage Addresses',
+    noShippingAddresses: 'No shipping addresses found',
+    noBillingAddresses: 'No billing addresses found',
+    continueToPayment: 'Continue to Payment',
+    billingAddress: 'Billing Address',
 
     // Profile Tab
     profileInformation: 'Profile Information',

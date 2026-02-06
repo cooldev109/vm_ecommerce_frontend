@@ -161,7 +161,7 @@ const Checkout = () => {
                     onClick={() => navigate('/account?tab=addresses')}
                   >
                     <MapPin className="h-4 w-4 mr-2" />
-                    Manage Addresses
+                    {t('manageAddresses')}
                   </Button>
                 </div>
 
@@ -171,12 +171,12 @@ const Checkout = () => {
                   </div>
                 ) : shippingAddresses.length === 0 ? (
                   <div className="text-center py-8">
-                    <p className="text-luxury mb-4">No shipping addresses found</p>
+                    <p className="text-luxury mb-4">{t('noShippingAddresses')}</p>
                     <Button
                       type="button"
                       onClick={() => navigate('/account?tab=addresses')}
                     >
-                      Add Address
+                      {t('addAddress')}
                     </Button>
                   </div>
                 ) : (
@@ -207,7 +207,7 @@ const Checkout = () => {
                                 </div>
                                 {addr.isDefault && (
                                   <span className="inline-block mt-2 text-xs bg-accent/10 text-accent px-2 py-1 rounded">
-                                    Default
+                                    {t('default')}
                                   </span>
                                 )}
                               </Label>
@@ -233,12 +233,12 @@ const Checkout = () => {
                     </div>
                   ) : billingAddresses.length === 0 ? (
                     <div className="text-center py-8">
-                      <p className="text-luxury mb-4">No billing addresses found</p>
+                      <p className="text-luxury mb-4">{t('noBillingAddresses')}</p>
                       <Button
                         type="button"
                         onClick={() => navigate('/account?tab=addresses')}
                       >
-                        Add Address
+                        {t('addAddress')}
                       </Button>
                     </div>
                   ) : (
@@ -269,7 +269,7 @@ const Checkout = () => {
                                   </div>
                                   {addr.isDefault && (
                                     <span className="inline-block mt-2 text-xs bg-accent/10 text-accent px-2 py-1 rounded">
-                                      Default
+                                      {t('default')}
                                     </span>
                                   )}
                                 </Label>
@@ -309,7 +309,7 @@ const Checkout = () => {
                 {loading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Processing...
+                    {t('processing')}
                   </>
                 ) : (
                   t('continueToPayment')
