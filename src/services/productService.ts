@@ -93,7 +93,7 @@ export async function disableTestModePrices() {
 }
 
 /**
- * Reset all product data (delete all products, translations, reviews, etc.)
+ * Reset all product data (delete all products, translations, reviews, audio content, etc.)
  */
 export async function resetAllProducts() {
   return api.delete<{
@@ -103,5 +103,6 @@ export async function resetAllProducts() {
     deletedReviews: number;
     deletedWishlistItems: number;
     deletedCartItems: number;
+    deletedAudioContent: number;
   }>('/products/reset-all');
 }
