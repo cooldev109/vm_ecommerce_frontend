@@ -208,17 +208,19 @@ const Admin = () => {
                 </div>
               </div>
 
-              {/* Test Mode Controls */}
+              {/* Test Mode Controls - Warning Style */}
               <div className="flex items-center gap-2">
                 <TooltipProvider>
                   {/* Free Shipping Toggle */}
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
-                        variant={testModeShipping ? 'default' : 'outline'}
+                        variant="outline"
                         size="sm"
                         onClick={handleTestModeShippingToggle}
-                        className={testModeShipping ? 'bg-green-600 hover:bg-green-700' : 'border-amber-300 hover:bg-amber-50'}
+                        className={testModeShipping
+                          ? 'bg-amber-500 hover:bg-amber-600 text-white border-amber-500'
+                          : 'border-amber-400 text-amber-600 hover:bg-amber-50 hover:text-amber-700'}
                       >
                         <Truck className="h-4 w-4" />
                       </Button>
@@ -232,11 +234,13 @@ const Admin = () => {
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
-                        variant={testModePrices ? 'default' : 'outline'}
+                        variant="outline"
                         size="sm"
                         onClick={handleTestModePricesToggle}
                         disabled={testModePricesLoading}
-                        className={testModePrices ? 'bg-green-600 hover:bg-green-700' : 'border-amber-300 hover:bg-amber-50'}
+                        className={testModePrices
+                          ? 'bg-amber-500 hover:bg-amber-600 text-white border-amber-500'
+                          : 'border-amber-400 text-amber-600 hover:bg-amber-50 hover:text-amber-700'}
                       >
                         {testModePricesLoading ? (
                           <Loader2 className="h-4 w-4 animate-spin" />
