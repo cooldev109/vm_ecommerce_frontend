@@ -16,7 +16,10 @@ import {
   Music,
   Sparkles,
   BarChart3,
-  CreditCard
+  CreditCard,
+  Truck,
+  Tag,
+  Trash2
 } from 'lucide-react';
 import { AdminProducts } from '@/components/admin/AdminProducts';
 import { AdminOrders } from '@/components/admin/AdminOrders';
@@ -27,6 +30,25 @@ import AdminSubscriptions from '@/components/admin/AdminSubscriptions';
 import { AdminAudioContent } from '@/components/admin/AdminAudioContent';
 import { AdminAnalytics } from '@/components/admin/AdminAnalytics';
 import { AdminPlans } from '@/components/admin/AdminPlans';
+import { getTestModeStatus, enableTestModePrices, disableTestModePrices, resetAllProducts } from '@/services/productService';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { useToast } from '@/hooks/use-toast';
 
 const Admin = () => {
   const { user, isLoading } = useAuth();
@@ -34,12 +56,102 @@ const Admin = () => {
   const [searchParams] = useSearchParams();
   const tabParam = searchParams.get('tab');
   const [activeTab, setActiveTab] = useState(tabParam || 'dashboard');
+  const { toast } = useToast();
+
+  // Test mode states
+  const [testModeShipping, setTestModeShipping] = useState(() => {
+    return localStorage.getItem('testMode_freeShipping') === 'true';
+  });
+  const [testModePrices, setTestModePrices] = useState(false);
+  const [testModePricesLoading, setTestModePricesLoading] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
 
   useEffect(() => {
     if (tabParam) {
       setActiveTab(tabParam);
     }
   }, [tabParam]);
+
+  // Load test mode status on mount
+  useEffect(() => {
+    const loadTestModeStatus = async () => {
+      try {
+        const response = await getTestModeStatus();
+        if (response.success) {
+          setTestModePrices(response.data.testModeEnabled);
+        }
+      } catch (error) {
+        console.error('Error loading test mode status:', error);
+      }
+    };
+    loadTestModeStatus();
+  }, []);
+
+  const handleTestModeShippingToggle = () => {
+    const newValue = !testModeShipping;
+    setTestModeShipping(newValue);
+    localStorage.setItem('testMode_freeShipping', String(newValue));
+    toast({
+      title: newValue ? 'Envío Gratis Activado' : 'Envío Gratis Desactivado',
+      description: newValue
+        ? 'Envío gratis para todas las compras'
+        : 'Envío con costo normal restaurado',
+    });
+  };
+
+  const handleTestModePricesToggle = async () => {
+    setTestModePricesLoading(true);
+    try {
+      if (!testModePrices) {
+        const response = await enableTestModePrices();
+        if (response.success) {
+          setTestModePrices(true);
+          toast({
+            title: 'Precios $0 Activado',
+            description: `${response.data.productsUpdated} productos actualizados`,
+          });
+        }
+      } else {
+        const response = await disableTestModePrices();
+        if (response.success) {
+          setTestModePrices(false);
+          toast({
+            title: 'Precios $0 Desactivado',
+            description: `${response.data.productsRestored} productos restaurados`,
+          });
+        }
+      }
+    } catch (error: any) {
+      toast({
+        title: 'Error',
+        description: error.message || 'Error al cambiar modo de prueba',
+        variant: 'destructive',
+      });
+    } finally {
+      setTestModePricesLoading(false);
+    }
+  };
+
+  const handleResetAllProducts = async () => {
+    setResetLoading(true);
+    try {
+      const response = await resetAllProducts();
+      if (response.success) {
+        toast({
+          title: 'Datos Reseteados',
+          description: `${response.data.deletedProducts} productos eliminados`,
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: 'Error',
+        description: error.message || 'Error al resetear datos',
+        variant: 'destructive',
+      });
+    } finally {
+      setResetLoading(false);
+    }
+  };
 
   // Loading state
   if (isLoading) {
@@ -95,14 +207,102 @@ const Admin = () => {
                   <p className="text-muted-foreground">Gestiona tu tienda V&M Candle</p>
                 </div>
               </div>
-              <Button
-                variant="outline"
-                onClick={() => navigate('/')}
-                className="border-gold-accent hover-glow transition-silk"
-              >
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Volver a Tienda
-              </Button>
+
+              {/* Test Mode Controls */}
+              <div className="flex items-center gap-2">
+                <TooltipProvider>
+                  {/* Free Shipping Toggle */}
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant={testModeShipping ? 'default' : 'outline'}
+                        size="sm"
+                        onClick={handleTestModeShippingToggle}
+                        className={testModeShipping ? 'bg-green-600 hover:bg-green-700' : 'border-amber-300 hover:bg-amber-50'}
+                      >
+                        <Truck className="h-4 w-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Envío Gratis {testModeShipping ? '(Activo)' : '(Inactivo)'}</p>
+                    </TooltipContent>
+                  </Tooltip>
+
+                  {/* Zero Prices Toggle */}
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant={testModePrices ? 'default' : 'outline'}
+                        size="sm"
+                        onClick={handleTestModePricesToggle}
+                        disabled={testModePricesLoading}
+                        className={testModePrices ? 'bg-green-600 hover:bg-green-700' : 'border-amber-300 hover:bg-amber-50'}
+                      >
+                        {testModePricesLoading ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <Tag className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Precios $0 {testModePrices ? '(Activo)' : '(Inactivo)'}</p>
+                    </TooltipContent>
+                  </Tooltip>
+
+                  {/* Reset All Products */}
+                  <AlertDialog>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            disabled={resetLoading}
+                            className="border-red-300 hover:bg-red-50 text-red-600 hover:text-red-700"
+                          >
+                            {resetLoading ? (
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                              <Trash2 className="h-4 w-4" />
+                            )}
+                          </Button>
+                        </AlertDialogTrigger>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Resetear Todos los Productos</p>
+                      </TooltipContent>
+                    </Tooltip>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Esta acción eliminará TODOS los productos, traducciones, reseñas, audio, items del carrito y wishlist.
+                          Esta acción no se puede deshacer.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={handleResetAllProducts}
+                          className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        >
+                          Sí, eliminar todo
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </TooltipProvider>
+
+                <Button
+                  variant="outline"
+                  onClick={() => navigate('/')}
+                  className="border-gold-accent hover-glow transition-silk"
+                >
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Volver a Tienda
+                </Button>
+              </div>
             </div>
             {/* Decorative Line */}
             <div className="line-rose-gold w-full" />

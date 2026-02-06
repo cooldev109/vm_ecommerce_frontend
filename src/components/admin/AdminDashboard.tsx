@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
 import {
   DollarSign,
   Package,
@@ -14,119 +12,19 @@ import {
   ArrowDownRight,
   Sparkles,
   Clock,
-  BarChart3,
-  FlaskConical,
-  Trash2
+  BarChart3
 } from 'lucide-react';
 import { getOrderAnalytics, type OrderAnalytics } from '@/services/orderService';
-import { getTestModeStatus, enableTestModePrices, disableTestModePrices, resetAllProducts } from '@/services/productService';
-import { Button } from '@/components/ui/button';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
 
 export const AdminDashboard = () => {
   const [analytics, setAnalytics] = useState<OrderAnalytics | null>(null);
   const [loading, setLoading] = useState(true);
-  const [testModeShipping, setTestModeShipping] = useState(() => {
-    return localStorage.getItem('testMode_freeShipping') === 'true';
-  });
-  const [testModePrices, setTestModePrices] = useState(false);
-  const [testModePricesLoading, setTestModePricesLoading] = useState(false);
-  const [resetLoading, setResetLoading] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
     loadAnalytics();
-    loadTestModeStatus();
   }, []);
-
-  const loadTestModeStatus = async () => {
-    try {
-      const response = await getTestModeStatus();
-      if (response.success) {
-        setTestModePrices(response.data.testModeEnabled);
-      }
-    } catch (error) {
-      console.error('Error loading test mode status:', error);
-    }
-  };
-
-  const handleTestModeShippingChange = (checked: boolean) => {
-    setTestModeShipping(checked);
-    localStorage.setItem('testMode_freeShipping', String(checked));
-    toast({
-      title: checked ? 'Modo Prueba Activado' : 'Modo Prueba Desactivado',
-      description: checked
-        ? 'Envío gratis activado para todas las compras'
-        : 'Envío con costo normal restaurado',
-    });
-  };
-
-  const handleTestModePricesChange = async (checked: boolean) => {
-    setTestModePricesLoading(true);
-    try {
-      if (checked) {
-        const response = await enableTestModePrices();
-        if (response.success) {
-          setTestModePrices(true);
-          toast({
-            title: 'Precios $0 Activado',
-            description: `${response.data.productsUpdated} productos actualizados a precio $0`,
-          });
-        }
-      } else {
-        const response = await disableTestModePrices();
-        if (response.success) {
-          setTestModePrices(false);
-          toast({
-            title: 'Precios $0 Desactivado',
-            description: `${response.data.productsRestored} productos restaurados a precios originales`,
-          });
-        }
-      }
-    } catch (error: any) {
-      toast({
-        title: 'Error',
-        description: error.message || 'Error al cambiar modo de prueba',
-        variant: 'destructive',
-      });
-    } finally {
-      setTestModePricesLoading(false);
-    }
-  };
-
-  const handleResetAllProducts = async () => {
-    setResetLoading(true);
-    try {
-      const response = await resetAllProducts();
-      if (response.success) {
-        toast({
-          title: 'Datos Reseteados',
-          description: `${response.data.deletedProducts} productos eliminados`,
-        });
-        // Reload analytics after reset
-        loadAnalytics();
-      }
-    } catch (error: any) {
-      toast({
-        title: 'Error',
-        description: error.message || 'Error al resetear datos',
-        variant: 'destructive',
-      });
-    } finally {
-      setResetLoading(false);
-    }
-  };
 
   const loadAnalytics = async () => {
     try {
@@ -208,112 +106,6 @@ export const AdminDashboard = () => {
 
   return (
     <div className="space-y-6">
-      {/* Test Mode Card */}
-      <Card className="card-feminine border-amber-200 bg-amber-50/50">
-        <CardHeader className="pb-3">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
-              <FlaskConical className="h-5 w-5 text-amber-600" />
-            </div>
-            <div>
-              <CardTitle className="text-lg text-amber-800">Modo de Prueba</CardTitle>
-              <CardDescription className="text-amber-600">
-                Opciones para probar la tienda sin cargos reales
-              </CardDescription>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between p-4 bg-white rounded-lg border border-amber-200">
-            <div className="flex items-center gap-3">
-              <div>
-                <Label htmlFor="test-shipping" className="text-sm font-medium">
-                  Envío Gratis (Prueba)
-                </Label>
-                <p className="text-xs text-muted-foreground">
-                  Activa para que todas las compras tengan envío $0
-                </p>
-              </div>
-            </div>
-            <Switch
-              id="test-shipping"
-              checked={testModeShipping}
-              onCheckedChange={handleTestModeShippingChange}
-            />
-          </div>
-          {/* Zero Prices Toggle */}
-          <div className="flex items-center justify-between p-4 bg-white rounded-lg border border-amber-200 mt-3">
-            <div className="flex items-center gap-3">
-              <div>
-                <Label htmlFor="test-prices" className="text-sm font-medium">
-                  Precios $0 (Prueba)
-                </Label>
-                <p className="text-xs text-muted-foreground">
-                  Activa para que todos los productos tengan precio $0 en la base de datos
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              {testModePricesLoading && <Loader2 className="h-4 w-4 animate-spin text-amber-600" />}
-              <Switch
-                id="test-prices"
-                checked={testModePrices}
-                onCheckedChange={handleTestModePricesChange}
-                disabled={testModePricesLoading}
-              />
-            </div>
-          </div>
-          {(testModeShipping || testModePrices) && (
-            <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
-              <p className="text-sm text-green-700 font-medium">
-                {testModeShipping && testModePrices
-                  ? '✓ Envío gratis y precios $0 activados para pruebas'
-                  : testModeShipping
-                    ? '✓ Envío gratis activado para pruebas'
-                    : '✓ Precios $0 activados para pruebas'}
-              </p>
-            </div>
-          )}
-          {/* Reset All Products Button */}
-          <div className="mt-4 pt-4 border-t border-amber-200">
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button
-                  variant="destructive"
-                  className="w-full"
-                  disabled={resetLoading}
-                >
-                  {resetLoading ? (
-                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                  ) : (
-                    <Trash2 className="h-4 w-4 mr-2" />
-                  )}
-                  Resetear Todos los Productos
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Esta acción eliminará TODOS los productos, traducciones, reseñas, items del carrito y wishlist.
-                    Esta acción no se puede deshacer.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={handleResetAllProducts}
-                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                  >
-                    Sí, eliminar todo
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Stats Grid with Oriental Styling */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Total Revenue */}
