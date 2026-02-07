@@ -192,16 +192,14 @@ export const AdminPlans = () => {
                 <RefreshCw className={`mr-2 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
                 Actualizar
               </Button>
-              {plans.length === 0 && (
-                <Button
-                  className="btn-luxury"
-                  onClick={() => initMutation.mutate()}
-                  disabled={initMutation.isPending}
-                >
-                  {initMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Inicializar Planes
-                </Button>
-              )}
+              <Button
+                className="btn-luxury"
+                onClick={() => initMutation.mutate()}
+                disabled={initMutation.isPending}
+              >
+                {initMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {plans.length === 0 ? 'Inicializar Planes' : 'Reinicializar Planes'}
+              </Button>
             </div>
           </div>
         </CardHeader>
