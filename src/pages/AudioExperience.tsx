@@ -56,15 +56,15 @@ const categoryIcons: Record<AudioCategory, typeof Music> = {
   MEDITATION: Brain,
 };
 
-// Category colors
+// Category colors - warm theme
 const categoryColors: Record<AudioCategory, string> = {
-  AMBIENT: 'from-blue-500 to-cyan-500',
-  MEDITATION: 'from-purple-500 to-pink-500',
+  AMBIENT: 'from-amber-500 to-yellow-500',
+  MEDITATION: 'from-rose-400 to-dusty-rose',
 };
 
 const categoryBgColors: Record<AudioCategory, string> = {
-  AMBIENT: 'bg-blue-500/10 text-blue-600 border-blue-200',
-  MEDITATION: 'bg-purple-500/10 text-purple-600 border-purple-200',
+  AMBIENT: 'bg-amber-500/10 text-amber-700 border-amber-200',
+  MEDITATION: 'bg-rose-500/10 text-rose-700 border-rose-200',
 };
 
 const AudioExperience = () => {
@@ -453,12 +453,12 @@ const AudioExperience = () => {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-background">
         <div className="relative">
-          <div className="h-16 w-16 rounded-full border-4 border-amber-200 border-t-amber-500 animate-spin" />
-          <Headphones className="absolute inset-0 m-auto h-6 w-6 text-amber-600" />
+          <div className="h-16 w-16 rounded-full border-4 border-amber-200 border-t-accent animate-spin" />
+          <Headphones className="absolute inset-0 m-auto h-6 w-6 text-accent" />
         </div>
-        <p className="mt-4 text-slate-500 animate-pulse">
+        <p className="mt-4 text-muted-foreground animate-pulse">
           {lang === 'es' ? 'Cargando experiencia de audio...' : 'Loading audio experience...'}
         </p>
       </div>
@@ -481,7 +481,7 @@ const AudioExperience = () => {
   const seoContent = audioSeoContent[lang];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50">
+    <div className="min-h-screen bg-background">
       <SEO
         title={seoContent.title}
         description={seoContent.description}
@@ -492,27 +492,27 @@ const AudioExperience = () => {
       <audio ref={audioRef} preload="metadata" />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary/90 to-primary text-primary-foreground">
         {/* Animated background */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-amber-500/20 to-transparent rounded-full blur-3xl animate-pulse" />
-          <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-purple-500/20 to-transparent rounded-full blur-3xl animate-pulse delay-1000" />
+          <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-accent/20 to-transparent rounded-full blur-3xl animate-pulse" />
+          <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-rose-gold/20 to-transparent rounded-full blur-3xl animate-pulse delay-1000" />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 py-20 md:py-32">
           <div className="text-center max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm mb-6">
-              <Sparkles className="h-4 w-4 text-amber-400" />
+              <Sparkles className="h-4 w-4 text-accent" />
               <span className="text-sm text-amber-200">
                 {lang === 'es' ? 'Experiencia Premium' : 'Premium Experience'}
               </span>
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 bg-gradient-to-r from-white via-amber-100 to-white bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 text-primary-foreground">
               {lang === 'es' ? 'Experiencia de Audio' : 'Audio Experience'}
             </h1>
 
-            <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed">
+            <p className="text-lg md:text-xl text-primary-foreground/70 mb-10 leading-relaxed">
               {lang === 'es'
                 ? 'Sumérgete en un viaje sensorial con nuestra colección exclusiva.'
                 : 'Immerse yourself in a sensory journey with our exclusive collection.'}
@@ -522,7 +522,7 @@ const AudioExperience = () => {
 
         {/* Wave decoration */}
         <div className="absolute bottom-0 left-0 right-0">
-          <svg viewBox="0 0 1440 120" className="w-full h-auto fill-slate-50">
+          <svg viewBox="0 0 1440 120" className="w-full h-auto fill-background">
             <path d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,64C960,75,1056,85,1152,80C1248,75,1344,53,1392,42.7L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z" />
           </svg>
         </div>
@@ -531,15 +531,15 @@ const AudioExperience = () => {
       {/* Subscription Status */}
       {hasAccess && library && (
         <div className="max-w-7xl mx-auto px-4 -mt-6 relative z-10">
-          <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-4 flex items-center gap-3 shadow-sm">
-            <div className="h-10 w-10 rounded-full bg-green-500 flex items-center justify-center">
+          <div className="bg-card border border-accent/30 rounded-2xl p-4 flex items-center gap-3 shadow-soft">
+            <div className="h-10 w-10 rounded-full bg-accent flex items-center justify-center">
               <Crown className="h-5 w-5 text-white" />
             </div>
             <div className="flex-1">
-              <p className="font-medium text-green-800">
+              <p className="font-medium text-foreground">
                 {lang === 'es' ? 'Acceso Premium Activo' : 'Premium Access Active'}
               </p>
-              <p className="text-sm text-green-600">
+              <p className="text-sm text-muted-foreground">
                 {lang === 'es'
                   ? `Plan ${library.planId} - Válido hasta ${new Date(library.expiresAt!).toLocaleDateString()}`
                   : `${library.planId} Plan - Valid until ${new Date(library.expiresAt!).toLocaleDateString()}`}
@@ -563,8 +563,8 @@ const AudioExperience = () => {
                 className={cn(
                   "flex items-center gap-2 px-5 py-2.5 rounded-full font-medium transition-all duration-300",
                   isActive
-                    ? "bg-slate-900 text-white shadow-lg scale-105"
-                    : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
+                    ? "bg-primary text-primary-foreground shadow-lg scale-105"
+                    : "bg-card text-foreground/70 hover:bg-secondary border border-border"
                 )}
               >
                 <CategoryIcon className="h-4 w-4" />
@@ -576,7 +576,7 @@ const AudioExperience = () => {
                 {cat !== 'ALL' && (
                   <span className={cn(
                     "text-xs px-2 py-0.5 rounded-full",
-                    isActive ? "bg-white/20" : "bg-slate-100"
+                    isActive ? "bg-white/20" : "bg-secondary"
                   )}>
                     {content.filter(a => a.category === cat).length}
                   </span>
@@ -615,7 +615,7 @@ const AudioExperience = () => {
                   {/* Header */}
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-lg text-slate-800 truncate mb-1">
+                      <h3 className="font-semibold text-lg text-foreground truncate mb-1">
                         {getTitle(audio.titleKey)}
                       </h3>
                       <div className="flex items-center gap-2">
@@ -635,20 +635,20 @@ const AudioExperience = () => {
                     </div>
 
                     {!canPlay && (
-                      <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center">
-                        <Lock className="h-4 w-4 text-slate-400" />
+                      <div className="h-8 w-8 rounded-full bg-secondary flex items-center justify-center">
+                        <Lock className="h-4 w-4 text-muted-foreground" />
                       </div>
                     )}
                   </div>
 
                   {/* Duration */}
-                  <div className="flex items-center gap-2 text-sm text-slate-500 mb-4">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
                     <Clock className="h-4 w-4" />
                     <span>{formatDuration(audio.durationSeconds)}</span>
                     {audio.requiredPlan && (
                       <>
-                        <span className="text-slate-300">•</span>
-                        <span className="text-amber-600 font-medium">{audio.requiredPlan}</span>
+                        <span className="text-border">•</span>
+                        <span className="text-accent font-medium">{audio.requiredPlan}</span>
                       </>
                     )}
                   </div>
@@ -666,7 +666,7 @@ const AudioExperience = () => {
                             "w-1 rounded-full transition-all duration-150",
                             isCurrentTrack && isPlaying
                               ? `bg-gradient-to-t ${categoryColors[audio.category]}`
-                              : "bg-slate-200"
+                              : "bg-border"
                           )}
                           style={{ height: `${height * 100}%` }}
                         />
@@ -682,9 +682,9 @@ const AudioExperience = () => {
                       "w-full rounded-xl h-12 font-medium transition-all duration-300",
                       canPlay
                         ? isCurrentTrack && isPlaying
-                          ? "bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white"
-                          : "bg-slate-900 hover:bg-slate-800 text-white"
-                        : "bg-slate-100 hover:bg-slate-200 text-slate-600"
+                          ? "bg-accent hover:bg-accent/90 text-accent-foreground"
+                          : "bg-primary hover:bg-primary/90 text-primary-foreground"
+                        : "bg-secondary hover:bg-secondary/80 text-muted-foreground"
                     )}
                   >
                     {isLoadingTrack && currentTrack?.id === audio.id ? (
@@ -714,13 +714,13 @@ const AudioExperience = () => {
 
         {filteredContent.length === 0 && (
           <div className="text-center py-16">
-            <div className="h-20 w-20 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-4">
-              <Music className="h-10 w-10 text-slate-400" />
+            <div className="h-20 w-20 rounded-full bg-secondary flex items-center justify-center mx-auto mb-4">
+              <Music className="h-10 w-10 text-muted-foreground" />
             </div>
-            <h3 className="text-xl font-medium text-slate-700 mb-2">
+            <h3 className="text-xl font-medium text-foreground mb-2">
               {lang === 'es' ? 'Sin contenido' : 'No Content'}
             </h3>
-            <p className="text-slate-500">
+            <p className="text-muted-foreground">
               {lang === 'es'
                 ? 'No hay contenido en esta categoría'
                 : 'No content in this category'}
@@ -731,15 +731,15 @@ const AudioExperience = () => {
 
       {/* Access Key Section */}
       {!hasAccess && (
-        <section className="bg-gradient-to-br from-slate-900 to-slate-800 text-white py-16">
+        <section className="bg-primary text-primary-foreground py-16">
           <div className="max-w-2xl mx-auto px-4 text-center">
-            <div className="h-16 w-16 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-6">
-              <Sparkles className="h-8 w-8 text-amber-400" />
+            <div className="h-16 w-16 rounded-full bg-accent/20 flex items-center justify-center mx-auto mb-6">
+              <Sparkles className="h-8 w-8 text-accent" />
             </div>
             <h2 className="text-2xl md:text-3xl font-serif font-bold mb-4">
               {lang === 'es' ? '¿Tienes un código de acceso?' : 'Have an Access Code?'}
             </h2>
-            <p className="text-slate-400 mb-8">
+            <p className="text-primary-foreground/60 mb-8">
               {lang === 'es'
                 ? 'Si recibiste un código de acceso con la compra de una vela o como regalo, ingrésalo aquí.'
                 : 'If you received an access code with a candle purchase or as a gift, enter it here.'}
@@ -750,12 +750,12 @@ const AudioExperience = () => {
                 placeholder="VM-XXXXX-XXXXX"
                 value={accessKeyInput}
                 onChange={(e) => setAccessKeyInput(e.target.value.toUpperCase())}
-                className="bg-white/10 border-white/20 text-white placeholder:text-slate-400 h-12"
+                className="bg-white/10 border-white/20 text-white placeholder:text-primary-foreground/40 h-12"
               />
               <Button
                 onClick={handleRedeemKey}
                 disabled={redeemingKey}
-                className="h-12 px-6 bg-amber-500 hover:bg-amber-600 text-white"
+                className="h-12 px-6 bg-accent hover:bg-accent/90 text-accent-foreground"
               >
                 {redeemingKey ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -770,29 +770,29 @@ const AudioExperience = () => {
 
       {/* Subscribe CTA */}
       {!hasAccess && (
-        <section className="py-20 px-4 bg-gradient-to-b from-white to-amber-50/30">
+        <section className="py-20 px-4 bg-secondary/50">
           <div className="max-w-4xl mx-auto text-center">
             {/* Crown Icon with gradient background */}
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 mb-8 shadow-lg shadow-amber-500/20">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-accent mb-8 shadow-lg shadow-accent/20">
               <Crown className="h-10 w-10 text-white" strokeWidth={1.5} />
             </div>
 
-            <h2 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 mb-6">
+            <h2 className="text-3xl md:text-5xl font-serif font-bold text-foreground mb-6">
               {lang === 'es' ? 'Desbloquea Todo el Contenido' : 'Unlock All Content'}
             </h2>
 
-            <p className="text-lg md:text-xl text-slate-700 mb-10 max-w-3xl mx-auto leading-relaxed font-light">
+            <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed font-light">
               {lang === 'es' ? (
                 <>
                   Suscríbete para acceder a toda nuestra biblioteca de{' '}
                   <span className="relative inline-block">
-                    <span className="relative z-10">meditaciones</span>
-                    <span className="absolute inset-x-0 bottom-1 h-3 bg-purple-200/50 -rotate-1"></span>
+                    <span className="relative z-10 font-medium text-foreground">meditaciones</span>
+                    <span className="absolute inset-x-0 bottom-1 h-3 bg-rose-gold/30 -rotate-1"></span>
                   </span>
                   {' '}y{' '}
                   <span className="relative inline-block">
-                    <span className="relative z-10">música ambiental</span>
-                    <span className="absolute inset-x-0 bottom-1 h-3 bg-blue-200/50 rotate-1"></span>
+                    <span className="relative z-10 font-medium text-foreground">música ambiental</span>
+                    <span className="absolute inset-x-0 bottom-1 h-3 bg-accent/20 rotate-1"></span>
                   </span>
                   {' '}y contenido exclusivo.
                 </>
@@ -800,13 +800,13 @@ const AudioExperience = () => {
                 <>
                   Subscribe to access our entire library of{' '}
                   <span className="relative inline-block">
-                    <span className="relative z-10">meditations</span>
-                    <span className="absolute inset-x-0 bottom-1 h-3 bg-purple-200/50 -rotate-1"></span>
+                    <span className="relative z-10 font-medium text-foreground">meditations</span>
+                    <span className="absolute inset-x-0 bottom-1 h-3 bg-rose-gold/30 -rotate-1"></span>
                   </span>
                   {' '}and{' '}
                   <span className="relative inline-block">
-                    <span className="relative z-10">ambient music</span>
-                    <span className="absolute inset-x-0 bottom-1 h-3 bg-blue-200/50 rotate-1"></span>
+                    <span className="relative z-10 font-medium text-foreground">ambient music</span>
+                    <span className="absolute inset-x-0 bottom-1 h-3 bg-accent/20 rotate-1"></span>
                   </span>
                   , and exclusive content.
                 </>
@@ -816,7 +816,7 @@ const AudioExperience = () => {
             <Button
               size="lg"
               onClick={() => navigate('/subscriptions')}
-              className="h-16 px-10 text-lg bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-full shadow-xl shadow-amber-500/30 hover:shadow-amber-500/40 transition-all duration-300 hover:scale-105"
+              className="btn-luxury h-16 px-10 text-lg rounded-full shadow-xl transition-all duration-300 hover:scale-105"
             >
               <Sparkles className="mr-2 h-5 w-5" />
               {lang === 'es' ? 'Ver Planes de Suscripción' : 'View Subscription Plans'}
@@ -853,18 +853,18 @@ const AudioExperience = () => {
               {/* Glow effect */}
               <div className={cn(
                 "absolute -inset-2 rounded-full blur-xl transition-opacity duration-300",
-                isPlaying ? "bg-amber-500/30 opacity-100" : "opacity-0"
+                isPlaying ? "bg-accent/30 opacity-100" : "opacity-0"
               )} />
 
               <div className={cn(
                 "relative flex items-center gap-3 p-3 pr-4 rounded-full shadow-2xl border transition-all duration-300",
-                "bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900",
-                "border-slate-700/50 hover:border-amber-500/30",
+                "bg-primary",
+                "border-primary/50 hover:border-accent/30",
                 isDragging ? "cursor-grabbing scale-105" : "cursor-grab hover:scale-[1.02]"
               )}>
                 {/* Animated ring when playing */}
                 {isPlaying && (
-                  <div className="absolute inset-0 rounded-full animate-pulse bg-gradient-to-r from-amber-500/10 to-orange-500/10" />
+                  <div className="absolute inset-0 rounded-full animate-pulse bg-accent/10" />
                 )}
 
                 {/* Play/Pause Button */}
@@ -892,9 +892,9 @@ const AudioExperience = () => {
                   }}
                   className={cn(
                     "relative h-12 w-12 rounded-full flex items-center justify-center transition-all duration-300",
-                    "bg-gradient-to-br from-amber-400 to-amber-600",
-                    "hover:from-amber-500 hover:to-amber-700",
-                    "shadow-lg shadow-amber-500/25"
+                    "bg-accent",
+                    "hover:bg-accent/90",
+                    "shadow-lg shadow-accent/25"
                   )}
                 >
                   {isPlaying ? (
@@ -906,10 +906,10 @@ const AudioExperience = () => {
 
                 {/* Track Info */}
                 <div className="flex flex-col min-w-0 max-w-[150px]">
-                  <span className="text-sm font-medium text-white truncate">
+                  <span className="text-sm font-medium text-primary-foreground truncate">
                     {getTitle(currentTrack.titleKey)}
                   </span>
-                  <span className="text-xs text-slate-400 truncate">
+                  <span className="text-xs text-primary-foreground/50 truncate">
                     {formatTime(currentTime)} / {formatTime(duration)}
                   </span>
                 </div>
@@ -920,7 +920,7 @@ const AudioExperience = () => {
                     e.stopPropagation();
                     setIsMinimized(false);
                   }}
-                  className="p-2 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                  className="p-2 rounded-full text-primary-foreground/50 hover:text-primary-foreground hover:bg-white/10 transition-colors"
                 >
                   <Maximize2 className="h-4 w-4" />
                 </button>
@@ -939,7 +939,7 @@ const AudioExperience = () => {
                     setIsPlaying(false);
                     setPlayerPosition({ x: 0, y: 0 });
                   }}
-                  className="p-2 rounded-full text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                  className="p-2 rounded-full text-primary-foreground/50 hover:text-red-400 hover:bg-red-500/10 transition-colors"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -952,7 +952,7 @@ const AudioExperience = () => {
               <div className={cn(
                 "absolute -inset-4 rounded-3xl blur-2xl transition-opacity duration-500",
                 isPlaying
-                  ? "bg-gradient-to-r from-amber-500/20 via-orange-500/15 to-amber-500/20 opacity-100"
+                  ? "bg-accent/15 opacity-100"
                   : "opacity-0"
               )} />
 
@@ -961,28 +961,28 @@ const AudioExperience = () => {
                 onMouseDown={handleMouseDown}
                 className={cn(
                   "absolute -top-2 left-1/2 -translate-x-1/2 px-6 py-1 rounded-full z-50 flex items-center gap-2 transition-all duration-200",
-                  "bg-slate-700/80 backdrop-blur-sm hover:bg-slate-600/80",
+                  "bg-primary/80 backdrop-blur-sm hover:bg-primary/90",
                   isDragging ? "cursor-grabbing scale-110" : "cursor-grab hover:scale-105"
                 )}
               >
-                <GripHorizontal className="h-3 w-3 text-slate-400" />
+                <GripHorizontal className="h-3 w-3 text-primary-foreground/50" />
               </div>
 
               {/* Main Player Card */}
               <div className={cn(
                 "relative overflow-hidden rounded-2xl shadow-2xl",
-                "bg-gradient-to-br from-slate-900/98 via-slate-800/98 to-slate-900/98",
-                "backdrop-blur-xl border border-slate-700/50"
+                "bg-primary/98",
+                "backdrop-blur-xl border border-primary/50"
               )}>
                 {/* Animated background pattern */}
                 <div className="absolute inset-0 opacity-30">
                   <div className={cn(
                     "absolute top-0 left-1/4 w-64 h-64 rounded-full blur-3xl transition-all duration-1000",
-                    isPlaying ? "bg-amber-500/30 animate-pulse" : "bg-slate-600/20"
+                    isPlaying ? "bg-accent/30 animate-pulse" : "bg-primary/20"
                   )} />
                   <div className={cn(
                     "absolute bottom-0 right-1/4 w-48 h-48 rounded-full blur-3xl transition-all duration-1000 delay-500",
-                    isPlaying ? "bg-orange-500/20 animate-pulse" : "bg-slate-600/10"
+                    isPlaying ? "bg-rose-gold/20 animate-pulse" : "bg-primary/10"
                   )} />
                 </div>
 
@@ -992,7 +992,7 @@ const AudioExperience = () => {
                     {/* Minimize Button */}
                     <button
                       onClick={() => setIsMinimized(true)}
-                      className="p-2 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-all duration-200 hover:scale-110"
+                      className="p-2 rounded-full text-primary-foreground/50 hover:text-primary-foreground hover:bg-white/10 transition-all duration-200 hover:scale-110"
                       title={lang === 'es' ? 'Minimizar' : 'Minimize'}
                     >
                       <Minimize2 className="h-4 w-4" />
@@ -1000,10 +1000,10 @@ const AudioExperience = () => {
 
                     {/* Track Info - Centered */}
                     <div className="flex-1 text-center px-4">
-                      <h3 className="text-lg font-semibold text-white truncate mb-0.5">
+                      <h3 className="text-lg font-semibold text-primary-foreground truncate mb-0.5">
                         {getTitle(currentTrack.titleKey)}
                       </h3>
-                      <p className="text-sm text-amber-400/80">
+                      <p className="text-sm text-accent/80">
                         {getCategoryLabel(currentTrack.category)}
                       </p>
                     </div>
@@ -1022,7 +1022,7 @@ const AudioExperience = () => {
                         setPlayerPosition({ x: 0, y: 0 });
                         setIsMinimized(false);
                       }}
-                      className="p-2 rounded-full text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200 hover:scale-110"
+                      className="p-2 rounded-full text-primary-foreground/50 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200 hover:scale-110"
                       title={lang === 'es' ? 'Cerrar' : 'Close'}
                     >
                       <X className="h-4 w-4" />
@@ -1042,8 +1042,8 @@ const AudioExperience = () => {
                           className={cn(
                             "w-1 rounded-full transition-all",
                             isPlaying
-                              ? "bg-gradient-to-t from-amber-500 to-amber-300 duration-100"
-                              : "bg-slate-600/50 duration-300"
+                              ? "bg-gradient-to-t from-accent to-accent/60 duration-100"
+                              : "bg-primary-foreground/20 duration-300"
                           )}
                           style={{
                             height: `${animatedHeight * 100}%`,
@@ -1056,11 +1056,11 @@ const AudioExperience = () => {
 
                   {/* Time Display */}
                   <div className="flex items-center justify-center gap-3 mb-3 font-mono">
-                    <span className="text-2xl font-medium text-amber-400 tracking-wide">
+                    <span className="text-2xl font-medium text-accent tracking-wide">
                       {formatTime(currentTime)}
                     </span>
-                    <span className="text-slate-500">/</span>
-                    <span className="text-sm text-slate-400">
+                    <span className="text-primary-foreground/30">/</span>
+                    <span className="text-sm text-primary-foreground/50">
                       {formatTime(duration)}
                     </span>
                   </div>
@@ -1075,13 +1075,11 @@ const AudioExperience = () => {
                       onValueChange={handleSeek}
                       className={cn(
                         "[&_[role=slider]]:h-3 [&_[role=slider]]:w-3",
-                        "[&_[role=slider]]:bg-white [&_[role=slider]]:border-2 [&_[role=slider]]:border-amber-500",
+                        "[&_[role=slider]]:bg-white [&_[role=slider]]:border-2 [&_[role=slider]]:border-accent",
                         "[&_[role=slider]]:shadow-lg [&_[role=slider]]:transition-transform",
                         "[&_[role=slider]]:hover:scale-150 [&_[role=slider]]:focus:scale-150",
-                        "[&_[data-orientation=horizontal]]:h-1.5 [&_[data-orientation=horizontal]]:bg-slate-700",
-                        "[&_[data-orientation=horizontal]_[data-state=complete]]:bg-gradient-to-r",
-                        "[&_[data-orientation=horizontal]_[data-state=complete]]:from-amber-400",
-                        "[&_[data-orientation=horizontal]_[data-state=complete]]:to-amber-600"
+                        "[&_[data-orientation=horizontal]]:h-1.5 [&_[data-orientation=horizontal]]:bg-primary-foreground/20",
+                        "[&_[data-orientation=horizontal]_[data-state=complete]]:bg-accent"
                       )}
                     />
                   </div>
@@ -1094,8 +1092,8 @@ const AudioExperience = () => {
                       className={cn(
                         "p-2.5 rounded-full transition-all duration-200 hover:scale-110",
                         isLooping
-                          ? "text-amber-400 bg-amber-500/20"
-                          : "text-slate-400 hover:text-white hover:bg-white/10"
+                          ? "text-accent bg-accent/20"
+                          : "text-primary-foreground/50 hover:text-primary-foreground hover:bg-white/10"
                       )}
                     >
                       <Repeat className="h-4 w-4" />
@@ -1104,7 +1102,7 @@ const AudioExperience = () => {
                     {/* Skip Back */}
                     <button
                       onClick={() => skipTime(-10)}
-                      className="p-3 rounded-full text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200 hover:scale-110"
+                      className="p-3 rounded-full text-primary-foreground/60 hover:text-primary-foreground hover:bg-white/10 transition-all duration-200 hover:scale-110"
                     >
                       <SkipBack className="h-5 w-5" />
                     </button>
@@ -1134,9 +1132,9 @@ const AudioExperience = () => {
                       disabled={isLoadingTrack}
                       className={cn(
                         "h-14 w-14 rounded-full flex items-center justify-center shadow-xl transition-all duration-300",
-                        "bg-gradient-to-br from-amber-400 to-amber-600",
-                        "hover:from-amber-500 hover:to-amber-700",
-                        "hover:scale-110 hover:shadow-amber-500/30",
+                        "bg-accent",
+                        "hover:bg-accent/90",
+                        "hover:scale-110 hover:shadow-accent/30",
                         "active:scale-95",
                         "disabled:opacity-50"
                       )}
@@ -1153,7 +1151,7 @@ const AudioExperience = () => {
                     {/* Skip Forward */}
                     <button
                       onClick={() => skipTime(10)}
-                      className="p-3 rounded-full text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200 hover:scale-110"
+                      className="p-3 rounded-full text-primary-foreground/60 hover:text-primary-foreground hover:bg-white/10 transition-all duration-200 hover:scale-110"
                     >
                       <SkipForward className="h-5 w-5" />
                     </button>
@@ -1165,7 +1163,7 @@ const AudioExperience = () => {
                         "p-2.5 rounded-full transition-all duration-200 hover:scale-110",
                         isMuted
                           ? "text-red-400 bg-red-500/20"
-                          : "text-slate-400 hover:text-white hover:bg-white/10"
+                          : "text-primary-foreground/50 hover:text-primary-foreground hover:bg-white/10"
                       )}
                     >
                       <VolumeIcon className="h-4 w-4" />
@@ -1174,7 +1172,7 @@ const AudioExperience = () => {
 
                   {/* Volume Control */}
                   <div className="flex items-center justify-center gap-3 px-8">
-                    <Volume1 className="h-3.5 w-3.5 text-slate-500" />
+                    <Volume1 className="h-3.5 w-3.5 text-primary-foreground/30" />
                     <Slider
                       value={[isMuted ? 0 : volume]}
                       min={0}
@@ -1185,11 +1183,11 @@ const AudioExperience = () => {
                         "w-32",
                         "[&_[role=slider]]:h-2.5 [&_[role=slider]]:w-2.5",
                         "[&_[role=slider]]:bg-white [&_[role=slider]]:shadow",
-                        "[&_[data-orientation=horizontal]]:h-1 [&_[data-orientation=horizontal]]:bg-slate-700",
-                        "[&_[data-orientation=horizontal]_[data-state=complete]]:bg-amber-500"
+                        "[&_[data-orientation=horizontal]]:h-1 [&_[data-orientation=horizontal]]:bg-primary-foreground/20",
+                        "[&_[data-orientation=horizontal]_[data-state=complete]]:bg-accent"
                       )}
                     />
-                    <Volume2 className="h-3.5 w-3.5 text-slate-500" />
+                    <Volume2 className="h-3.5 w-3.5 text-primary-foreground/30" />
                   </div>
                 </div>
               </div>
