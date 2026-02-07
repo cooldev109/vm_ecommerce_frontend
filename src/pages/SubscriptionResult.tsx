@@ -20,9 +20,9 @@ export default function SubscriptionResult() {
 
   const getPlanName = (planId: string) => {
     const planNames: Record<string, string> = {
+      WEEKLY: t('weeklyPremium'),
       MONTHLY: t('monthlyPremium'),
       QUARTERLY: t('quarterlyPremium'),
-      ANNUAL: t('annualPremium'),
     };
     return planNames[planId] || t('premiumSubscription');
   };

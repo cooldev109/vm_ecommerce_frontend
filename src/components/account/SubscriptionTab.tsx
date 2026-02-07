@@ -40,21 +40,21 @@ import {
 } from '@/services/subscriptionService';
 
 const PLAN_NAMES = {
+  WEEKLY: 'Weekly Premium',
   MONTHLY: 'Monthly Premium',
   QUARTERLY: 'Quarterly Premium',
-  ANNUAL: 'Annual Premium',
 };
 
 const PLAN_PRICES = {
+  WEEKLY: 2990,
   MONTHLY: 9990,
   QUARTERLY: 25990,
-  ANNUAL: 89990,
 };
 
 const PLAN_ORDER: Record<string, number> = {
-  MONTHLY: 1,
-  QUARTERLY: 2,
-  ANNUAL: 3,
+  WEEKLY: 1,
+  MONTHLY: 2,
+  QUARTERLY: 3,
 };
 
 export default function SubscriptionTab() {
@@ -64,7 +64,7 @@ export default function SubscriptionTab() {
   const [showCancelDialog, setShowCancelDialog] = useState(false);
   const [showPauseDialog, setShowPauseDialog] = useState(false);
   const [showUpgradeDialog, setShowUpgradeDialog] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<'WEEKLY' | 'MONTHLY' | 'QUARTERLY' | null>(null);
   const [upgradeResult, setUpgradeResult] = useState<UpgradeResult | null>(null);
   const [showConfirmUpgrade, setShowConfirmUpgrade] = useState(false);
   const { toast } = useToast();
@@ -182,7 +182,7 @@ export default function SubscriptionTab() {
     }
   };
 
-  const handleSelectPlan = async (planId: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL') => {
+  const handleSelectPlan = async (planId: 'WEEKLY' | 'MONTHLY' | 'QUARTERLY') => {
     if (!subscription || planId === subscription.planId) return;
 
     try {
@@ -244,7 +244,7 @@ export default function SubscriptionTab() {
 
   const getAvailablePlans = () => {
     if (!subscription) return [];
-    const plans: Array<'MONTHLY' | 'QUARTERLY' | 'ANNUAL'> = ['MONTHLY', 'QUARTERLY', 'ANNUAL'];
+    const plans: Array<'WEEKLY' | 'MONTHLY' | 'QUARTERLY'> = ['WEEKLY', 'MONTHLY', 'QUARTERLY'];
     return plans.filter(plan => plan !== subscription.planId);
   };
 
@@ -319,7 +319,7 @@ export default function SubscriptionTab() {
               <div>
                 <CardTitle>{PLAN_NAMES[subscription.planId]}</CardTitle>
                 <CardDescription>
-                  {formatPrice(PLAN_PRICES[subscription.planId])} per {subscription.planId === 'MONTHLY' ? 'month' : subscription.planId === 'QUARTERLY' ? 'quarter' : 'year'}
+                  {formatPrice(PLAN_PRICES[subscription.planId])} per {subscription.planId === 'WEEKLY' ? 'week' : subscription.planId === 'MONTHLY' ? 'month' : 'quarter'}
                 </CardDescription>
               </div>
             </div>
@@ -567,7 +567,7 @@ export default function SubscriptionTab() {
                         </Badge>
                       </div>
                       <p className="text-sm text-muted-foreground mt-1">
-                        {formatPrice(PLAN_PRICES[planId])} per {planId === 'MONTHLY' ? 'month' : planId === 'QUARTERLY' ? 'quarter' : 'year'}
+                        {formatPrice(PLAN_PRICES[planId])} per {planId === 'WEEKLY' ? 'week' : planId === 'MONTHLY' ? 'month' : 'quarter'}
                       </p>
                     </div>
                     {actionLoading && selectedPlan === planId ? (

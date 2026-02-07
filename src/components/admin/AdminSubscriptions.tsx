@@ -28,9 +28,9 @@ import {
 } from '@/services/subscriptionService';
 
 const PLAN_NAMES = {
+  WEEKLY: 'Semanal',
   MONTHLY: 'Mensual',
   QUARTERLY: 'Trimestral',
-  ANNUAL: 'Anual',
 };
 
 export default function AdminSubscriptions() {
@@ -89,9 +89,9 @@ export default function AdminSubscriptions() {
 
   const getPlanBadge = (planId: string) => {
     const colors: Record<string, string> = {
+      WEEKLY: 'bg-green-100 text-green-800',
       MONTHLY: 'bg-blue-100 text-blue-800',
       QUARTERLY: 'bg-purple-100 text-purple-800',
-      ANNUAL: 'bg-amber-100 text-amber-800',
     };
 
     return (
@@ -157,16 +157,16 @@ export default function AdminSubscriptions() {
             <CardContent>
               <div className="space-y-1">
                 <div className="flex justify-between text-sm">
+                  <span>Semanal:</span>
+                  <span className="font-medium">{analytics.planBreakdown.weekly}</span>
+                </div>
+                <div className="flex justify-between text-sm">
                   <span>Mensual:</span>
                   <span className="font-medium">{analytics.planBreakdown.monthly}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span>Trimestral:</span>
                   <span className="font-medium">{analytics.planBreakdown.quarterly}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span>Anual:</span>
-                  <span className="font-medium">{analytics.planBreakdown.annual}</span>
                 </div>
               </div>
             </CardContent>

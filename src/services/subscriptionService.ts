@@ -1,7 +1,7 @@
 import api from '@/lib/api';
 
 export interface SubscriptionPlan {
-  id: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+  id: 'WEEKLY' | 'MONTHLY' | 'QUARTERLY';
   name: string;
   nameEs: string;
   price: number;
@@ -17,7 +17,7 @@ export interface SubscriptionPlan {
 export interface Subscription {
   id: string;
   userId: string;
-  planId: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+  planId: 'WEEKLY' | 'MONTHLY' | 'QUARTERLY';
   status: 'ACTIVE' | 'CANCELLED' | 'EXPIRED' | 'PAUSED';
   startedAt: string | null;
   expiresAt: string | null;
@@ -46,9 +46,9 @@ export interface SubscriptionAnalytics {
     totalSubscriptions: number;
   };
   planBreakdown: {
+    weekly: number;
     monthly: number;
     quarterly: number;
-    annual: number;
   };
   revenue: {
     mrr: number;
@@ -85,7 +85,7 @@ export async function getUserSubscription() {
 }
 
 // Create a new subscription (pending payment)
-export async function createSubscription(planId: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL') {
+export async function createSubscription(planId: 'WEEKLY' | 'MONTHLY' | 'QUARTERLY') {
   const response = await api.post<{ subscription: Subscription; requiresPayment: boolean; amount: number }>('/subscriptions', { planId });
   if (!response.success || !response.data) {
     throw new Error(response.error?.message || 'Failed to create subscription');
@@ -122,7 +122,7 @@ export async function getSubscriptionPaymentStatus(subscriptionId: string) {
 // Update subscription
 export async function updateSubscription(
   subscriptionId: string,
-  data: { autoRenew?: boolean; newPlanId?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' }
+  data: { autoRenew?: boolean; newPlanId?: 'WEEKLY' | 'MONTHLY' | 'QUARTERLY' }
 ) {
   const response = await api.put<{ subscription: Subscription }>(
     `/subscriptions/${subscriptionId}`,
@@ -194,8 +194,8 @@ export async function getSubscriptionAnalytics() {
 // Upgrade subscription
 export interface UpgradeResult {
   subscriptionId: string;
-  currentPlan: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
-  newPlan: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+  currentPlan: 'WEEKLY' | 'MONTHLY' | 'QUARTERLY';
+  newPlan: 'WEEKLY' | 'MONTHLY' | 'QUARTERLY';
   isUpgrade: boolean;
   upgradeAmount: number;
   requiresPayment: boolean;
@@ -205,7 +205,7 @@ export interface UpgradeResult {
 
 export async function initiateUpgrade(
   subscriptionId: string,
-  newPlanId: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL'
+  newPlanId: 'WEEKLY' | 'MONTHLY' | 'QUARTERLY'
 ): Promise<UpgradeResult> {
   const response = await api.post<UpgradeResult>(
     `/subscriptions/${subscriptionId}/upgrade`,
@@ -220,7 +220,7 @@ export async function initiateUpgrade(
 // Initialize payment for upgrade
 export async function initUpgradePayment(
   subscriptionId: string,
-  newPlanId: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL',
+  newPlanId: 'WEEKLY' | 'MONTHLY' | 'QUARTERLY',
   amount: number
 ): Promise<SubscriptionPaymentInit> {
   const response = await api.post<SubscriptionPaymentInit>(

@@ -81,7 +81,7 @@ export default function Subscriptions() {
       setPurchasing(planId);
 
       // Step 1: Create subscription (pending payment)
-      const { subscription, requiresPayment } = await createSubscription(planId as 'MONTHLY' | 'QUARTERLY' | 'ANNUAL');
+      const { subscription, requiresPayment } = await createSubscription(planId as 'WEEKLY' | 'MONTHLY' | 'QUARTERLY');
 
       if (requiresPayment) {
         // Step 2: Initialize payment

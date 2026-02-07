@@ -155,11 +155,11 @@ export const AdminPlans = () => {
 
   const getPlanIcon = (planId: string) => {
     switch (planId) {
-      case 'MONTHLY':
+      case 'WEEKLY':
         return <Star className="h-5 w-5" />;
-      case 'QUARTERLY':
+      case 'MONTHLY':
         return <Sparkles className="h-5 w-5" />;
-      case 'ANNUAL':
+      case 'QUARTERLY':
         return <Crown className="h-5 w-5" />;
       default:
         return <Star className="h-5 w-5" />;

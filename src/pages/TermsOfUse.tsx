@@ -71,7 +71,7 @@ export default function TermsOfUse() {
         <section className="mb-8">
           <h2 className="text-xl font-semibold mb-3">{t('termsSection3Title')}</h2>
           <ul className="list-disc pl-6 space-y-2">
-            <li>{language === 'es' ? 'Los pagos se realizan de forma recurrente (mensual, trimestral, anual o según plan).' : 'Payments are made on a recurring basis (monthly, quarterly, annual or as per plan).'}</li>
+            <li>{language === 'es' ? 'Los pagos se realizan de forma recurrente (semanal, mensual, trimestral o según plan).' : 'Payments are made on a recurring basis (weekly, monthly, quarterly or as per plan).'}</li>
             <li>{language === 'es' ? 'El cargo se renueva automáticamente hasta que el usuario cancele la suscripción.' : 'The charge is automatically renewed until the user cancels the subscription.'}</li>
             <li>{language === 'es' ? 'Los valores están expresados en CLP e incluyen impuestos cuando corresponda.' : 'Prices are expressed in CLP and include taxes where applicable.'}</li>
           </ul>

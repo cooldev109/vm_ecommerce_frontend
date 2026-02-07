@@ -532,9 +532,9 @@ export const AdminAudioContent = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="none">Todos los Planes</SelectItem>
+                  <SelectItem value="WEEKLY">Semanal+</SelectItem>
                   <SelectItem value="MONTHLY">Mensual+</SelectItem>
-                  <SelectItem value="QUARTERLY">Trimestral+</SelectItem>
-                  <SelectItem value="ANNUAL">Solo Anual</SelectItem>
+                  <SelectItem value="QUARTERLY">Solo Trimestral</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -589,9 +589,9 @@ export const AdminAudioContent = () => {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="WEEKLY">Semanal</SelectItem>
                   <SelectItem value="MONTHLY">Mensual</SelectItem>
                   <SelectItem value="QUARTERLY">Trimestral</SelectItem>
-                  <SelectItem value="ANNUAL">Anual</SelectItem>
                 </SelectContent>
               </Select>
             </div>
