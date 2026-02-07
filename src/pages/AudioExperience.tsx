@@ -221,7 +221,8 @@ const AudioExperience = () => {
   const loadContent = async () => {
     try {
       setLoading(true);
-      if (user) {
+      const hasToken = !!localStorage.getItem('auth_token');
+      if (user && hasToken) {
         const libraryData = await getMyAudioLibrary();
         setLibrary(libraryData);
       } else {
