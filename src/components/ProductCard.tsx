@@ -28,7 +28,7 @@ export const ProductCard = ({ id, name, price, image, description }: ProductCard
 
   return (
     <Link to={`/product/${id}`}>
-      <div className="group card-luxury overflow-hidden">
+      <div className="group card-luxury overflow-hidden h-full flex flex-col">
         <div className="aspect-square overflow-hidden bg-muted">
           <img
             src={image}
@@ -36,21 +36,21 @@ export const ProductCard = ({ id, name, price, image, description }: ProductCard
             className="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
           />
         </div>
-        <div className="p-6">
-          <h3 className="font-serif text-lg font-semibold text-foreground mb-2">
+        <div className="p-5 flex flex-col flex-1">
+          <h3 className="font-serif text-lg font-semibold text-foreground mb-1 line-clamp-1">
             {name}
           </h3>
           {description && (
-            <p className="text-sm text-luxury mb-4 line-clamp-2">{description}</p>
+            <p className="text-sm text-luxury mb-3 line-clamp-2">{description}</p>
           )}
-          <div className="flex items-center justify-between">
-            <span className="text-xl font-semibold text-accent">
+          <div className="mt-auto pt-3 border-t border-border/50">
+            <span className="block text-2xl font-bold text-accent mb-3">
               {formatCurrency(price)}
             </span>
             <Button
               onClick={handleAddToCart}
               size="sm"
-              className="btn-gold group-hover:shadow-gold hover-scale"
+              className="w-full bg-accent text-accent-foreground rounded font-medium tracking-wide uppercase text-xs py-2.5 transition-all duration-300 hover:opacity-90 hover:shadow-md"
             >
               <ShoppingCart className="h-4 w-4 mr-2" />
               {t('addToCart')}
