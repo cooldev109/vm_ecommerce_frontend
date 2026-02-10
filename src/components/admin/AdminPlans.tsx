@@ -146,11 +146,10 @@ export const AdminPlans = () => {
   };
 
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('es-CL', {
-      style: 'currency',
-      currency: 'CLP',
+    const formatted = new Intl.NumberFormat('es-CL', {
       minimumFractionDigits: 0,
     }).format(price);
+    return `CLP $${formatted}`;
   };
 
   const getPlanIcon = (planId: string) => {
