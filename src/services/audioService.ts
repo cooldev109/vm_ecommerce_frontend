@@ -100,9 +100,11 @@ export async function getAudioStreamUrl(id: string) {
 
   // If it's already an absolute URL, use it as-is
   if (!streamUrl.startsWith('http')) {
-    // Transform /uploads/audio/... to /audio/... to match nginx config
-    if (streamUrl.startsWith('/uploads/audio/')) {
-      streamUrl = streamUrl.replace('/uploads/audio/', '/audio/');
+    // Route through /api/audio-files/ so nginx proxies to backend
+    if (streamUrl.startsWith('/audio/')) {
+      streamUrl = streamUrl.replace('/audio/', '/api/audio-files/');
+    } else if (streamUrl.startsWith('/uploads/audio/')) {
+      streamUrl = streamUrl.replace('/uploads/audio/', '/api/audio-files/');
     }
     // Prepend backend URL
     streamUrl = `${BACKEND_URL}${streamUrl}`;
