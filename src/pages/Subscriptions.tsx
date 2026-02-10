@@ -242,7 +242,7 @@ export default function Subscriptions() {
             key={plan.id}
             className={`relative ${
               plan.popular || plan.bestValue
-                ? 'border-primary shadow-lg scale-105'
+                ? 'border-primary shadow-lg'
                 : ''
             }`}
           >
