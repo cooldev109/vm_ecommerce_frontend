@@ -309,7 +309,7 @@ const translations: Record<Language, Record<string, string>> = {
     acceptPrivacySuffix: 'de V&M Candle Experience.',
     mustAcceptBoth: '* Debe aceptar ambos documentos para poder suscribirse.',
     canProceed: 'Puede proceder con la suscripción.',
-    acceptTermsButton: 'Acepte los términos',
+    acceptTermsButton: 'Porque no me permite suscribirme',
     mustAcceptConditions: 'Debe aceptar las condiciones arriba',
     alreadySubscribed: 'Ya suscrito',
 

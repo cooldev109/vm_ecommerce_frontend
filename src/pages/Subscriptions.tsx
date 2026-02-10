@@ -289,7 +289,7 @@ export default function Subscriptions() {
               <Button
                 className="w-full"
                 size="lg"
-                variant="default"
+                variant={plan.popular || plan.bestValue ? 'default' : 'outline'}
                 onClick={() => handleSubscribe(plan.id)}
                 disabled={
                   purchasing !== null ||
