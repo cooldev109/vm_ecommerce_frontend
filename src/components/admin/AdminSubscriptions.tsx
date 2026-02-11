@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 import { Loader2, Crown, TrendingUp, Users, DollarSign, RefreshCw } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -237,10 +238,10 @@ export default function AdminSubscriptions() {
                       <TableCell>{getPlanBadge(subscription.planId)}</TableCell>
                       <TableCell>{getStatusBadge(subscription.status)}</TableCell>
                       <TableCell>
-                        {format(new Date(subscription.startedAt), 'MMM d, yyyy')}
+                        {format(new Date(subscription.startedAt), 'd MMM yyyy', { locale: es })}
                       </TableCell>
                       <TableCell>
-                        {format(new Date(subscription.nextRenewal), 'MMM d, yyyy')}
+                        {format(new Date(subscription.nextRenewal), 'd MMM yyyy', { locale: es })}
                       </TableCell>
                       <TableCell>
                         <Badge variant={subscription.autoRenew ? 'default' : 'secondary'}>
@@ -313,7 +314,7 @@ export default function AdminSubscriptions() {
                   <div className="text-right">
                     {getPlanBadge(subscription.planId)}
                     <p className="text-sm text-muted-foreground mt-1">
-                      {format(new Date(subscription.createdAt), 'MMM d, yyyy')}
+                      {format(new Date(subscription.createdAt), 'd MMM yyyy', { locale: es })}
                     </p>
                   </div>
                 </div>
